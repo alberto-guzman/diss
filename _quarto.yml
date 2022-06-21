@@ -8,9 +8,10 @@ book:
     - index.qmd
     - intro.qmd
     - lit_review.qmd
-    - current_studies.qmd
-    - commonapp_over.qmd
-    - propensity_over.qmd
+    - part: current_studies.qmd
+      chapters: 
+        - commonapp_over.qmd
+        - propensity_over.qmd
     - conclusions.qmd
     - references.qmd
 
