@@ -22,4 +22,11 @@ format:
     theme: cosmo
   pdf:
     documentclass: scrreport
-  
+    
+geometry: margin=1.0in
+font-size: 12pt
+header-includes:
+ - \usepackage{helvet}
+ - \renewcommand*\familydefault{\sfdefault}
+ 
+ 

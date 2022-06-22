@@ -35,6 +35,8 @@ As with most novel methodological advances, a new method may be challenging to i
 
 In the remainder of this narrative, I provide a brief overview of the literature on deep neural networks and causal mediation analysis, describe my research plan and progress for both studies, and conclude with a brief summary.
 
+During the covid-19 padermic 
+
 ### Paper 1 - College access during COVID-19: evaluating the use of an AI-chatbot for college enrollment and retention
 
 ### Paper 2 - Evaluating modern propensity score estimation methods with high-dimensional data
