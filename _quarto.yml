@@ -1,9 +1,14 @@
 project:
   type: book
+  execute-dir: project
+
 
 book:
-  title: "alberto_m3_m4"
-  author: "Alberto Guzman-Alvarez"
+  title: "Dissertation Proposal"
+  subtitle: "Deep learning for investigating causal effects with high-dimensional data: analytic tools and applications to educational interventions"
+  author: "Alberto Guzman-Alvarez, M.A."
+  date: today
+  date-format: long
   chapters:
     - index.qmd
     - intro.qmd
@@ -18,10 +23,8 @@ book:
 bibliography: references.bib
 
 format:
-  html:
-    theme: cosmo
   pdf:
-    documentclass: scrreport
+    documentclass: report
     
 geometry: margin=1.0in
 font-size: 12pt
