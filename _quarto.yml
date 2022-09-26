@@ -12,11 +12,8 @@ book:
   chapters:
     - index.qmd
     - intro.qmd
-    - lit_review.qmd
-    - part: current_studies.qmd
-      chapters: 
-        - commonapp_over.qmd
-        - propensity_over.qmd
+    - propensity_over.qmd
+    - commonapp_over.qmd
     - conclusions.qmd
     - references.qmd
 
@@ -25,6 +22,7 @@ bibliography: references.bib
 format:
   pdf:
     documentclass: report
+    number-sections: FALSE
     
 geometry: margin=1.0in
 font-size: 12pt

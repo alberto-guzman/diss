@@ -1,10 +1,16 @@
+#Purpose
+
+# Literature Review
+
+# Methods
+
+## Data
+
+## Simulation
+
+# Preliminary Results
+
+# Looking Ahead
 
 
 
-### Paper 2 - Evaluating modern propensity score estimation methods with high-dimensional data
-
-#### Rationale
-
-#### Method
-
-#### Preliminary Results
