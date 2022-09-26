@@ -1,24 +1,26 @@
-#Purpose
+# Paper 2: College access during COVID-19: evaluating the use of an AI-chatbot for college application and enrollment
 
-# Literature Review
+## Purpose
 
-## COVID-19 college access
+## Literature Review
+
+### COVID-19 college access
 
 We take a anti-deficit appraoch to our grounding of first-generation, low-income students, many of which are studens of color. Anti-deficit approaches explore how marginalized students persist in the face of social and structural barriers (Harper, 210). The goal is to reframe students' experiences from struggling to ones of serielincty, since most deficit aporahes focus on what students lacks, anti-deficit approahces focus on what student bring that leads to their relienacy and persistance. 
 
-## College access nudges
+### College access nudges
 
-## AI Chat-bots in college access
+### AI Chat-bots in college access
 
-# Methods
+## Methods
 
 ## Data
 
 ## Analytic strategy
 
-# Preliminary Results
+## Preliminary Results
 
-# Looking Ahead
+## Looking Ahead
 
 
 

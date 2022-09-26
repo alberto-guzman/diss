@@ -1,20 +1,19 @@
 project:
   type: book
   execute-dir: project
-
-
+  
 book:
   title: "Dissertation Proposal"
   subtitle: "Deep learning for investigating causal effects with high-dimensional data: analytic tools and applications to educational interventions"
   author: "Alberto Guzman-Alvarez, M.A."
-  date: today
+  date: last-modified
   date-format: long
   chapters:
     - index.qmd
-    - intro.qmd
-    - propensity_over.qmd
-    - commonapp_over.qmd
-    - conclusions.qmd
+    - 01-intro.qmd
+    - 02-propensity_over.qmd
+    - 03-commonapp_over.qmd
+    - 04-conclusions.qmd
     - references.qmd
 
 bibliography: references.bib
@@ -22,6 +21,8 @@ bibliography: references.bib
 format:
   pdf:
     documentclass: report
+    lot: TRUE
+    lof: TRUE
     number-sections: FALSE
     
 geometry: margin=1.0in
