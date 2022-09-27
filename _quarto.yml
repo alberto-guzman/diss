@@ -16,7 +16,7 @@ book:
     - 04-conclusions.qmd
     - references.qmd
 
-bibliography: references.bib
+bibliography: CommonApp.bib
 
 format:
   pdf:
