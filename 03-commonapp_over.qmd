@@ -4,13 +4,69 @@
 
 ## Literature Review
 
-### COVID-19 college access
+For this study I draw on prior research in college access and success, particularly on literature addressing the chanllenges for low-income, first-generation students via behavioral nudge interventions. More broadly I examine the role of AI chatbots in postsecondary education. 
 
-We take a anti-deficit appraoch to our grounding of first-generation, low-income students, many of which are studens of color. Anti-deficit approaches explore how marginalized students persist in the face of social and structural barriers (Harper, 210). The goal is to reframe students' experiences from struggling to ones of serielincty, since most deficit aporahes focus on what students lacks, anti-deficit approahces focus on what student bring that leads to their relienacy and persistance. 
+### College Access among Low-Income and First-Generation Students
 
-### College access nudges
+Despite increased access to higher education in recent decades, only around 60% of students ultimately grauae. something about applying. The college going process if litteres with roadblocks for students to traverse from devleoping a list of student to ulitmately enrolling and completing administrative task. This journey is even more perilous for students who are fits in theire family to go to college and come from lower income famlies, that due to an array of social and systemic barriers may enroll in college at lower levels. 
+
+Before I review the literature I want to expand on how I conceptualize fitst gen low income studnets. I take an anti-deficit approach to my grounding of first-generation, low-income students, many of which are students of color (CITE Perez, Do). Anti-deficit approaches explore how marginalized students persist in the face of social and structural barriers (Harper, 210). The goal is to reframe students' experiences from struggling to ones of resiliency. Since most deficit approaches focus on what students lack, anti-deficit approaches focus on what students bring that leads to their resiliency and persistence. 
+
+Though i take an anti-deficit approahc, I review the literature documenting challenges in college access for first-generaiton low income studens as it represents the majority of the literature. For eample low-income students/ first gen students have odd pathways to postsecondary educaiton. Such as lack of access to academic preparetion and college pre course, low financial resources, and lack of access to social and cultural capital (Bourdiea, 1973; Perna, 2006). This social and cultral capital may help these students apply and transition into college. Therefore gaps in college enrollment point to a need of in support to help students nagivate these chanllenges. 
+
+
+One such way is is access to high quality college advising that can help students transition to college. However for students that are FG LI , due to systemic barriers like redlining (CITE) tend to reside in high school with limited access to high quality college advising or access to adviosr that have large caselaods (CiTE). The liteature points to the positve effects of college advisos is associated with enrolling in college at higher rates, and postively associated with persistance trhough college. Lack of access to these support may make students put off important college going task or simply be unaware of deadlines, such as completing finacil aid applicaitons to scucess matriculating into college. 
+
+### Nudge Interventions Promoting College Access
+
+
+Therefore proactices that bring the studenets closer to advisors is crucial. Once such low-cost way that has ben prosposed has been low-cost nudge interventions based on beahvioral economisc (CITE). These intervention distill complex information and deadlines into short concise megaing delived to students via a mode of communication studenets are well away of, text messages. In the domain of college access these studies have primarily focused on helping student vaigtate well-defined but complex task such as compleitng finalcial aid applicaiton, submitting trasncipt, accepting loand and paying tuition. 
+
+These studies have focused on remedying "summer melt."Whereby college intenging high schools tudenet fail to enroll in college. Castleman & Page have found that summer rate affect an estimated 10 to 20 percent of college intentind high school students, particularly for lowoincome and first generation studnets. 
+
+complex administative proccssed create barrier for college access. 
+
+A number of randomized trial in higher educaiton have evaluated the use of thsese sort of nudge interventions to remedy summer melt. Such as givign students access to a highly trained college counselor (CITE). these effors improved student on-tine colleg enrollment.Canstleman and Page have undetakern several large randomized controll studies to support college-intending high school student with college going tak and comple the FAFSA 
+
+Castleman & Page, 2015, 2017; Castleman, Page & Schooley, 2014) and to file or refile the FAFSA (Castleman & Page, 2016; Page, Castleman & Meyer, 2019).
+
+
+Hoewever, the research is mixed in the effectivenss of these interventions when they are scaled up. Oreopeoplou et al. find no effect of text message outreach on college studenet grades or completion or when the entity dong the messaging is unfamiliar to the student. for exmaple they find that FAFSA submision are null. 
+
+Although these intervention find positive effect, the scalability and const prove to be a problem. On average these cousenlor and text based interventions costt... In additional one would need a large amount of counselors to provide personliaze 1:1 support. 
+
+
+Paraphrase: Indeed, another pair of experiments supports the hypothesis that outreach framed as coming from a student’s own institution is far more promising for affecting students’ completion of key college- going tasks (Avery et al, 2020).
+
 
 ### AI Chat-bots in college access
+
+A recent push in th enudge literature has been to levelrea artifial intelligence (AI) to provide personalized support to students navigating college applicaiton and enrollment. These AI bots have primarily been teasting using AI chatbots. These chatbots are no different that the boths that many business such as cell phone companies use to provide supoprt to customers tryign to access their account, or buy a cellphone. These AI bots are trained by human superision to provide suport to students. Overtime the AI "learns" how to handle increasinlgy complex questions such as XXX. Once sucessfull trained and deployed to student the AI can help student andwer quesitons around important deadlines to when they should submit their transcripts. 
+
+Two studies conducted by Page and collegeues have focused on the use of these bots in college going. Page and gehlback demonstrat the effectivenns of AI chat bots to reduce summer melt.
+
+
+ used in AI chatbot named "Pounce" located in Georgia Tech helped freshmanstudents who were accpeted to join GSU in fall 2017 with on time matricutiona and pre-matriculation task at GSU. The bot lead to a 3% increase in timenly enrollment as well as well as hlped students with pre-matriculation class like signing up for orientation. Note this study was situatiod at the instituion where students were planning to enroll. This centralized nature of the intervention is important even among regular nudge interventions. This on is on adminsitrative processes 
+
+A follow up study also at GSU helped students navigate the administrative process after student arrive at GSU. As opposed to the previous study this study focused on acadmeic support, social and carrer support and administrative processes. Thous a RCT Page and colelges foudn taht outreach was most effective when the chatbot was focused on adminsitrative process, particualry those that were time sensityve. However, when oureach that focused on taking other support was not found to be effective. 
+
+
+Fimallly Aizat and college further exten the work of Page and gelbach 2017 by testing if AI chatbots are parttucala hlepuf for cetain student subgroup (e.g. ). This study took place at EAst Carolina Univesicy ECU with an AI chatbot names PeeDee. the chatbot proved effect in increasin overal student success with navigation fainal aid proccess and applying to loans (4 percenta poing). Further, they foud the interventio was most effective for first-generation students . These student have an increase in accepting loan by about 8 percent, and registering for class 3 percent. 
+
+Taken together these studies iluminate that AI bots can be an effective tool for helping students transtion to college, when dealing with adinistratie tasks. Note these studies were local inour paper we are the first to test the scalability of these AI chatbot intevetnions to a national level. Ai chat bots may be effective...
+
+Page, L. C. & Gehlbach, H. (2017). How an Artificially Intelligent Virtual Assistant Helps Students Navigate the Road to College. AERA Open, 3(4), 2332858417749220. https://doi.org/10.1177/2332858417749220
+
+Page, L., Lee, J. & Gehlbach, H. (2020). Conditions under which college students can be responsive to nudging. EdWorkingPaper.
+
+
+
+
+### COVID-19 college access
+
+
+
+
 
 ## Methods
 
