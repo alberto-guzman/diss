@@ -21,6 +21,7 @@ bibliography: CommonApp.bib
 format:
   pdf:
     documentclass: report
+    toc-depth: 2
     lot: TRUE
     lof: TRUE
     number-sections: FALSE
