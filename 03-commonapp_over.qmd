@@ -2,6 +2,8 @@
 
 ## Purpose
 
+NEED TO TALK ABOUT IN FUTURE WORK THAT I PLAN TO DO SENSITIVITY ANALYSIS 
+
 The COVID-19 pandemic increased uncertainty for the class of 2020 in what ordinarily would be their timely transition to college. In response to this challenge, the Common Application (Common App), in partnership with Mainstay and the College Advising Corps (CAC), acted quickly to provide students with proactive outreach and guidance about college-going tasks via an innovative large-scale texting campaign. This outreach specifically targeted US high school students who were the first in their families to go to college and had low family income.[^03-commonapp_over-1] These students were selected given they would likely benefit from additional support through their college transition process, particularly in the backdrop of a global pandemic.
 
 [^03-commonapp_over-1]: Low income is defined as a student qualifying for a Common App fee waiver.
