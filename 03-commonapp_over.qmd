@@ -1,38 +1,22 @@
 # Paper 2: College access during COVID-19: evaluating the use of an AI-chatbot for college application and enrollment
 
-## Purpose
+## Introduction
 
-NEED TO TALK ABOUT IN FUTURE WORK THAT I PLAN TO DO SENSITIVITY ANALYSIS 
+The COVID-19 pandemic increased uncertainty for the class of 2020 in what ordinarily would be their timely transition to college. At the time, the pandemic's effect on college-going was uncertain. On the one hand, the COVID-19 crisis hampered business-as-usual operating procedures for colleges. Because of this, students -- particularly those planning to attend a residential college -- may have been more likely to delay college entry. On the other hand, higher education is a counter-cyclical industry such that college enrollment rates tend to be higher during economic downturns. For recent high school graduates, in particular, the impact of the pandemic on service and retail, among other sectors, may severely limit job opportunities. This, in turn, may make higher education an attractive option for young adults who might otherwise enter the labor market after high school. Additionally, the pandemic dispropornaly affected racially marginalized students who -- due to an array of systemic barriers and structural racism -- faced limited access to quality health care, living, and working conditions (CITE).
 
-The COVID-19 pandemic increased uncertainty for the class of 2020 in what ordinarily would be their timely transition to college. In response to this challenge, the Common Application (Common App), in partnership with Mainstay and the College Advising Corps (CAC), acted quickly to provide students with proactive outreach and guidance about college-going tasks via an innovative large-scale texting campaign. This outreach specifically targeted US high school students who were the first in their families to go to college and had low family income.[^03-commonapp_over-1] These students were selected given they would likely benefit from additional support through their college transition process, particularly in the backdrop of a global pandemic.
+In response to this challenge, the Common Application (Common App), in partnership with Mainstay and the College Advising Corps (CAC), acted quickly to provide students with proactive outreach and guidance about college-going tasks via an innovative large-scale texting campaign. This outreach specifically targeted US high school students who were the first in their families to go to college and had low family income. These students were selected given they would likely benefit from additional support through their college transition process, particularly in the backdrop of a global pandemic.
 
-[^03-commonapp_over-1]: Low income is defined as a student qualifying for a Common App fee waiver.
+Over 38 weeks, a Mainstay artificially intelligent (AI) chatbot named *Oli* sent scripted messages to students on various topics related to the college search, application, and matriculation processes. To better target the information, Oli solicited information directly from students about the types of resources they needed and pressing questions they had. Student questions that Oli could not answer were forwarded to CAC advisers, who would follow up directly with individual students. In addition, students also had the opportunity to receive follow-up support through virtual group advising events hosted by CAC. The outreach campaign was ambitious in scope, targeting nearly 174,000 students across the US.
 
-Over 38 weeks, a Mainstay AI chatbot named *Oli* sent scripted messages to students on various topics related to the college search, application, and matriculation processes. To better target the information, Oli solicited information directly from students about the types of resources they needed and pressing questions they had. Student questions that Oli could not answer were forwarded to CAC advisers, who would follow up directly with individual students. In addition, students also had the opportunity to receive follow-up support through virtual group advising events hosted by CAC. The outreach campaign was ambitious in scope, targeting nearly 174,000 students, or approximately 12.4% of those who used the Common App to apply to college in 2019-2020.
+In recent years researchers have evaluated wether AI chatbots situated at a particularly college can alleviate the complexities in a students transition from high school to college, and found overlly postive effects on timely college enrollment and completing pre-matriculation tasks (CITE). However, their is no evidence about wether AI chatbots are effective when scaled up, particularly when the obsentive user is not an insitution but a system. 
 
-Our research team was tasked with evaluating the effectiveness of this program. First, we conducted a quantitative impact analysis to investigate whether the outreach improved students' college-going outcomes. Then we examined the student text messages themselves to analyze students' level of engagement with the bot and with CAC advisers.
+In my first disseration study I evaluaate a large scales  AI chatbot outreach fcoused on improving student college-going outcomes. Specifically, I focus on wether the outreach campaigns resulted in more students applying to and enrolling in college.I primarily focused on college application and enrollment in the fall semester after high school graduation (i.e., fall 2020). In addition, I explored variation in outreach impact on college enrollment by students' application behavior, racial/ethnic subgroups, and level of engagement with the chatbot.
 
-This report summarizes our findings, first presenting in Part I results from our impact analysis, followed by an overview of the text analysis in Part II.
-
-This outreach campaign occurred during an unprecedented time characterized by school closures and a pivot to distance/virtual learning. At the time, the pandemic's effect on college-going was uncertain. On the one hand, the COVID-19 crisis hampered business-as-usual operating procedures for colleges and universities. Because of this, students -- particularly those planning to attend a residential college -- may have been more likely to delay college entry. On the other hand, higher education is a counter-cyclical industry such that college enrollment rates tend to be higher during economic downturns. For recent high school graduates, in particular, the impact of the pandemic on service and retail, among other sectors, may severely limit job opportunities. This, in turn, may make higher education an attractive option for young adults who might otherwise enter the labor market after high school.
-
-Now, nearly three years into the pandemic, we have some evidence as to the detrimental effects of the pandemic on college-going and college life. Enrollment for first-time undergraduates in fall 2020 fell to unprecedented levels, dropping nearly 10 percentage points compared to fall 2019.[^03-commonapp_over-2] Once students arrived at college in fall 2020, the effects of the ongoing pandemic were exacerbated, with increased rates of anxiety and depression among undergraduate students. First-generation and low-income students faced additional challenges during the pandemic, such as increased financial hardships. First-generation students were nearly twice as likely to be concerned about paying for education expenses in fall 2020 than non-first-generation students. They also were less likely to report living in a safe environment and more likely to experience food and housing insecurity.[^03-commonapp_over-3]
-
-[^03-commonapp_over-2]: Hussar, B., Zhang, J., Hein, S., Wang, K., Roberts, A., Cui, J., & Dilig, R. (2020). The Condition of Education 2020. NCES 2020-144. *National Center for Education Statistics*.
-
-[^03-commonapp_over-3]: Soria, K. M., Horgos, B., Chirikov, I., & Jones-White, D. (2020). First-generation students' experiences during the COVID-19 pandemic.
-
-We conducted an impact analysis to examine whether the outreach resulted in more students applying to and enrolling in college. We primarily focused on college application and enrollment in the fall semester after high school graduation (i.e., fall 2020). In addition, we explored variation in outreach impact on college enrollment by students' application behavior, racial/ethnic subgroups, and level of engagement with the chatbot.
-
-The following research questions guided our impact analysis:
-
-1)  What is the impact of being targeted for outreach on college application submission?
-
-2)  What is the impact of the outreach on college enrollment in the fall semester after high school completion?
+In the following sections, I will review the literature that is relevant to this study. Followed by a description of the data and analytic strategy that I employ. Finally, I present preliminary results 
 
 ## Literature Review
 
-For this study I draw on prior research in college access and success, particularly on literature addressing the chanllenges for low-income, first-generation students via behavioral nudge interventions. More broadly I examine the role of AI chatbots in postsecondary education.
+For this study I draw on prior research in college access and success, particularly on literature addressing the chanllenges for low-income, first-generation students via behavioral nudge interventions. I specifically focus on recent evaluations of AI chatbots in the college access space. I briefly touch on the impacts of the COVID-19 pandemic on college going. 
 
 ### College Access among Low-Income and First-Generation Students
 
@@ -81,6 +65,14 @@ Page, L. C. & Gehlbach, H. (2017). How an Artificially Intelligent Virtual Assis
 Page, L., Lee, J. & Gehlbach, H. (2020). Conditions under which college students can be responsive to nudging. EdWorkingPaper.
 
 ### COVID-19 college access
+
+The present outreach campaign occurred during an unprecedented time characterized by school closures and a pivot to distance/virtual learning. At the time, the pandemic's effect on college-going was uncertain. On the one hand, the COVID-19 crisis hampered business-as-usual operating procedures for colleges and universities. Because of this, students -- particularly those planning to attend a residential college -- may have been more likely to delay college entry. On the other hand, higher education is a counter-cyclical industry such that college enrollment rates tend to be higher during economic downturns. For recent high school graduates, in particular, the impact of the pandemic on service and retail, among other sectors, may severely limit job opportunities. This, in turn, may make higher education an attractive option for young adults who might otherwise enter the labor market after high school.
+
+Now, nearly three years into the pandemic, we have some evidence as to the detrimental effects of the pandemic on college-going and college life. Enrollment for first-time undergraduates in fall 2020 fell to unprecedented levels, dropping nearly 10 percentage points compared to fall 2019.[^2] Once students arrived at college in fall 2020, the effects of the ongoing pandemic were exacerbated, with increased rates of anxiety and depression among undergraduate students. First-generation and low-income students faced additional challenges during the pandemic, such as increased financial hardships. First-generation students were nearly twice as likely to be concerned about paying for education expenses in fall 2020 than non-first-generation students. They also were less likely to report living in a safe environment and more likely to experience food and housing insecurity.[^3]
+
+[^2]: Hussar, B., Zhang, J., Hein, S., Wang, K., Roberts, A., Cui, J., & Dilig, R. (2020). The Condition of Education 2020. NCES 2020-144. *National Center for Education Statistics*.
+
+[^3]: Soria, K. M., Horgos, B., Chirikov, I., & Jones-White, D. (2020). First-generation students' experiences during the COVID-19 pandemic.
 
 ## Methods
 
@@ -227,6 +219,8 @@ Ideally, we would have matched students in our 2020 sample to demographically si
 Based on the differentials of both these data sources, we conclude that -- absent any intervention -- students who are first-generation *and* low-income have lower college-going rates than those who only hold one of those identities. Therefore, we reason that absent the intervention we would expect that students in the outreach group would have lower college enrollment rates than the comparison group, with differences on the order of -1 to -5 percentage points. These differences suggest that to find a positive effect, the impact of the outreach would have had to be larger than these differentials. Therefore, the modest negative enrollment for outreach students we estimate for the entire sample (-2 percentage points) likely reflect these differentials -- and not -- detrimental effects of the chatbot outreach.
 
 ## Looking Ahead
+
+NEED TO TALK ABOUT IN FUTURE WORK THAT I PLAN TO DO SENSITIVITY ANALYSIS 
 
 The outreach undertaken by Common App and its partners cast a wide net in hopes of helping students through the typically challenging transition to college during the uncertainty of the COVID-19 pandemic. As part of our evaluation, we conducted a quantitative impact analysis to investigate whether the outreach improved students' college-going outcomes and also a qualitative text analysis to explore students' engagement with the chatbot and CAC advisers. As discussed in detail throughout this report, the core analytic approach to our impact analysis relied on comparisons between observationally similar students who nevertheless differed in a critical way. Those in the treatment group were both first-generation *and* from low-income households. Those in the comparison group had one both not both of these characteristics.
 
