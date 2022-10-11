@@ -2,21 +2,21 @@
 
 ## Introduction
 
-The COVID-19 pandemic increased uncertainty for the class of 2020 in what ordinarily would be their timely transition to college. At the time, the pandemic's effect on college-going was uncertain. On the one hand, the COVID-19 crisis hampered business-as-usual operating procedures for colleges. Because of this, students -- particularly those planning to attend a residential college -- may have been more likely to delay college entry. On the other hand, higher education is a counter-cyclical industry such that college enrollment rates tend to be higher during economic downturns. For recent high school graduates, in particular, the impact of the pandemic on service and retail, among other sectors, may severely limit job opportunities. This, in turn, may make higher education an attractive option for young adults who might otherwise enter the labor market after high school. Additionally, the pandemic dispropornaly affected racially marginalized students who -- due to an array of systemic barriers and structural racism -- faced limited access to quality health care, living, and working conditions (CITE).
+In the spring of 2020, colleges and universities across the US began to shut down due to the ongoing COVID-19 outbreak. Due to the pandemic, the high school graduating class of 2020 faced increased uncertainty in what ordinarily would be their timely transition to college. At the time, the pandemic's effect on college-going was uncertain. On the one hand, the COVID-19 crisis hampered business-as-usual operating procedures for colleges. Because of this, students -- particularly those planning to attend a residential college -- may have been more likely to delay college entry. On the other hand, higher education is a counter-cyclical industry such that college enrollment rates tend to be higher during economic downturns. For recent high school graduates, in particular, the impact of the pandemic on service and retail, among other sectors, may severely limit job opportunities. This, in turn, may make higher education an attractive option for young adults who might otherwise enter the labor market after high school. 
 
-In response to this challenge, the Common Application (Common App), in partnership with Mainstay and the College Advising Corps (CAC), acted quickly to provide students with proactive outreach and guidance about college-going tasks via an innovative large-scale texting campaign. This outreach specifically targeted US high school students who were the first in their families to go to college and had low family income. These students were selected given they would likely benefit from additional support through their college transition process, particularly in the backdrop of a global pandemic.
+In response to the uncertainty of the impact of the pandemic on college access, the Common Application (Common App), in partnership with Mainstay and the College Advising Corps (CAC), acted quickly to provide students with proactive outreach and guidance about college-going tasks via an innovative large-scale, chatbot campaign. This outreach specifically targeted US high school students who were the first in their families to go to college and had low family income, most of whom were students of color (83%). Due to an array of systemic and structural barriers, some of these students likely faced limited access to quality health care, living, and working conditions in the backdrop of a global pandemic (CITE). Therefore, these students would likely benefit from additional support during their precarious college transition. 
 
-Over 38 weeks, a Mainstay artificially intelligent (AI) chatbot named *Oli* sent scripted messages to students on various topics related to the college search, application, and matriculation processes. To better target the information, Oli solicited information directly from students about the types of resources they needed and pressing questions they had. Student questions that Oli could not answer were forwarded to CAC advisers, who would follow up directly with individual students. In addition, students also had the opportunity to receive follow-up support through virtual group advising events hosted by CAC. The outreach campaign was ambitious in scope, targeting nearly 174,000 students across the US.
+Over 38 weeks, a Mainstay artificially intelligent (AI) chatbot named *Oli* sent scripted messages to students on various topics related to the college search, application, and matriculation processes. To better target the information, Oli solicited information directly from students about the types of resources they needed and pressing questions they had. Student questions that Oli could not answer were forwarded to college advisers, who would follow up directly with individual students. The outreach campaign was ambitious in scope, targeting nearly 174,000 students across the US.
 
-In recent years researchers have evaluated wether AI chatbots situated at a particularly college can alleviate the complexities in a students transition from high school to college, and found overlly postive effects on timely college enrollment and completing pre-matriculation tasks (CITE). However, their is no evidence about wether AI chatbots are effective when scaled up, particularly when the obsentive user is not an insitution but a system. 
+Existing studies have leveraged behavioral economics insights with AI chatbots to alleviate the complexities in a student's transition from high school to college (CITE). These studies have found somewhat positive effects in the use of chatbots deployed within a specific university context on timely college enrollment and completing pre-matriculation tasks (CITE). However -- to our knowledge -- there is no evidence of the scalability of these kinds of interventions when a chatbot is used 1) outside a university and 2) targeting a large population of students transitioning to college. 
 
-In my first disseration study I evaluaate a large scales  AI chatbot outreach fcoused on improving student college-going outcomes. Specifically, I focus on wether the outreach campaigns resulted in more students applying to and enrolling in college.I primarily focused on college application and enrollment in the fall semester after high school graduation (i.e., fall 2020). In addition, I explored variation in outreach impact on college enrollment by students' application behavior, racial/ethnic subgroups, and level of engagement with the chatbot.
+Therefore, in my first dissertation study, I evaluate the effectiveness of this AI chatbot outreach on student college-going outcomes. Specifically, I focus on whether the outreach campaign resulted in more students applying to and enrolling in college. In addition, I explore variation in outreach impact on college enrollment by students' application behavior, racial/ethnic subgroups, and level of engagement with the chatbot.
 
-In the following sections, I will review the literature that is relevant to this study. Followed by a description of the data and analytic strategy that I employ. Finally, I present preliminary results 
+In the following sections, I will review the relevant literature to this study, followed by a description of the data and analytic strategy I employ. Finally, I present the preliminary results of the evaluation.
 
 ## Literature Review
 
-For this study I draw on prior research in college access and success, particularly on literature addressing the chanllenges for low-income, first-generation students via behavioral nudge interventions. I specifically focus on recent evaluations of AI chatbots in the college access space. I briefly touch on the impacts of the COVID-19 pandemic on college going. 
+For this study I draw on prior research in college access and success, particularly on literature addressing the chanllenges for low-income, first-generation students via behavioral nudge interventions. I specifically focus on recent evaluations of AI chatbots in the college access space. I briefly touch on the impacts of the COVID-19 pandemic on college going.
 
 ### College Access among Low-Income and First-Generation Students
 
@@ -68,11 +68,11 @@ Page, L., Lee, J. & Gehlbach, H. (2020). Conditions under which college students
 
 The present outreach campaign occurred during an unprecedented time characterized by school closures and a pivot to distance/virtual learning. At the time, the pandemic's effect on college-going was uncertain. On the one hand, the COVID-19 crisis hampered business-as-usual operating procedures for colleges and universities. Because of this, students -- particularly those planning to attend a residential college -- may have been more likely to delay college entry. On the other hand, higher education is a counter-cyclical industry such that college enrollment rates tend to be higher during economic downturns. For recent high school graduates, in particular, the impact of the pandemic on service and retail, among other sectors, may severely limit job opportunities. This, in turn, may make higher education an attractive option for young adults who might otherwise enter the labor market after high school.
 
-Now, nearly three years into the pandemic, we have some evidence as to the detrimental effects of the pandemic on college-going and college life. Enrollment for first-time undergraduates in fall 2020 fell to unprecedented levels, dropping nearly 10 percentage points compared to fall 2019.[^2] Once students arrived at college in fall 2020, the effects of the ongoing pandemic were exacerbated, with increased rates of anxiety and depression among undergraduate students. First-generation and low-income students faced additional challenges during the pandemic, such as increased financial hardships. First-generation students were nearly twice as likely to be concerned about paying for education expenses in fall 2020 than non-first-generation students. They also were less likely to report living in a safe environment and more likely to experience food and housing insecurity.[^3]
+Now, nearly three years into the pandemic, we have some evidence as to the detrimental effects of the pandemic on college-going and college life. Enrollment for first-time undergraduates in fall 2020 fell to unprecedented levels, dropping nearly 10 percentage points compared to fall 2019.[^03-commonapp_over-1] Once students arrived at college in fall 2020, the effects of the ongoing pandemic were exacerbated, with increased rates of anxiety and depression among undergraduate students. First-generation and low-income students faced additional challenges during the pandemic, such as increased financial hardships. First-generation students were nearly twice as likely to be concerned about paying for education expenses in fall 2020 than non-first-generation students. They also were less likely to report living in a safe environment and more likely to experience food and housing insecurity.[^03-commonapp_over-2]
 
-[^2]: Hussar, B., Zhang, J., Hein, S., Wang, K., Roberts, A., Cui, J., & Dilig, R. (2020). The Condition of Education 2020. NCES 2020-144. *National Center for Education Statistics*.
+[^03-commonapp_over-1]: Hussar, B., Zhang, J., Hein, S., Wang, K., Roberts, A., Cui, J., & Dilig, R. (2020). The Condition of Education 2020. NCES 2020-144. *National Center for Education Statistics*.
 
-[^3]: Soria, K. M., Horgos, B., Chirikov, I., & Jones-White, D. (2020). First-generation students' experiences during the COVID-19 pandemic.
+[^03-commonapp_over-2]: Soria, K. M., Horgos, B., Chirikov, I., & Jones-White, D. (2020). First-generation students' experiences during the COVID-19 pandemic.
 
 ## Methods
 
@@ -118,11 +118,11 @@ To examine how well our matching procedure was able to balance student character
 
 In addition to analyzing the distributional differences in the propensity score, we also looked at baseline characteristics between treatment and control before and after matching. @tbl-balance compares balance of student characteristics before and after matching. Overall, control group students (who are either "low-income" or "first generation" but not both) had higher GPA class rank (70.1% vs. 64.3%) and SAT scores (794.9 vs. 671.3) than treatment group students (who are both "low-income" and "first generation"). The treatment group also included a substantially larger percentage of minority students (28% Black and 41% Latinx) than the control group (19% Black and 23% Latinx). We achieve excellent balance on all covariates included in our matching approach, with no standard mean difference below 0.1. Our final matched sample includes a treatment group consisting of 99,593 students and a matched control of 61,553.
 
-To estimate the impact of outreach on student outcomes, we ran a series of regression models. Specifically, we regressed each outcome on an outreach indicator and student-level characteristics. We also included weights to account for our matching approach.[^03-commonapp_over-4] Our regressions took the following general form[^03-commonapp_over-5] @eq-out:
+To estimate the impact of outreach on student outcomes, we ran a series of regression models. Specifically, we regressed each outcome on an outreach indicator and student-level characteristics. We also included weights to account for our matching approach.[^03-commonapp_over-3] Our regressions took the following general form[^03-commonapp_over-4] @eq-out:
 
-[^03-commonapp_over-4]: Matching weights were constructed to account for our matching approach that allowed multiple control students to be matched to treated students. Each treated unit gets a weight of 1, while each control student is weighted as the sum of the inverse of the number of control units matched to the same treated unit across its matches.
+[^03-commonapp_over-3]: Matching weights were constructed to account for our matching approach that allowed multiple control students to be matched to treated students. Each treated unit gets a weight of 1, while each control student is weighted as the sum of the inverse of the number of control units matched to the same treated unit across its matches.
 
-[^03-commonapp_over-5]: We used robust standard errors clustered at the high school level.
+[^03-commonapp_over-4]: We used robust standard errors clustered at the high school level.
 
 $$
 Y_{is} = \beta_{0} + \beta_{1}Outreach_{is} + X\theta + \lambda_s + \epsilon_{is}
@@ -130,9 +130,9 @@ $$ {#eq-out}
 
 Where $Y_{is}$ represents our outcome of interest for student $i$ in school $s$. $Outreach$ is a binary indicator coded as 1 for students who received the outreach and 0 if a student did not. $X$ is a vector of student level characteristics such as age and gender. In addition we included high school fixed effects $(\lambda)$ which soak up any remaining variation in the outcome due to differences across high schools. $\beta_{1}$ is our coefficient of interest and represents the mean controlled difference in the outcome between those who received the outreach and those who did not.
 
-Note that although we took a robust matching approach in constructing our control group, there could still be differences between our outreach and control group on student-level characteristics. Therefore, by including the vector of student level covariates $(X)$ in our regressions, we can account for any remaining imbalance between student characteristics that we observe and increase the precision of our impact estimates.[^03-commonapp_over-6]
+Note that although we took a robust matching approach in constructing our control group, there could still be differences between our outreach and control group on student-level characteristics. Therefore, by including the vector of student level covariates $(X)$ in our regressions, we can account for any remaining imbalance between student characteristics that we observe and increase the precision of our impact estimates.[^03-commonapp_over-5]
 
-[^03-commonapp_over-6]: This is commonly referred to as a "doubly robust" approach.
+[^03-commonapp_over-5]: This is commonly referred to as a "doubly robust" approach.
 
 ### Limitations
 
@@ -178,9 +178,9 @@ In @tbl-20enrollurm we present the impact of the outreach on fall 2020 college e
 
 ### Outreach Participation
 
-Using data from the qualitative analysis team about student engagement with the bot, including whether students decided to opt-out of receiving outreach from Oli. We constructed high engagement and opt out measures. Specifically, we defined high engagers as a student in the top 25th percentile of the total number of text messages sent throughout the outreach. We created the opt-out indicator by flagging students who explicitly messaged "STOP" to Oli at any point during the outreach or received a "goodbye" message from Oli, indicating that the student had requested to opt-out .[^03-commonapp_over-7]
+Using data from the qualitative analysis team about student engagement with the bot, including whether students decided to opt-out of receiving outreach from Oli. We constructed high engagement and opt out measures. Specifically, we defined high engagers as a student in the top 25th percentile of the total number of text messages sent throughout the outreach. We created the opt-out indicator by flagging students who explicitly messaged "STOP" to Oli at any point during the outreach or received a "goodbye" message from Oli, indicating that the student had requested to opt-out .[^03-commonapp_over-6]
 
-[^03-commonapp_over-7]: Due to data quality issues, we received text message data for 70% of the outreach group. Furthermore, engagement across the intervention was relatively low. On average, students sent around 8 messages throughout the 38 weeks of the outreach. For a thorough explanation of the text analysis, please refer to Part II of this report.
+[^03-commonapp_over-6]: Due to data quality issues, we received text message data for 70% of the outreach group. Furthermore, engagement across the intervention was relatively low. On average, students sent around 8 messages throughout the 38 weeks of the outreach. For a thorough explanation of the text analysis, please refer to Part II of this report.
 
 ### Opt-Out
 
@@ -220,7 +220,7 @@ Based on the differentials of both these data sources, we conclude that -- absen
 
 ## Looking Ahead
 
-NEED TO TALK ABOUT IN FUTURE WORK THAT I PLAN TO DO SENSITIVITY ANALYSIS 
+NEED TO TALK ABOUT IN FUTURE WORK THAT I PLAN TO DO SENSITIVITY ANALYSIS
 
 The outreach undertaken by Common App and its partners cast a wide net in hopes of helping students through the typically challenging transition to college during the uncertainty of the COVID-19 pandemic. As part of our evaluation, we conducted a quantitative impact analysis to investigate whether the outreach improved students' college-going outcomes and also a qualitative text analysis to explore students' engagement with the chatbot and CAC advisers. As discussed in detail throughout this report, the core analytic approach to our impact analysis relied on comparisons between observationally similar students who nevertheless differed in a critical way. Those in the treatment group were both first-generation *and* from low-income households. Those in the comparison group had one both not both of these characteristics.
 
@@ -232,13 +232,13 @@ In the absence of outreach, students in any comparison group can be expected to 
 
 We used propensity score matching to create an analysis sample of students who received outreach that is best suited for comparison to a similar group of students who were not offered outreach. More specifically, our matching procedure identified pairs of students who did and did not receive outreach where each pair attended the same high school and are broadly similar in terms of six demographic variables and four academic indicators. To the degree that first-generation *and* low-income students face greater barriers than first-generation *or* low-income students do, using these variables in the matching procedure should help to reduce the underlying difference in college enrollment rates for treatment and control group students expected in the absence of the intervention. Nevertheless, we still anticipated that within each matched pair, the student who received outreach would face greater barriers to college enrollment and that a comparison of enrollment rates for those in matched pairs would still underestimate the effect of advising.
 
-Despite these challenging issues, it was still quite plausible that our evaluation would find statistically significant evidence that virtual advising increased college enrollment in 2020. One recent multi-district study estimated a 5.2 percentage point increase in four-year college enrollment as the result of text-based FAFSA outreach and support from students' own high school counselors.[^03-commonapp_over-8] An effect of that size could well have been enough to provide a positive and significant result in this study. On the other hand, recent studies of similar outreach and support implemented at scale have found much smaller effects of virtual advising than in-person advising designed to deliver the same kind of support.[^03-commonapp_over-9][^03-commonapp_over-10] Overall and based on our empirical results, we conclude that the chatbot campaign had no impact on the targeted class of 2020 students submitting college applications or enrolling in college.
+Despite these challenging issues, it was still quite plausible that our evaluation would find statistically significant evidence that virtual advising increased college enrollment in 2020. One recent multi-district study estimated a 5.2 percentage point increase in four-year college enrollment as the result of text-based FAFSA outreach and support from students' own high school counselors.[^03-commonapp_over-7] An effect of that size could well have been enough to provide a positive and significant result in this study. On the other hand, recent studies of similar outreach and support implemented at scale have found much smaller effects of virtual advising than in-person advising designed to deliver the same kind of support.[^03-commonapp_over-8][^03-commonapp_over-9] Overall and based on our empirical results, we conclude that the chatbot campaign had no impact on the targeted class of 2020 students submitting college applications or enrolling in college.
 
-[^03-commonapp_over-8]: James, G., Witten, D., Hastie, T., & Tibshirani, R. (2017). An introduction to statistical learning with applications in R. Springer.
+[^03-commonapp_over-7]: James, G., Witten, D., Hastie, T., & Tibshirani, R. (2017). An introduction to statistical learning with applications in R. Springer.
 
-[^03-commonapp_over-9]: Avery, C., Castleman, B.L., Hurwitz, M., Long, B.T, and Page, L.C. (2021) "Digital messaging to improve college enrollment and success," Economics of Education Review, Elsevier, vol. 84(C).
+[^03-commonapp_over-8]: Avery, C., Castleman, B.L., Hurwitz, M., Long, B.T, and Page, L.C. (2021) "Digital messaging to improve college enrollment and success," Economics of Education Review, Elsevier, vol. 84(C).
 
-[^03-commonapp_over-10]: Phillips, M., and Reber, S. (2022). "Does Virtual Advising Increase College Enrollment? Evidence from a Random-Assignment College Access Field Experiment." American Economic Journal: Economic Policy, 14 (3): 198-234.
+[^03-commonapp_over-9]: Phillips, M., and Reber, S. (2022). "Does Virtual Advising Increase College Enrollment? Evidence from a Random-Assignment College Access Field Experiment." American Economic Journal: Economic Policy, 14 (3): 198-234.
 
 The limited engagement of students with the bot likely explains these results. While some students were asking the bot important questions about how to enroll in college, decipher financial aid letters, and choose a major, most students did not message Oli in substantively meaningful ways. On average, students sent 8 text messages throughout the 38 week intervention, while 2.5% of students messaged a CAC adviser. A sizable portion of the study population--16%--opted out of the intervention and thus did not receive all of Oli's guidance. However, there was evidence to suggest that the chatbot had a positive impact on college enrollment for students who were highly engaged with the bot during the intervention. This group of highly engaged students may warrant further investigation, as they could shed light on what types of conversations with the bot were most helpful in supporting their postsecondary transition. However, with an intervention that cast such a wide net and that provided relatively general guidance related to college-going processes, it is perhaps unsurprising that the overall effects of the outreach were null.
 
@@ -247,11 +247,13 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 ## References
 
 \newpage
+
 ## Tables and Figures
+
 \newpage
 
 |                                                   |           |         | **Before Matching** |           |         | **After Matching** |
-|-----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
+|---------------------------------------------------|:---------:|:-------:|:-------------------:|:---------:|:-------:|:------------------:|
 |                                                   | Treatment | Control |    Std.Mean.Diff    | Treatment | Control |   Std.Mean.Diff    |
 |                                                   |           |         |                     |           |         |                    |
 | Age                                               |  17.082   | 17.023  |        0.118        |   17.05   | 17.025  |       0.050        |
@@ -301,7 +303,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                         |  Fall 2020   | Spring 2021  |  Fall 2021   | Spring 2022  | Gap semester | Gap year  |
-|:----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
+|:------------------------|:------------:|:------------:|:------------:|:------------:|:------------:|:---------:|
 | Enrollment Differential | -0.020\*\*\* | -0.031\*\*\* | -0.033\*\*\* | -0.038\*\*\* |    0.003     | 0.004\*\* |
 |                         |   (0.004)    |   (0.005)    |   (0.005)    |   (0.005)    |   (0.002)    |  (0.002)  |
 |                         |              |              |              |              |              |           |
@@ -317,7 +319,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                         | Fall 2020 | Spring 2021 | Fall 2021 | Spring 2022 | Gap semester | Gap year |
-|:----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
+|:------------------------|:---------:|:-----------:|:---------:|:-----------:|:------------:|:--------:|
 | Enrollment Differential |   0.008   |    0.030    |  -0.007   |    0.016    |    0.001     |  0.000   |
 |                         |  (0.016)  |   (0.016)   |  (0.016)  |   (0.016)   |   (0.006)    | (0.006)  |
 |                         |           |             |           |             |              |          |
@@ -335,7 +337,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                         |  Fall 2020   |    4-year    | 4-year public | 4-year private |   2-year    |  Full-time   |
-|:----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
+|:------------------------|:------------:|:------------:|:-------------:|:--------------:|:-----------:|:------------:|
 | Enrollment Differential | -0.020\*\*\* | -0.040\*\*\* |    -0.007     |  -0.033\*\*\*  | 0.019\*\*\* | -0.029\*\*\* |
 |                         |   (0.004)    |   (0.005)    |    (0.005)    |    (0.004)     |   (0.003)   |   (0.005)    |
 |                         |              |              |               |                |             |              |
@@ -351,7 +353,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                         |  Fall 2020   |    4-year    | 4-year public | 4-year private |   2-year    |  Full-time   |
-|:----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
+|:------------------------|:------------:|:------------:|:-------------:|:--------------:|:-----------:|:------------:|
 | Enrollment Differential | -0.021\*\*\* | -0.044\*\*\* |    -0.007     |  -0.037\*\*\*  | 0.022\*\*\* | -0.034\*\*\* |
 |                         |   (0.005)    |   (0.006)    |    (0.007)    |    (0.006)     |   (0.004)   |   (0.006)    |
 |                         |              |              |               |                |             |              |
@@ -367,7 +369,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                         | Fall 2020 | Spring 2021 | Fall 2021 | Spring 2022 | Gap semester | Gap year |
-|:----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
+|:------------------------|:---------:|:-----------:|:---------:|:-----------:|:------------:|:--------:|
 | Enrollment Differential |  -0.017   |   -0.016    |  -0.011   |   -0.011    |    -0.001    |  0.006   |
 |                         |  (0.010)  |   (0.011)   |  (0.011)  |   (0.011)   |   (0.004)    | (0.003)  |
 |                         |           |             |           |             |              |          |
@@ -383,7 +385,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                         | Fall 2020 | 4-year  | 4-year public | 4-year private |   2-year    | Full-time |
-|:----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
+|:------------------------|:---------:|:-------:|:-------------:|:--------------:|:-----------:|:---------:|
 | Enrollment Differential | 0.026\*\* |  0.002  |   0.032\*\*   |  -0.032\*\*\*  | 0.024\*\*\* |   0.005   |
 |                         |  (0.009)  | (0.010) |    (0.011)    |    (0.009)     |   (0.007)   |  (0.010)  |
 |                         |           |         |               |                |             |           |
