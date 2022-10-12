@@ -32,7 +32,7 @@ Considerable research attention has been paid to the roadblocks that first-gener
 
 A large of portion of admitted college students fail to matriculate, through a process theremed "summer melt." Summer melt describes the process by which college-intentind high school graduates fail to enroll in the fall semester due to challenged in navigating pre-matriculation tasks (CITE). Castleman & Page have found that summer rate affect an estimated 10 to 20 percent of college intentind high school students, with higher rates for low-income, first-generation students. These pre matriculationg task are not incosequencital, faltering at any step can mean losing access to grant dollars or having an offer revoked. These include studnets evalutiating their financial aid letters, filing administrative paperwork, making housing arangement, and completing placement test. Most concering, is that summer melt disproportionately affects students who are low-income and first generations and may not have access to the informations hleping navigate these complex adminsitrative tasks.
 
-For fist-generation and low-income students their is an added complexitie of having to complete these task with little to no prior knowledge of navigating this process, compared to continuing education students.  
+For fist-generation and low-income students their is an added complexitie of having to complete these task with little to no prior knowledge of navigating this process, compared to continuing education students.
 
 Moreover, non-financial barriers include a lack of access to social and cultural capital to navigate the higher education system (Bourdieu, 1973; Perna, 2006). Researchers have noted that first-generation students face a "cultural clash" when navigating into and through college as they must learn the complex process of enrolling and succeeding in college (CITE), such as developing a college list, successfully submitting an application, and completing pre-matriculation tasks.
 
@@ -62,15 +62,15 @@ Although these intervention find positive effect, the scalability and const prov
 
 ### AI Chat-bots in college access
 
-A recent push in th enudge literature has been to levelrea artifial intelligence (AI) to provide personalized support to students navigating college applicaiton and enrollment. These AI bots have primarily been teasting using AI chatbots. These chatbots are no different that the boths that many business such as cell phone companies use to provide supoprt to customers tryign to access their account, or buy a cellphone. These AI bots are trained by human superision to provide suport to students. Overtime the AI "learns" how to handle increasinlgy complex questions such as XXX. Once sucessfull trained and deployed to student the AI can help student andwer quesitons around important deadlines to when they should submit their transcripts. These chatbots are able to provide sutdent real-time responses based on prior students bot interactions and information provided by the institions. 
+A recent push in th enudge literature has been to levelrea artifial intelligence (AI) to provide personalized support to students navigating college applicaiton and enrollment. These AI bots have primarily been teasting using AI chatbots. These chatbots are no different that the boths that many business such as cell phone companies use to provide supoprt to customers tryign to access their account, or buy a cellphone. These AI bots are trained by human superision to provide suport to students. Overtime the AI "learns" how to handle increasinlgy complex questions such as XXX. Once sucessfull trained and deployed to student the AI can help student andwer quesitons around important deadlines to when they should submit their transcripts. These chatbots are able to provide sutdent real-time responses based on prior students bot interactions and information provided by the institions.
 
 A series of recent studies conducted by Page, Gelhbach and collegeues have exmployed AI chatbots to help student enroll and navigate college (CITE). In the first studdy Page and Gelbach (2017) used in AI chatbot named "Pounce" located in Georgia Stata Universtiy (GSU) helped freshmanstudents who were accpeted to join GSU in fall 2017 with on time matricutiona and pre-matriculation task at GSU. The use of the chatbot lead to a 3.3 percentage point increase in timenly enrollment at GSU as well as well as hlped students with pre-matriculation class like signing up for orientation. Note this study was situatiod at the instituion where students were planning to enroll. This centralized nature of the intervention is important even among regular nudge interventions. This on is on adminsitrative processes
 
 Nushatayeva and collegesfurther exten the work of Page and gelbach 2017 by testing if AI chatbots are parttucala hlepuf for cetain student subgroup (e.g. ). This study took place at EAst Carolina Univesicy ECU with an AI chatbot names PeeDee. The authors found no overall effect of the chatbot on college enrollment, but did find an effect on loan acceptance rates. The authors point to realtive advanataged student body and ECU to explain their null effect on college enrollmentcompared to overall positive effect on college enrollment found in the GSU study. However, authors did find a postive treatment effects for first-generation students. PeeDee lead to an increace of enrolling at ECU by 3 percentage points for first-generation students, and an increase of completing pre-matriculation task such as accpeintg a loan (8 percentage point incres), and registerign fro class (3 percentage point increase).
 
-Finally in a follow up study by Page and colleges (20202) shifted the focus of the study from helping students enroll at GSU to helpoing students navigate the administrative process after student arrive at GSU. This study specifically, focused on acadmeic support, social and carrer support and administrative processes. This study was employed as a randomized control trisl Through a RCT Page and colelges foudn taht outreach was most effective when the chatbot was focused on adminsitrative process, particualry those that were time sensityve. However, when oureach that focused on suplmente academic, social and carrerl-related suport, such as meeting with an advisor was not found to be effective. The authors conclude that the AI-bot outreach was most effective and changing student bahvior when the bot was focused on discrete, well-defined administion tasks in which a lack of action lead to high consequences, such as resolving registration holds. 
+Finally in a follow up study by Page and colleges (20202) shifted the focus of the study from helping students enroll at GSU to helpoing students navigate the administrative process after student arrive at GSU. This study specifically, focused on acadmeic support, social and carrer support and administrative processes. This study was employed as a randomized control trisl Through a RCT Page and colelges foudn taht outreach was most effective when the chatbot was focused on adminsitrative process, particualry those that were time sensityve. However, when oureach that focused on suplmente academic, social and carrerl-related suport, such as meeting with an advisor was not found to be effective. The authors conclude that the AI-bot outreach was most effective and changing student bahvior when the bot was focused on discrete, well-defined administion tasks in which a lack of action lead to high consequences, such as resolving registration holds.
 
-Taken together these studies iluminate that AI bots can be an effective tool for helping students transtion into and trhough college, specifically when dealing with adinistratie tasks. However, chat-bot based nudges are not uniformaly effective across various context. These interventions were most effective when providing support to first-generaiton students. An important aspect of these studies to highligh is that these chatbots were housed within a receiving insittions like GSU *not* at a wider level. Little is know about the scalability of these efforts outside universities and at system or national levels. 
+Taken together these studies iluminate that AI bots can be an effective tool for helping students transtion into and trhough college, specifically when dealing with adinistratie tasks. However, chat-bot based nudges are not uniformaly effective across various context. These interventions were most effective when providing support to first-generaiton students. An important aspect of these studies to highligh is that these chatbots were housed within a receiving insittions like GSU *not* at a wider level. Little is know about the scalability of these efforts outside universities and at system or national levels.
 
 Page, L. C. & Gehlbach, H. (2017). How an Artificially Intelligent Virtual Assistant Helps Students Navigate the Road to College. AERA Open, 3(4), 2332858417749220. https://doi.org/10.1177/2332858417749220
 
@@ -255,7 +255,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                                                   |           |         | **Before Matching** |           |         | **After Matching** |
-|-----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
+|---------------------------------------------------|:---------:|:-------:|:-------------------:|:---------:|:-------:|:------------------:|
 |                                                   | Treatment | Control |    Std.Mean.Diff    | Treatment | Control |   Std.Mean.Diff    |
 |                                                   |           |         |                     |           |         |                    |
 | Age                                               |  17.082   | 17.023  |        0.118        |   17.05   | 17.025  |       0.050        |
@@ -305,7 +305,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                         |  Fall 2020   | Spring 2021  |  Fall 2021   | Spring 2022  | Gap semester | Gap year  |
-|:----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
+|:------------------------|:------------:|:------------:|:------------:|:------------:|:------------:|:---------:|
 | Enrollment Differential | -0.020\*\*\* | -0.031\*\*\* | -0.033\*\*\* | -0.038\*\*\* |    0.003     | 0.004\*\* |
 |                         |   (0.004)    |   (0.005)    |   (0.005)    |   (0.005)    |   (0.002)    |  (0.002)  |
 |                         |              |              |              |              |              |           |
@@ -321,7 +321,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                         | Fall 2020 | Spring 2021 | Fall 2021 | Spring 2022 | Gap semester | Gap year |
-|:----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
+|:------------------------|:---------:|:-----------:|:---------:|:-----------:|:------------:|:--------:|
 | Enrollment Differential |   0.008   |    0.030    |  -0.007   |    0.016    |    0.001     |  0.000   |
 |                         |  (0.016)  |   (0.016)   |  (0.016)  |   (0.016)   |   (0.006)    | (0.006)  |
 |                         |           |             |           |             |              |          |
@@ -339,7 +339,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                         |  Fall 2020   |    4-year    | 4-year public | 4-year private |   2-year    |  Full-time   |
-|:----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
+|:------------------------|:------------:|:------------:|:-------------:|:--------------:|:-----------:|:------------:|
 | Enrollment Differential | -0.020\*\*\* | -0.040\*\*\* |    -0.007     |  -0.033\*\*\*  | 0.019\*\*\* | -0.029\*\*\* |
 |                         |   (0.004)    |   (0.005)    |    (0.005)    |    (0.004)     |   (0.003)   |   (0.005)    |
 |                         |              |              |               |                |             |              |
@@ -355,7 +355,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                         |  Fall 2020   |    4-year    | 4-year public | 4-year private |   2-year    |  Full-time   |
-|:----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
+|:------------------------|:------------:|:------------:|:-------------:|:--------------:|:-----------:|:------------:|
 | Enrollment Differential | -0.021\*\*\* | -0.044\*\*\* |    -0.007     |  -0.037\*\*\*  | 0.022\*\*\* | -0.034\*\*\* |
 |                         |   (0.005)    |   (0.006)    |    (0.007)    |    (0.006)     |   (0.004)   |   (0.006)    |
 |                         |              |              |               |                |             |              |
@@ -371,7 +371,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                         | Fall 2020 | Spring 2021 | Fall 2021 | Spring 2022 | Gap semester | Gap year |
-|:----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
+|:------------------------|:---------:|:-----------:|:---------:|:-----------:|:------------:|:--------:|
 | Enrollment Differential |  -0.017   |   -0.016    |  -0.011   |   -0.011    |    -0.001    |  0.006   |
 |                         |  (0.010)  |   (0.011)   |  (0.011)  |   (0.011)   |   (0.004)    | (0.003)  |
 |                         |           |             |           |             |              |          |
@@ -387,7 +387,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                         | Fall 2020 | 4-year  | 4-year public | 4-year private |   2-year    | Full-time |
-|:----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
+|:------------------------|:---------:|:-------:|:-------------:|:--------------:|:-----------:|:---------:|
 | Enrollment Differential | 0.026\*\* |  0.002  |   0.032\*\*   |  -0.032\*\*\*  | 0.024\*\*\* |   0.005   |
 |                         |  (0.009)  | (0.010) |    (0.011)    |    (0.009)     |   (0.007)   |  (0.010)  |
 |                         |           |         |               |                |             |           |
