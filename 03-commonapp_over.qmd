@@ -10,7 +10,6 @@ Over 38 weeks, a Mainstay artificially intelligent (AI) chatbot named *Oli* sent
 
 The present study is in line with recent work focused on levering behavioral economics insights with AI chatbots to alleviate the complexities in a student's transition from high school to college (CITE). Those studies found somewhat positive effects of using chatbots deployed within a specific university context on pre-matriculation tasks and seamless college enrollment (CITE). However, there is no evidence of the scalability of these kinds of interventions when a chatbot is and a huge numer of students
 
-
 used 1) outside a university and 2) targeting a large population of students transitioning to college.
 
 Therefore, in my first dissertation study, I evaluate the effectiveness of the Common App AI chatbot outreach on student college-going outcomes. Specifically, I focus on whether the outreach campaign resulted in more students applying to and enrolling in college. In addition, I explore variation in outreach impact on college enrollment by students' application behavior, racial/ethnic subgroups, and level of engagement with the chatbot.
@@ -31,62 +30,39 @@ Despite increasing access to higher education in recent decades, there are still
 
 > Castleman, B. L. & Page, L. C. (2015). Summer nudging: Can personalized text messages and peer mentor outreach increase college going among low-income high school graduates? Journal of Economic Behavior & Organization, 115, 144--160. https://doi.org/10.1016/j.jebo.2014.12.008
 
-A proposed reason for the widening gaps in college attainment for first-generation and low-income students has been the lack of access to social capital in navigatins the higher education system (Perna, 2006). Social capital is broadly defined as the access to and resrouces within a social nerworks (Lin, 1991). By definition, first-generation and low-income students likely lack familial support witht he required knowledge of navigating the college-going process. This lack of access to social capital to face a "cultural clash" when navigating into and through college as they must learn the complex process of navigating the college access pipeline from individuals outside their families or imediate social groups (CITE). However, most of the existing literature fails to focus on what these students *gain* from strong familial supports, particularly for students of color. For many first-generation students familial support provide a major source of college aspirations (CITE). Furthermore, first-genration and low-income students gain emotionla support for their families which ease their transition into college, and many report this emotional suport being a major reason for sucessing in college (CITE). This precarious journey was made more precarious by students navigating college going in the backdrop of a global pandemic. 
+A proposed reason for the widening gaps in college attainment for first-generation and low-income students has been the lack of access to social capital in navigatins the higher education system (Perna, 2006). Social capital is broadly defined as the access to and resrouces within a social nerworks (Lin, 1991). By definition, first-generation and low-income students likely lack familial support witht he required knowledge of navigating the college-going process. This lack of access to social capital to face a "cultural clash" when navigating into and through college as they must learn the complex process of navigating the college access pipeline from individuals outside their families or imediate social groups (CITE). However, most of the existing literature fails to focus on what these students *gain* from strong familial supports, particularly for students of color. For many first-generation students familial support provide a major source of college aspirations (CITE). Furthermore, first-genration and low-income students gain emotionla support for their families which ease their transition into college, and many report this emotional suport being a major reason for sucessing in college (CITE). This precarious journey was made more precarious by students navigating college going in the backdrop of a global pandemic.
 
 ### College access during covid
 
-The COVID-19 outbreak increased uncertainty for the high school gradution class of 2020 in what ordinarily would be their timely transition to college. In the early stages of the pandemic one in six recent high school graduates reported rethinking their decision to enroll in college, with nearly two-thirds expressing concerna bout attending their first choice college. The most cited reeson for not attending their first choice was concern over the ability for their families to afford college. 
+The COVID-19 outbreak increased uncertainty for the high school gradution class of 2020 in what ordinarily would be their timely transition to college. In the early stages of the pandemic one in six recent high school graduates reported rethinking their decision to enroll in college, with nearly two-thirds expressing concerna bout attending their first choice college. The most cited reeson for not attending their first choice was concern over the ability for their families to afford college.
 
-Now, nearly three years into the pandemic, we have some evidence as to the detrimental effects of the pandemic on college-going and college life. Enrollment for first-time undergraduates in fall 2020 fell to unprecedented levels, dropping nearly 10 percentage points compared to fall 2019, with higher rates for students from low-income high schools (CITE), as well as students fro high minority schools student from low0minority high well were more liley to enroll imddeaitly that those from high schools iwth more diverse students 64% vs 52%. 
-
-
+Now, nearly three years into the pandemic, we have some evidence as to the detrimental effects of the pandemic on college-going and college life. Enrollment for first-time undergraduates in fall 2020 fell to unprecedented levels, dropping nearly 10 percentage points compared to fall 2019, with higher rates for students from low-income high schools (CITE), as well as students fro high minority schools student from low0minority high well were more liley to enroll imddeaitly that those from high schools iwth more diverse students 64% vs 52%.
 
 The added effect of a helath crisis plus a pandemic changed the firly constant countercyclian cycle of college enrollment increasing during economic downturns. Student may turn to afforable opoitons during economic downturns. Therfoer its supirisng to see a turn away from these colleges
 
+A recent report from the College Board provided some more details on the detrimental effects of the pandemic on college going. Draving on data of nearly 10 million students if the US the College board provides high level descrpitives and regression adjusted models identifying the protiion of fall 2020 enrollment rates that are sttributal to covdid-19. They find that the largest shift in student enrollment occured within community colleges, where enrollment rates declined by nearly 12% because of the pandemic, while enrollment was smaller at privare four and public four years (4.5% vs 2.8 , respecly.) Concernign, is that enrollment rates were fell disporotions for community college students in first-geneation, low-income studnets.
 
-A recent report from the College Board provided some more details on the detrimental effects of the pandemic on college going. Draving on data of nearly 10 million students  if the US the College board provides high level descrpitives and regression adjusted models identifying the protiion of fall 2020 enrollment rates that are sttributal to covdid-19. They find that the largest shift in student enrollment occured within community colleges, where enrollment rates declined by nearly 12% because of the pandemic, while enrollment was smaller at privare four and public four years (4.5% vs 2.8 , respecly.) Concernign, is that enrollment rates were fell disporotions for community college students in first-geneation, low-income studnets.  
+Students were facing a multitude of stressors on top of accessing college. Could of been additional responsivbility, feelings of isolation, etc.
 
-Students were facing a multitude of stressors on top of accessing college. Could of been additional responsivbility, feelings of isolation, etc. 
-
-Students were not pshychology ready to go to college, tremendous uncertainty. 
+Students were not pshychology ready to go to college, tremendous uncertainty.
 
 FG/mino students faced tremendous setback during covid. They may of come from household were they were worried about their parents and family, unlike working class individuals. They also faced dual pandemics spurred on by george floyd. Oli may of helped the feeling of isolation, but it may of been too little to help students struggling with so many other things goign on that college may of not been at the forefront survival was...
 
 In addition additonal barriers were exhacebated for low-income cummunity of coleor. For wexmaple for these gropus access to mentlah heatl services was severely limited. As well as access to qulaity helathcare
 
+The pandemic was characterized by school closures and a pivot to distance/virtual learning. At the time, the pandemic's effect on college-going was uncertain. On the one hand, the COVID-19 crisis hampered business-as-usual operating procedures for colleges and universities. Because of this, students -- particularly those planning to attend a residential college -- may have been more likely to delay college entry. On the other hand, higher education is a counter-cyclical industry such that college enrollment rates tend to be higher during economic downturns. For recent high school graduates, in particular, the impact of the pandemic on service and retail, among other sectors, may severely limit job opportunities. This, in turn, may make higher education an attractive option for young adults who might otherwise enter the labor market after high school.
 
-
-
-
-
-
-
-
-
-
-
-
-The pandemic was characterized by school closures and a pivot to distance/virtual learning. At the time, the pandemic’s effect on college-going was uncertain. On the one hand, the COVID-19 crisis hampered business-as-usual operating procedures for colleges and universities. Because of this, students – particularly those planning to attend a residential college – may have been more likely to delay college entry. On the other hand, higher education is a counter-cyclical industry such that college enrollment rates tend to be higher during economic downturns. For recent high school graduates, in particular, the impact of the pandemic on service and retail, among other sectors, may severely limit job opportunities. This, in turn, may make higher education an attractive option for young adults who might otherwise enter the labor market after high school.
-
-
-
-The pandemics effects disproporitionatley affected marginalized students. Students from higher incomes were far more liley to enroll in college imediately after high school gradution (65%) compared to students from low-income high schools (49%). 
+The pandemics effects disproporitionatley affected marginalized students. Students from higher incomes were far more liley to enroll in college imediately after high school gradution (65%) compared to students from low-income high schools (49%).
 
 Many students did not take a gap year, if anything they was s mall decline in gap year take up comapred to previous years, 2.2 to 2.0 percentage points
 
 . One in six high school seniors who expected to enroll in a four-year instiions before the outbreak reported switching taking a different posecondary plan, for nearly a quarter of respondents believed their first choice was no longer afordable based on considered an option closer to home.
 
-
-
-
-
-
 Once students arrived at college in fall 2020, the effects of the ongoing pandemic were exacerbated, with increased rates of anxiety and depression among undergraduate students. First-generation and low-income students faced additional challenges during the pandemic, such as increased financial hardships. First-generation students were nearly twice as likely to be
 
-concerned about paying for education expenses in fall 2020 than non-first-generation students. They also were less likely to report living in a safe environment and more likely to experience food and housing insecurity.3 
+concerned about paying for education expenses in fall 2020 than non-first-generation students. They also were less likely to report living in a safe environment and more likely to experience food and housing insecurity.3
 
 The outreach undertaken by Common App and its partners was swift and cast a wide net in hopes of helping students through the typically challenging transition to college during this unusually challenging time. We applaud Common App and its partners for undertaking this outreach.
-
 
 LeBouef, S. & Dworkin, J. (2021). First-Generation College Students and Family Support: A Critical Review of Empirical Research Literature. Education Sciences, 11(6), 294. https://doi.org/10.3390/educsci11060294
 
