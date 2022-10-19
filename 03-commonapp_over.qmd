@@ -284,8 +284,6 @@ The limited engagement of students with the bot likely explains these results. W
 
 Taken together, we reasoned that this outreach faced an uphill battle to improve outcomes beyond the differentials that exist absent the intervention. Even though we cannot know what the true causal impact of the outreach was, the evidence we gathered leads us to conclude that the outreach likely neither helped nor harmed students in applying to and enrolling in college.
 
-## References
-
 \newpage
 
 ## Tables and Figures
@@ -293,7 +291,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                                                   |           |         | **Before Matching** |           |         | **After Matching** |
-|---------------------------------------------------|:---------:|:-------:|:-------------------:|:---------:|:-------:|:------------------:|
+|------------------|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
 |                                                   | Treatment | Control |    Std.Mean.Diff    | Treatment | Control |   Std.Mean.Diff    |
 |                                                   |           |         |                     |           |         |                    |
 | Age                                               |  17.082   | 17.023  |        0.118        |   17.05   | 17.025  |       0.050        |
@@ -343,7 +341,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                         |  Fall 2020   | Spring 2021  |  Fall 2021   | Spring 2022  | Gap semester | Gap year  |
-|:------------------------|:------------:|:------------:|:------------:|:------------:|:------------:|:---------:|
+|:----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
 | Enrollment Differential | -0.020\*\*\* | -0.031\*\*\* | -0.033\*\*\* | -0.038\*\*\* |    0.003     | 0.004\*\* |
 |                         |   (0.004)    |   (0.005)    |   (0.005)    |   (0.005)    |   (0.002)    |  (0.002)  |
 |                         |              |              |              |              |              |           |
@@ -359,7 +357,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                         | Fall 2020 | Spring 2021 | Fall 2021 | Spring 2022 | Gap semester | Gap year |
-|:------------------------|:---------:|:-----------:|:---------:|:-----------:|:------------:|:--------:|
+|:----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
 | Enrollment Differential |   0.008   |    0.030    |  -0.007   |    0.016    |    0.001     |  0.000   |
 |                         |  (0.016)  |   (0.016)   |  (0.016)  |   (0.016)   |   (0.006)    | (0.006)  |
 |                         |           |             |           |             |              |          |
@@ -377,7 +375,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                         |  Fall 2020   |    4-year    | 4-year public | 4-year private |   2-year    |  Full-time   |
-|:------------------------|:------------:|:------------:|:-------------:|:--------------:|:-----------:|:------------:|
+|:----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
 | Enrollment Differential | -0.020\*\*\* | -0.040\*\*\* |    -0.007     |  -0.033\*\*\*  | 0.019\*\*\* | -0.029\*\*\* |
 |                         |   (0.004)    |   (0.005)    |    (0.005)    |    (0.004)     |   (0.003)   |   (0.005)    |
 |                         |              |              |               |                |             |              |
@@ -393,7 +391,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                         |  Fall 2020   |    4-year    | 4-year public | 4-year private |   2-year    |  Full-time   |
-|:------------------------|:------------:|:------------:|:-------------:|:--------------:|:-----------:|:------------:|
+|:----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
 | Enrollment Differential | -0.021\*\*\* | -0.044\*\*\* |    -0.007     |  -0.037\*\*\*  | 0.022\*\*\* | -0.034\*\*\* |
 |                         |   (0.005)    |   (0.006)    |    (0.007)    |    (0.006)     |   (0.004)   |   (0.006)    |
 |                         |              |              |               |                |             |              |
@@ -409,7 +407,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                         | Fall 2020 | Spring 2021 | Fall 2021 | Spring 2022 | Gap semester | Gap year |
-|:------------------------|:---------:|:-----------:|:---------:|:-----------:|:------------:|:--------:|
+|:----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
 | Enrollment Differential |  -0.017   |   -0.016    |  -0.011   |   -0.011    |    -0.001    |  0.006   |
 |                         |  (0.010)  |   (0.011)   |  (0.011)  |   (0.011)   |   (0.004)    | (0.003)  |
 |                         |           |             |           |             |              |          |
@@ -425,7 +423,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                         | Fall 2020 | 4-year  | 4-year public | 4-year private |   2-year    | Full-time |
-|:------------------------|:---------:|:-------:|:-------------:|:--------------:|:-----------:|:---------:|
+|:----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
 | Enrollment Differential | 0.026\*\* |  0.002  |   0.032\*\*   |  -0.032\*\*\*  | 0.024\*\*\* |   0.005   |
 |                         |  (0.009)  | (0.010) |    (0.011)    |    (0.009)     |   (0.007)   |  (0.010)  |
 |                         |           |         |               |                |             |           |

@@ -153,3 +153,5 @@ Next, we looked at the High Dimensional setting. Table 3 shows the results of th
 ## Looking Ahead
 
 As educational research moves towards the age of Big Data, researchers will have access to tremendous amounts of covariates. With such a large number of covariates at our disposal, researchers can leverage causal methods like propensity score estimation. The traditional approach has been to use logistic regression, but as computational power has increased more sophisticated Deep Learning methods have been developed that are well situated to solve classification problems such as propensity score estimation. Results showed that DNN and Logistic regression performed equally well across conditions and sample sizes. In the final iteration of the paper, we will focus on creating a Monte Carlo simulation study to analyze these effects. We will further consider varying the linear relationship the covariates had with the outcome to more complex non-linear patterns, perhaps in that context DNN model would outperform Logistic models.
+
+## Tables and Figures
