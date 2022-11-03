@@ -40,6 +40,8 @@ A likely reason for the drops in college enrollment rates for first-generation s
 
 ### Challenges in college access among first-generation students
 
+College application, financing and erollment processes and complex, especially for ......
+
 Considerable research attention has been paid to the complexities in the college application process (CITE). To apply for college, students must complete a series ofcomplex tasks such as developing a list of colleges, deciding on which colleges to apply to, and applying for federal, state, and institutional aid through a cumbersome financial aid application (the Free Application for Federal Financial Aid - FAFSA). After completing these steps, students must weigh competing admission offers, including complex financial aid award letters (CITE). Finally, after a student accepts an offer of admission, students must then navigate the equally cumbersome college enrollment process. Students must complete a series of pre-matriculation administrative tasks, including submitting high school transcripts, deciding which and how much aid to accept, taking placement exams, and successfully enrolling in classes (CITE). Scholars have noted that the summer before a student enrolls in college is an exceptionally cumbersome time when students need additional support to complete these pre-matriculation tasks (CITE). If a student falters at any of these steps, students may ultimately fail to enroll in college.
 
 ### Challenges in college access among first-generation students
@@ -48,7 +50,18 @@ However, for first-generation students, there is an added layer of complexity in
 
 Yet, first-generation students of color must also endure social and systemic barriers that traditionally left them with less access to high-quality primary and secondary education through tracking policies that funnel them to courses that don't qualify as prerequisites to apply to college (CITE). In addition, first-generation students of color have historically had less access to intergenerational wealth to finance college and must rely on financial aid to fund their postsecondary education (CITE).
 
-Many scholars have stressed the importance of financial support for first-generation students (CITE). A sizable portion of first-generation students come from economically less-resourced families and, therefore, must rely on financial support to finance their postsecondary aspirations (CITE). Students typically access federal, state, and grant aid -- aid that *does not* have to be repaid -- by completing the FAFSA form. The FAFSA has more than 100 questions asking students about their and their families' financial assets. Many scholars have stressed the importance of supporting students submitting their FAFSA (CITE). For example, Page and colleagues (2020) conducted a randomized trial that provided students with timely, personalized reminders about the importance of the FAFSA in the summer before college. They find that this support improved students' successful completion of the FAFSA (CITE). This study and others have developed a robust literature on the importance of supporting students during the summer before college.
+Many scholars have stressed the importance of financial support for first-generation students (CITE). A sizable portion of first-generation students come from economically less-resourced families and, therefore, must rely on financial support to finance their postsecondary aspirations (CITE). Students typically access federal, state, and grant aid -- aid that *does not* have to be repaid -- by completing the FAFSA form. The FAFSA has more than 100 questions asking students about their and their families' financial assets. Many scholars have stressed the importance of supporting students submitting their FAFSA (Dynarski, Scott-Clayton, 2006...). 
+
+
+for those who complete the FAFSA many are selected for further scruityny of their FAFSA by porcess termed vericaiotn. Where by upwards of 60% of low-income sutdneets must provide their financial need on their FAFSA (CITE). Guzman.. found that this process affects students who need ifnancal aid the most...
+
+
+
+For example, Page and colleagues (2020) conducted a randomized trial that provided students with timely, personalized reminders about the importance of the FAFSA in the summer before college. They find that this support improved students' successful completion of the FAFSA (CITE). This study and others have developed a robust literature on the importance of supporting students during the summer before college.
+
+
+
+
 
 ### Summer Melt
 
@@ -61,6 +74,9 @@ The literature has proposed a few mechanisms that may explain why students exper
 One favored approach to remedying students' information asymmetries in the college-going process is access to high-quality college advising that can support students' transition to college. However, many first-generation students reside in schools with little to no access to college counselors, likely due to systemic barriers such as federal redlining policies (CITE). Even when these students have access to college counselors, those counselors are overworked due to large caseloads (CITE).
 
 The liteature points to the positve effects of college advisos is associated with enrolling in college at higher rates, and postively associated with persistance trhough college. For example Castleman et al., 2012 randomized students in secon Rhode Island high schools to received high quality one on one college counseling. This "high touch" intervention resultted in a increate in students imediate college enrollment by 14 percentage points. Although this intervention occured in a relatively diverse schools, all school sin the sample where choice schools and therefore the results may not generalize to public schools. However, in 20 CAstlman and Page look at similar efforts with a nationally representative sample of boston public school students.
+
+However, in the backdrop of  globabl pandmic access to qualify advicing was heavily impacts. Naughton (2021) describes the chanlledges to college advising during covid-19 as craks turning into craters. Naughton find that college advisors in their study felt inefective at providing virtual support and guidance once high school transitioned to virtual. They experienced limited to little reach to the students. Naughton reasons that advisers in high schools with higher rates of college going wer less impact than advisrs who were woring in schol with the highest need, as advisers were unable to get inforation to students during the postseocndry transition. The longstandingn "cracks" om the transtion to college were made into unpassable "craters" primarily for first-generaiton, lo-income, racially marginalized students. 
+
 
 Lack of access to these support may make students put off important college going task or simply be unaware of deadlines, such as completing finacil aid applicaitons to scucess matriculating into college.
 
@@ -75,6 +91,8 @@ Castleman & Page, 2015, 2017; Castleman, Page & Schooley, 2014) and to file or r
 Hoewever, the research is mixed in the effectivenss of these interventions when they are scaled up. Oreopeoplou et al. find no effect of text message outreach on college studenet grades or completion or when the entity dong the messaging is unfamiliar to the student. for exmaple they find that FAFSA submision are null.
 
 Although these intervention find positive effect, the scalability and const prove to be a problem. On average these cousenlor and text based interventions costt... In additional one would need a large amount of counselors to provide personliaze 1:1 support.
+
+## Scaling of these intervention Bird et al. 
 
 ### AI Chat-bots in college access
 
