@@ -2,15 +2,17 @@
 
 ## Introduction
 
-In spring 2020, schools and colleges across the US -- and the world -- began to pivot to remote learning to protect students and their communities from the rapid spread of the COVID-19 virus. Simultaneously, students in the high school graduation class of 2020 were beginning to receive acceptance letters from the colleges they had applied to prior to the pandemic. At the time, the effect of the pandemic on college-going was uncertain. On the one hand, the COVID-19 crisis hampered business-as-usual operating procedures for colleges. Because of this, students -- particularly those planning to live on campus -- may have been more likely to delay college entry. On the other hand, higher education is a counter-cyclical industry such that college enrollment rates tend to be higher during economic downturns. For recent high school graduates, in particular, the impact of the pandemic on service and retail, among other sectors, may severely limit job opportunities. This, in turn, may make higher education an attractive option for young adults who might otherwise enter the labor market after high school.
+In spring of 2020, schools and colleges across the US began to shut down and pivot to remote learning to protect students and their communities from the rapid spread of the COVID-19 virus. All the while, high school seniors began to receive acceptance letters from the colleges they had applied to before the pandemic. At the time, the effect of the pandemic on college-going was uncertain. On the one hand, the COVID-19 crisis hampered business-as-usual operating procedures for colleges. Because of this, students -- particularly those planning to live on campus -- may have been more likely to delay college entry. On the other hand, higher education is a counter-cyclical industry such that college enrollment rates tend to be higher during economic downturns. For recent high school graduates, in particular, the impact of the pandemic on service and retail, among other sectors, may severely limit job opportunities. This, in turn, may make higher education an attractive option for young adults who might otherwise enter the labor market after high school.
 
-In response to this uncertainty, the Common Application (Common App), in partnership with Mainstay and the College Advising Corps (CAC), acted quickly to provide students with proactive outreach and guidance on college-going tasks via an innovative large-scale artificially intelligent (AI) chatbot campaign. This outreach targeted nearly 174,000 US high school students who were the first in their families to go to college and had low family income, many of whom were racially marginalized. Due to an array of systemic barriers, this subgroup of students faced reduced access to quality health care, living, and work conditions during the pandemic (CITE). Therefore, these students would likely benefit from additional support during their precarious college transition.
+In response to this uncertainty, the Common Application (Common App), in partnership with Mainstay and the College Advising Corps (CAC), acted quickly to provide students with proactive outreach and guidance on college-going tasks via an innovative large-scale artificially intelligent (AI) chatbot campaign. This outreach targeted nearly 174,000 US high school students who were the first in their families to go to college *and* came from underresourced families, most of whom were racially marginalized (83%). Due to an array of systemic barriers, this subgroup of students likely faced reduced access to quality health care, living, and work conditions during the pandemic (CITE) and, therefore, would likely benefit from additional support during their precarious college transition.
 
-Over 38 weeks, a Mainstay AI chatbot named *Oli* sent scripted messages to students on various topics related to the college search, application, and matriculation processes. To better target the information, Oli solicited information directly from students about the types of resources they needed and pressing questions they had. The chatbot can then "learn" from these students' interactions and develop a knowledge base that allows the chatbot to provide more targeted and individualized real-time responses. Student questions that Oli could not answer were forwarded to college advisers, who would follow up directly with individual students.
+Over 38 weeks, a Mainstay AI chatbot named *Oli* sent scripted messages to students on various topics related to the college search, application, and matriculation processes. To better target the information, Oli solicited information directly from students about the types of resources they needed and pressing questions they had. The chatbot "learned" from these students' interactions and developed a knowledge base to provide more targeted and individualized real-time responses. Student questions that Oli could not answer were forwarded to college advisers, who would follow up directly with individual students.
 
-The present study aligns with prior research utilizing AI chatbots in the postsecondary sector. Recent literature has leveraged behavioral economics insights to evaluate the effectiveness of AI chatbots in helping students transition to and through college (CITE). In a series of studies, Page and colleagues (2017;2020;2021) have demonstrated that AI chatbots deployed within a specific university context are effective at helping students complete pre-matriculation tasks and ultimately enroll in college. However, there is little evidence of the scalability of these kinds of interventions.
+The present study aligns with prior research utilizing AI chatbots in the postsecondary sector. Recent literature has leveraged behavioral economics insights to evaluate the effectiveness of AI chatbots in helping students transition to and through college (CITE). These studies have demonstrated that AI chatbots deployed within a local university context are effective at helping students complete pre-matriculation tasks and ultimately enroll in college (Page..Gelbach..Aizat..2017;2020;2021).
 
-Therefore, in my first dissertation study, I evaluate the effectiveness of a large-scale chatbot campaign on first-generation, low-income students college-going outcomes. Specifically, I focus on whether the outreach campaign resulted in more students applying to and enrolling in college. In addition, I explore heterogeneity in outreach impact on college enrollment by students' application behavior, racial/ethnic subgroups, and level of engagement with the chatbot.
+However, questions remain on the scalability of these AI chatbot interventions. Prior research has highlighted that similar nudge interventions -- not employing chatbots -- fail to maintain efficacy when scaled to a national level and target hundreds of thousands of students (CITE). Therefore, my second dissertation study aims to add to the literature on the scalability of AI chatbot campaigns.
+
+Towards this aim, my second dissertation study evaluates the effectiveness of a large-scale AI chatbot campaign on first-generation, low-income students' college-going outcomes. Specifically, I focus on whether the outreach campaign resulted in more students applying to and enrolling in college. In addition, I explore heterogeneity in outreach impact on college enrollment by students' application behavior, racial/ethnic subgroups, and level of engagement with the chatbot.
 
 In the following sections, I review the relevant literature for this study, followed by a description of the data and the analytic strategy I employ. I end by presenting preliminary results of the evaluation.
 
@@ -26,7 +28,7 @@ Despite increasing access to higher education in recent decades, there remain di
 
 Lower-income and particularly people of color face structural challenges in accessing quality education, housing, and working conditions (CITE). For example, decades of federal redlining in housing and the policy of using local taxes to fund schools creates raced and classed outcomes in educational opportunities and family wealth (CITE). Therefore, disparities in college access and completion by parental education -- along with social and structural barriers -- are vital contributors to the growing income inequality in the US.
 
-Even with the rising cost of college (CITE), the non-pecuniary and long-term economic returns to a college education remain positive. Adults who earn a bachelor's degree tend to earn more and accumulate more wealth than those who have not completed college (CITE). However, researchers note that the rate of return is substantially higher for continuing education students as opposed to first-generation students (CITE). Additionally, on average, individuals with a college degree have lower unemployment rates, higher civic involvement, and better healthcare outcomes (CITE). Therefore, the substantial policy focus on supporting college-intending first-generation students through the complex college-going process is deserved.
+Even with the rising cost of college (CITE), the non-pecuniary and long-term economic returns to a college education remain positive. Adults who earn a bachelor's degree tend to earn more and accumulate more wealth than those who have not completed college (CITE). However, researchers note that the rate of return is substantially higher for continuing education students as opposed to first-generation students (CITE). Additionally, on average, individuals with a college degree have lower unemployment rates, higher civic involvement, and better healthcare outcomes (CITE). Given that more than half of all college students identify as first-genration (56%), the substantial policy focus on supporting college-intending first-generation students through the complex college-going process is deserved (CITE)
 
 ### College access during the COVID-19 pandemic
 
@@ -36,7 +38,7 @@ Now, nearly three years into the pandemic, we have some evidence as to the detri
 
 A recent report from the College Board provided some additional details on the detrimental effects of the pandemic on college enrollment. Drawing on data from nearly 10 million US students, the College Board offered high-level descriptives and regression-adjusted models identifying the portion of fall 2020 enrollment rates attributable to COVID-19. They find that the most considerable shift in student enrollment occurred within community colleges, where enrollment rates declined by nearly 12% due to the pandemic. Most worrisome is that they find that enrollment rates fell mainly for first-generation, low-income students (CITE).
 
-A likely reason for the drops in college enrollment rates for first-generation students is the pandemics' disproportionate effect on racially and economically marginalized communities. During the pandemic these communities experienced reduced access to high-quality healthcare and working conditions and lower expected wages (CITE). This, in turn, may have caused first-generation students to prioritize immediate health and economic stressors, like supporting their families financially or dealing with lost wages instead of prioritizing college enrollment. Data from the College Board may support this potential mechanism. Students from higher-income households were far more likely to enroll in college immediately after graduation (65%) than those from low-income high schools (49%). In addition, first-generation students were nearly twice as likely to be concerned about paying for education expenses in fall 2020 than continuing education students (CITE). They also were less likely to report living in a safe environment and more likely to experience food and housing insecurity during the pandemic (CITE). The literature highlights the unprecedented shift in college going caused by the COVID-19 pandemic, particularly for first-generation students. Next, I review the literature on challenges to college access. 
+A likely reason for the drops in college enrollment rates for first-generation students is the pandemics' disproportionate effect on racially and economically marginalized communities. During the pandemic these communities experienced reduced access to high-quality healthcare and working conditions and lower expected wages (CITE). This, in turn, may have caused first-generation students to prioritize immediate health and economic stressors, like supporting their families financially or dealing with lost wages instead of prioritizing college enrollment. Data from the College Board may support this potential mechanism. Students from higher-income households were far more likely to enroll in college immediately after graduation (65%) than those from low-income high schools (49%). In addition, first-generation students were nearly twice as likely to be concerned about paying for education expenses in fall 2020 than continuing education students (CITE). They also were less likely to report living in a safe environment and more likely to experience food and housing insecurity during the pandemic (CITE). The literature highlights the unprecedented shift in college going caused by the COVID-19 pandemic, particularly for first-generation students. Next, I review the literature on challenges to college access.
 
 ### Challenges in college access among first-generation students
 
@@ -48,26 +50,29 @@ Considerable research attention has been paid to the complexities in the college
 
 However, for first-generation students, there is an added layer of complexity in navigating these tasks with little to no access to social and cultural capital around the college application process. For instance, scholars have emphasized how first-generation students tend to reside in schools with less access to college prep or Advanced Placement (AP) courses, which have been positively associated with college enrollment (CITE). In addition, first-generation students attend schools with little to no access to college counselors, which could support students in completing college applications and navigating the complex financial aid process (CITE). However, even when students have access to a college counselor, these counselors are burdened with high caseloads and cannot provide individualized support to students (CITE).
 
-Yet, first-generation students of color must also endure social and systemic barriers that traditionally left them with less access to high-quality primary and secondary education through tracking policies that funnel them to courses that don't qualify as prerequisites to apply to college (CITE). In addition, first-generation students of color have historically had less access to intergenerational wealth to finance college and must rely on financial aid to fund their postsecondary education (CITE).
+RACIALLY MARGINALIZED INSTEAD OF STUDENTS OF COLO
 
-Many scholars have stressed the importance of financial support for first-generation students (CITE). A sizable portion of first-generation students come from economically less-resourced families and, therefore, must rely on financial support to finance their postsecondary aspirations (CITE). Students typically access federal, state, and grant aid -- aid that *does not* have to be repaid -- by completing the FAFSA form. The FAFSA has more than 100 questions asking students about their and their families' financial assets. Many scholars have stressed the importance of supporting students submitting their FAFSA (Dynarski, Scott-Clayton, 2006...). 
+Yet, first-generation students of color must also endure social and systemic barriers that traditionally left them with less access to high-quality primary and secondary education. For example, college opportunities are influenced by education policy that track racially funnel students in to underserved school, providing these student with limited access to college prep and andvanced placement coursework, and reduced access to quality college counseling (Oakes, 2005; Oakes, Rogers, Lipton, & Morell, 2002; Solorzano & Ornelas, 2002, 2004)
 
+
+
+ through tracking policies that funnel them to courses that don't qualify as prerequisites to apply to college (CITE). In addition, first-generation students of color have historically had less access to intergenerational wealth to finance college and must rely on financial aid to fund their postsecondary education (CITE).
+
+Many scholars have stressed the importance of financial support for first-generation students (CITE). A sizable portion of first-generation students come from economically less-resourced families and, therefore, must rely on financial support to finance their postsecondary aspirations (CITE). Scholars have argued that due to  federal and state divestment from funding postsecondary instiions has lead to a shift from need-based grants -- money that a student does not have to pay back -- to merit-based aid and loans (CITE). This shift has dispolortiln impacted first-generation and low-income students (Long & Riley, 2007).
+
+
+
+Students typically access federal, state, and grant aid -- aid that *does not* have to be repaid -- by completing the FAFSA form. The FAFSA has more than 100 questions asking students about their and their families' financial assets. Many scholars have stressed the importance of supporting students submitting their FAFSA (Dynarski, Scott-Clayton, 2006...).
 
 for those who complete the FAFSA many are selected for further scruityny of their FAFSA by porcess termed vericaiotn. Where by upwards of 60% of low-income sutdneets must provide their financial need on their FAFSA (CITE). Guzman.. found that this process affects students who need ifnancal aid the most...
 
-
-
 For example, Page and colleagues (2020) conducted a randomized trial that provided students with timely, personalized reminders about the importance of the FAFSA in the summer before college. They find that this support improved students' successful completion of the FAFSA (CITE). This study and others have developed a robust literature on the importance of supporting students during the summer before college.
-
-
-
-
 
 ### Summer Melt
 
 Without access to support during the summer before college, students may ultimately fail to enroll through a phenomenon termed "summer melt." Summer melt describes the process by which college-intending high school graduates fail to enroll in the fall semester due to challenges in navigating the array of pre-matriculating tasks (CITE). Castleman & Page (YEAR; YEAR) have found that summer melt affects an estimated 10 to 20 percent of college-intending high school students. The concern is that summer melt disproportionately affects low-income and first-generation students and students of color who may not have access to the information to help navigate these complex administrative tasks (CITE).
 
-The literature has proposed a few mechanisms that may explain why students experience summer melt, the predominant one being information asymmetries around college going. Students may fail to enroll because of minimal information and guidance in navigating pre-matriculation tasks. These include missing critical deadlines for financial aid or failing to submit transcripts or other documentation. Therefore, an array of researchers have developed interventions that examine ways to remedy summer melt by supporting students in the key steps and deadlines to enroll in college by providing high-quality college primarily, but not exclusively, through behavioral nudge interventions. 
+The literature has proposed a few mechanisms that may explain why students experience summer melt, the predominant one being information asymmetries around college going. Students may fail to enroll because of minimal information and guidance in navigating pre-matriculation tasks. These include missing critical deadlines for financial aid or failing to submit transcripts or other documentation. Therefore, an array of researchers have developed interventions that examine ways to remedy summer melt by supporting students in the key steps and deadlines to enroll in college by providing high-quality college primarily, but not exclusively, through behavioral nudge interventions.
 
 ### Interventions Remedying Summer Melt
 
@@ -75,8 +80,7 @@ One favored approach to remedying students' information asymmetries in the colle
 
 The liteature points to the positve effects of college advisos is associated with enrolling in college at higher rates, and postively associated with persistance trhough college. For example Castleman et al., 2012 randomized students in secon Rhode Island high schools to received high quality one on one college counseling. This "high touch" intervention resultted in a increate in students imediate college enrollment by 14 percentage points. Although this intervention occured in a relatively diverse schools, all school sin the sample where choice schools and therefore the results may not generalize to public schools. However, in 20 CAstlman and Page look at similar efforts with a nationally representative sample of boston public school students.
 
-However, in the backdrop of  globabl pandmic access to qualify advicing was heavily impacts. Naughton (2021) describes the chanlledges to college advising during covid-19 as craks turning into craters. Naughton find that college advisors in their study felt inefective at providing virtual support and guidance once high school transitioned to virtual. They experienced limited to little reach to the students. Naughton reasons that advisers in high schools with higher rates of college going wer less impact than advisrs who were woring in schol with the highest need, as advisers were unable to get inforation to students during the postseocndry transition. The longstandingn "cracks" om the transtion to college were made into unpassable "craters" primarily for first-generaiton, lo-income, racially marginalized students. 
-
+However, in the backdrop of globabl pandmic access to qualify advicing was heavily impacts. Naughton (2021) describes the chanlledges to college advising during covid-19 as craks turning into craters. Naughton find that college advisors in their study felt inefective at providing virtual support and guidance once high school transitioned to virtual. They experienced limited to little reach to the students. Naughton reasons that advisers in high schools with higher rates of college going wer less impact than advisrs who were woring in schol with the highest need, as advisers were unable to get inforation to students during the postseocndry transition. The longstandingn "cracks" om the transtion to college were made into unpassable "craters" primarily for first-generaiton, lo-income, racially marginalized students.
 
 Lack of access to these support may make students put off important college going task or simply be unaware of deadlines, such as completing finacil aid applicaitons to scucess matriculating into college.
 
@@ -92,7 +96,7 @@ Hoewever, the research is mixed in the effectivenss of these interventions when 
 
 Although these intervention find positive effect, the scalability and const prove to be a problem. On average these cousenlor and text based interventions costt... In additional one would need a large amount of counselors to provide personliaze 1:1 support.
 
-## Scaling of these intervention Bird et al. 
+## Scaling of these intervention Bird et al.
 
 ### AI Chat-bots in college access
 
@@ -110,14 +114,7 @@ Page, L. C. & Gehlbach, H. (2017). How an Artificially Intelligent Virtual Assis
 
 Page, L., Lee, J. & Gehlbach, H. (2020). Conditions under which college students can be responsive to nudging. EdWorkingPaper.
 
-
 The barriers mentioned above to college access exist due in part to US postsecondary institutions -- and society at large -- reflecting the norms of the dominant, white, middle-class. These norms assume that students have access to knowledge in navigating the complex higher education system (Perna, 2006, CITE, Tinto). This lack of understanding of the college-going process may cause a student to face a "cultural clash" when navigating into and through college as they must learn the complex process of navigating the college access pipeline from individuals outside their families or immediate social groups (CITE).
-
-
-
-
-
-
 
 ## Methods
 
@@ -296,7 +293,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                                                   |           |         | **Before Matching** |           |         | **After Matching** |
-|---------------------------------------------------|:---------:|:-------:|:-------------------:|:---------:|:-------:|:------------------:|
+|------------------|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
 |                                                   | Treatment | Control |    Std.Mean.Diff    | Treatment | Control |   Std.Mean.Diff    |
 |                                                   |           |         |                     |           |         |                    |
 | Age                                               |  17.082   | 17.023  |        0.118        |   17.05   | 17.025  |       0.050        |
@@ -346,7 +343,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                         |  Fall 2020   | Spring 2021  |  Fall 2021   | Spring 2022  | Gap semester | Gap year  |
-|:------------------------|:------------:|:------------:|:------------:|:------------:|:------------:|:---------:|
+|:----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
 | Enrollment Differential | -0.020\*\*\* | -0.031\*\*\* | -0.033\*\*\* | -0.038\*\*\* |    0.003     | 0.004\*\* |
 |                         |   (0.004)    |   (0.005)    |   (0.005)    |   (0.005)    |   (0.002)    |  (0.002)  |
 |                         |              |              |              |              |              |           |
@@ -362,7 +359,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                         | Fall 2020 | Spring 2021 | Fall 2021 | Spring 2022 | Gap semester | Gap year |
-|:------------------------|:---------:|:-----------:|:---------:|:-----------:|:------------:|:--------:|
+|:----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
 | Enrollment Differential |   0.008   |    0.030    |  -0.007   |    0.016    |    0.001     |  0.000   |
 |                         |  (0.016)  |   (0.016)   |  (0.016)  |   (0.016)   |   (0.006)    | (0.006)  |
 |                         |           |             |           |             |              |          |
@@ -380,7 +377,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                         |  Fall 2020   |    4-year    | 4-year public | 4-year private |   2-year    |  Full-time   |
-|:------------------------|:------------:|:------------:|:-------------:|:--------------:|:-----------:|:------------:|
+|:----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
 | Enrollment Differential | -0.020\*\*\* | -0.040\*\*\* |    -0.007     |  -0.033\*\*\*  | 0.019\*\*\* | -0.029\*\*\* |
 |                         |   (0.004)    |   (0.005)    |    (0.005)    |    (0.004)     |   (0.003)   |   (0.005)    |
 |                         |              |              |               |                |             |              |
@@ -396,7 +393,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                         |  Fall 2020   |    4-year    | 4-year public | 4-year private |   2-year    |  Full-time   |
-|:------------------------|:------------:|:------------:|:-------------:|:--------------:|:-----------:|:------------:|
+|:----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
 | Enrollment Differential | -0.021\*\*\* | -0.044\*\*\* |    -0.007     |  -0.037\*\*\*  | 0.022\*\*\* | -0.034\*\*\* |
 |                         |   (0.005)    |   (0.006)    |    (0.007)    |    (0.006)     |   (0.004)   |   (0.006)    |
 |                         |              |              |               |                |             |              |
@@ -412,7 +409,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                         | Fall 2020 | Spring 2021 | Fall 2021 | Spring 2022 | Gap semester | Gap year |
-|:------------------------|:---------:|:-----------:|:---------:|:-----------:|:------------:|:--------:|
+|:----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
 | Enrollment Differential |  -0.017   |   -0.016    |  -0.011   |   -0.011    |    -0.001    |  0.006   |
 |                         |  (0.010)  |   (0.011)   |  (0.011)  |   (0.011)   |   (0.004)    | (0.003)  |
 |                         |           |             |           |             |              |          |
@@ -428,7 +425,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                         | Fall 2020 | 4-year  | 4-year public | 4-year private |   2-year    | Full-time |
-|:------------------------|:---------:|:-------:|:-------------:|:--------------:|:-----------:|:---------:|
+|:----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
 | Enrollment Differential | 0.026\*\* |  0.002  |   0.032\*\*   |  -0.032\*\*\*  | 0.024\*\*\* |   0.005   |
 |                         |  (0.009)  | (0.010) |    (0.011)    |    (0.009)     |   (0.007)   |  (0.010)  |
 |                         |           |         |               |                |             |           |
