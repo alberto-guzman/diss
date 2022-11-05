@@ -18,19 +18,24 @@ In the following sections, I review the relevant literature for this study, foll
 
 ## Literature Review
 
-In this section, I review the existing literature on college access for first-generation students both broadly and during the COVID-19 pandemic. In addition, I draw on literature addressing barriers to college access for high school students via behavioral nudge chatbot interventions.
+In this section, I review the literature on college access for first-generation students, both broadly and during the COVID-19 pandemic. In addition, I draw on literature addressing barriers to college access for high school students via behavioral nudge chatbot interventions.
 
-However, before I review the literature, I want to define how I conceptualize first-generation students. I take an anti-deficit approach to my grounding of first-generation students -- many of whom also tend to be economically and racially marginalized (CITE). Anti-deficit practices explore how marginalized students persist in the face of social and structural barriers (CITE, Harper). The goal is to reframe students' experiences from struggling to ones of resiliency. Since most deficit approaches focus on what students lack, anti-deficit strategies focus on what students bring that leads to their resiliency and persistence. Although I take an anti-deficit stance in my review of the literature, I acknowledge that the majority of the current literature around college access for first-generation students is written from a deficit perspective (CITE).
+However, before I review the literature, I want to define how I conceptualize first-generation students. I take an anti-deficit approach to my grounding of first-generation students -- many of whom also tend to be economically and racially marginalized (CITE). Anti-deficit practices explore how marginalized students persist in the face of social and structural barriers (CITE, Harper). The goal is to reframe students' experiences from struggling to ones of resiliency. Since most deficit approaches focus on what students lack, anti-deficit strategies focus on what students bring that leads to their resiliency and persistence. Although I take an anti-deficit stance in my review of the literature, I acknowledge that most existing literature around college access for first-generation students is written from a deficit perspective (CITE).
 
-### College access and returns to a college education
+### College access and the returns to a college education
 
 Despite increasing access to higher education in recent decades, there remain disparities in college attainment by socioeconomic status and parental education (CITE). Students whose parents received a college degree enroll in college at higher rates than those parents who did not complete high school (CITE). Additionally, students from higher-income backgrounds are more likely to enroll and complete postsecondary education than students from less-resourced families (CITE). For example, around 13% of students from the lowest income brackets earn a bachelor's degree by age 24, compared to 64% of students from the highest income brackets (CITE). Yet, much of the quantitative literature fails to acknowledge systemic barriers and US policies' role in creating these disparities.
 
-Lower-income and particularly people of color face structural challenges in accessing quality education, housing, and working conditions (CITE). For example, decades of federal redlining in housing and the policy of using local taxes to fund schools creates raced and classed outcomes in educational opportunities and family wealth (CITE). Therefore, disparities in college access and completion by parental education -- along with social and structural barriers -- are vital contributors to the growing income inequality in the US.
+Lower-income and particularly racially marginalized peoples face structural challenges in accessing quality education, housing, and working conditions (CITE). For example, decades of federal redlining in housing and the policy of using local taxes to fund schools creates raced and classed outcomes in educational opportunities and family wealth (CITE). Therefore, disparities in college access and completion by parental education -- along with social and structural barriers -- are vital contributors to the growing income inequality in the US.
 
-Even with the rising cost of college (CITE), the non-pecuniary and long-term economic returns to a college education remain positive. Adults who earn a bachelor's degree tend to earn more and accumulate more wealth than those who have not completed college (CITE). However, researchers note that the rate of return is substantially higher for continuing education students as opposed to first-generation students (CITE). Additionally, on average, individuals with a college degree have lower unemployment rates, higher civic involvement, and better healthcare outcomes (CITE). Given that more than half of all college students identify as first-genration (56%), the substantial policy focus on supporting college-intending first-generation students through the complex college-going process is deserved (CITE)
+Despite the rising cost of college (CITE), the non-pecuniary and long-term economic returns to a college education remain positive. Adults who earn a bachelor's degree tend to earn more and accumulate more wealth than those who have not completed college (CITE). However, researchers note that the rate of return is substantially higher for continuing education students as opposed to first-generation students (CITE). On average, individuals with a college degree have lower unemployment rates, higher civic involvement, and better healthcare outcomes (CITE). Given that more than half of all college students identify as first-generation (56%), there has been a substantial policy focus on supporting college-intending first-generation students through the complex college going pipeline (CITE). However, the COVID-19 pandemic has added additional complexity to this process.
 
 ### College access during the COVID-19 pandemic
+
+
+STARTS HERE
+
+The 
 
 The college access journey was made more precarious for first-generation students navigating applying and enrolling in college in the backdrop of a global pandemic. In the early stages of the pandemic, one in six recent high school graduates reported rethinking their decision to enroll in college, with nearly two-thirds expressing concern about attending their first choice college. The most cited reason for not attending their first choice school was concern over the ability of their families to afford college (CITE).
 
@@ -54,13 +59,9 @@ RACIALLY MARGINALIZED INSTEAD OF STUDENTS OF COLO
 
 Yet, first-generation students of color must also endure social and systemic barriers that traditionally left them with less access to high-quality primary and secondary education. For example, college opportunities are influenced by education policy that track racially funnel students in to underserved school, providing these student with limited access to college prep and andvanced placement coursework, and reduced access to quality college counseling (Oakes, 2005; Oakes, Rogers, Lipton, & Morell, 2002; Solorzano & Ornelas, 2002, 2004)
 
+through tracking policies that funnel them to courses that don't qualify as prerequisites to apply to college (CITE). In addition, first-generation students of color have historically had less access to intergenerational wealth to finance college and must rely on financial aid to fund their postsecondary education (CITE).
 
-
- through tracking policies that funnel them to courses that don't qualify as prerequisites to apply to college (CITE). In addition, first-generation students of color have historically had less access to intergenerational wealth to finance college and must rely on financial aid to fund their postsecondary education (CITE).
-
-Many scholars have stressed the importance of financial support for first-generation students (CITE). A sizable portion of first-generation students come from economically less-resourced families and, therefore, must rely on financial support to finance their postsecondary aspirations (CITE). Scholars have argued that due to  federal and state divestment from funding postsecondary instiions has lead to a shift from need-based grants -- money that a student does not have to pay back -- to merit-based aid and loans (CITE). This shift has dispolortiln impacted first-generation and low-income students (Long & Riley, 2007).
-
-
+Many scholars have stressed the importance of financial support for first-generation students (CITE). A sizable portion of first-generation students come from economically less-resourced families and, therefore, must rely on financial support to finance their postsecondary aspirations (CITE). Scholars have argued that due to federal and state divestment from funding postsecondary instiions has lead to a shift from need-based grants -- money that a student does not have to pay back -- to merit-based aid and loans (CITE). This shift has dispolortiln impacted first-generation and low-income students (Long & Riley, 2007).
 
 Students typically access federal, state, and grant aid -- aid that *does not* have to be repaid -- by completing the FAFSA form. The FAFSA has more than 100 questions asking students about their and their families' financial assets. Many scholars have stressed the importance of supporting students submitting their FAFSA (Dynarski, Scott-Clayton, 2006...).
 
@@ -293,7 +294,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                                                   |           |         | **Before Matching** |           |         | **After Matching** |
-|------------------|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
+|-----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
 |                                                   | Treatment | Control |    Std.Mean.Diff    | Treatment | Control |   Std.Mean.Diff    |
 |                                                   |           |         |                     |           |         |                    |
 | Age                                               |  17.082   | 17.023  |        0.118        |   17.05   | 17.025  |       0.050        |
