@@ -6,6 +6,7 @@ book:
   title: "Dissertation Proposal"
   subtitle: "Deep learning for investigating causal effects with high-dimensional data: analytic tools and applications to educational interventions"
   author: "Alberto Guzman-Alvarez, M.A."
+  output-file: "alberto_guzmanalvarez_m3m4"
   date: last-modified
   date-format: long
   chapters:
@@ -26,9 +27,9 @@ format:
     lof: TRUE
     number-sections: FALSE
     geometry: margin=1.0in
-    font-size: 12pt
-header-includes:
- - \usepackage{helvet}
- - \renewcommand*\familydefault{\sfdefault}
- 
+    fontsize: 12pt
+    
+    
+    
+
  
