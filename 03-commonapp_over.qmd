@@ -10,6 +10,32 @@ IN LINDSAY REVIEW
 
 ## Methods
 
+## Research Design
+
+During 2019-20 college adminission cycle, we partnered with the Common App, Mainstay, and the College Advising Corps to evaluate the effectivens of a chatbot campaign to promote college application submission and college enrollment among the graduating class of 2020 college intending seniors. This campaign specifically targetted students who were using the Common Application to submit college applicaiton. Common App which is a non-profit membsership organization representing more than 1,000 insitutions that allows students to apply streamline their college application process by sumitting a single applicaiton that is accepted by all member instituions. Member insitutions are diverse, comprising of public and private colleges and universities across the US and 20 countries, primarily 4-year insituions. 
+
+### Data and Sample
+
+The chatbot campaign focused on graduating high school seniros across the US who where first-generation and low-income [^1]. These students where submitting college applciations in order to enroll in college in Fall 2020, in the midst of the COVID-19 pandemic. Our analytic sample included students who lived in the US, had a valid cell-phone number, graduated high school in 2022, and where either first-genration or qualified for a fee-waive. We further reduced our analytic sample to only include high schools in which at least one student who was targetted for outreach attended. Our final analytic sample included nearly half a million students (N = 406,236), with 142,837 who were targeted for outreach and 263,399 who were note. These students attended a total of 15,277 high school across the US. To our knowledge this is the largest chatbot study of its kind in higher education and represents nearly 13% of all stuent who applied to college using the Common App in 2019-2020.
+
+[^1]: We identify as a student being low-income if they qualified for a Common App fee-waiver.
+
+We utilized several different data sources to investitage the *impact*? of the chatbot oureach on wether students applied and enrolled in college. First, we utilized administrative records from the Common App that provided a rich data source of any and all information that a student provided on their Common App application including, student demograhpics, high school academic ahcievement, and college entrance exams. Additionally, we received information on the specific high school a student atteneded. This allowed us to look for suitable control students for outreach students within the same high school. Given, we might expect that college-intentind students within the same high school have similar schooling experience and access to college facilitating supports that students across high schools. 
+
+Second, Mainstay provided access to the chatbot platform that was utilized to provide outreach to students. This platform captured rich data on the content and timing of the chatbot communication among students the chatbot and CAC advisers. Particularly useful for our anlayais, this data included logs of every message that was sent throughout the outreach. Using this data we generated variables that captured student opt-out request and engagement. Finally, we matched students in our analytic file to data from the National Student Clearning in order to observe if and where students enrolled in college in fall 2020 and wether they persisted through subsequent terms. 
+
+In Table X, we present sample descriptive statistics for students who received the oureach and those who did not. Students who were selected for the outreach differ systematicaly on important orbservable characteristis that would likely bias our findings. 
+
+IMportant to note.. 
+
+Students selected for outreach are more likely to have lower high school GPA, SAT/ACT score, completed less college credit exam than students who were not selected for outreach. In additiona, students in the outreach groups were more likely to self-identify as racially marginalized (83%) than non-outreach students (56%). 
+
+
+
+
+
+
+
 It is important to note that the outreach team did not randomly assign the outreach for this campaign. Randomly assigning the outreach would ensure that students who received the outreach and those who did not would be balanced on both observable *and* unobservable characteristics. Given the lack of randomization, a simple comparison of outcomes between students who received the outreach and those who did not may -- incorrectly -- conclude that the outreach affected the outcome. To guard against this to the fullest extent possible, we matched students in the outreach group to demographically similar students in the same high school who were not treated. These matched students are then observationally similar to students in the outreach group and, therefore, a reasonable comparison group. Analytically, we do this matching via a procedure termed propensity score matching.
 
 ### Matching
