@@ -8,61 +8,34 @@ IN LINDSAY REVIEW
 
 IN LINDSAY REVIEW
 
-## Methods
+## Data
 
-## Research Design
+### Data Sources
 
-During 2019-20 college adminission cycle, we partnered with the Common App, Mainstay, and the College Advising Corps to evaluate the effectivens of a chatbot campaign to promote college application submission and college enrollment among the graduating class of 2020 college intending seniors. This campaign specifically targetted students who were using the Common Application to submit college applicaiton. Common App which is a non-profit membsership organization representing more than 1,000 insitutions that allows students to apply streamline their college application process by sumitting a single applicaiton that is accepted by all member instituions. Member insitutions are diverse, comprising of public and private colleges and universities across the US and 20 countries, primarily 4-year insituions. 
-
-### Data and Sample
-
-The chatbot campaign focused on graduating high school seniros across the US who where first-generation and low-income [^1]. These students where submitting college applciations in order to enroll in college in Fall 2020, in the midst of the COVID-19 pandemic. Our analytic sample included students who lived in the US, had a valid cell-phone number, graduated high school in 2022, and where either first-genration or qualified for a fee-waive. We further reduced our analytic sample to only include high schools in which at least one student who was targetted for outreach attended. Our final analytic sample included nearly half a million students (N = 406,236), with 142,837 who were targeted for outreach and 263,399 who were note. These students attended a total of 15,277 high school across the US. To our knowledge this is the largest chatbot study of its kind in higher education and represents nearly 13% of all stuent who applied to college using the Common App in 2019-2020.
-
-[^1]: We identify as a student being low-income if they qualified for a Common App fee-waiver.
-
-We utilized several different data sources to investitage the *impact*? of the chatbot oureach on wether students applied and enrolled in college. First, we utilized administrative records from the Common App that provided a rich data source of any and all information that a student provided on their Common App application including, student demograhpics, high school academic ahcievement, and college entrance exams. Additionally, we received information on the specific high school a student atteneded. This allowed us to look for suitable control students for outreach students within the same high school. Given, we might expect that college-intentind students within the same high school have similar schooling experience and access to college facilitating supports that students across high schools. 
+We leverage several different data sources to evaluate the effectiveness of the outreach campaign. First, we utilized administrative records from the Common App that provided a rich data source of any and all information that a student provided on their Common App application including, student demograhpics, high school academic ahcievement, and college entrance exams. Additionally, we received information on the specific high school a student atteneded. This allowed us to look for suitable control students for outreach students within the same high school. Given, we might expect that college-intentind students within the same high school have similar schooling experience and access to college facilitating supports that students across high schools. 
 
 Second, Mainstay provided access to the chatbot platform that was utilized to provide outreach to students. This platform captured rich data on the content and timing of the chatbot communication among students the chatbot and CAC advisers. Particularly useful for our anlayais, this data included logs of every message that was sent throughout the outreach. Using this data we generated variables that captured student opt-out request and engagement. Finally, we matched students in our analytic file to data from the National Student Clearning in order to observe if and where students enrolled in college in fall 2020 and wether they persisted through subsequent terms. 
 
-In Table X, we present sample descriptive statistics for students who received the oureach and those who did not. Students who were selected for the outreach differ systematicaly on important orbservable characteristis that would likely bias our findings. 
-
-IMportant to note.. 
-
-Students selected for outreach are more likely to have lower high school GPA, SAT/ACT score, completed less college credit exam than students who were not selected for outreach. In additiona, students in the outreach groups were more likely to self-identify as racially marginalized (83%) than non-outreach students (56%). 
-
-
-
-
-
-
-
-It is important to note that the outreach team did not randomly assign the outreach for this campaign. Randomly assigning the outreach would ensure that students who received the outreach and those who did not would be balanced on both observable *and* unobservable characteristics. Given the lack of randomization, a simple comparison of outcomes between students who received the outreach and those who did not may -- incorrectly -- conclude that the outreach affected the outcome. To guard against this to the fullest extent possible, we matched students in the outreach group to demographically similar students in the same high school who were not treated. These matched students are then observationally similar to students in the outreach group and, therefore, a reasonable comparison group. Analytically, we do this matching via a procedure termed propensity score matching.
-
-### Matching
-
-Propensity score matching is used in non-experimental studies (i.e., studies in which students were not randomized to outreach or control) to balance the observed characteristics between treated and untreated students. It involves estimating a *propensity score*, which is the probability that a student would have been exposed to outreach, conditional on a set of observable characteristics. This propensity score is then used to match treated students to control students with similar estimated propensity scores, resulting in a control group that is demographically similar to the outreach group. Propensity score matching allows us to more accurately evaluate the impact of the outreach than a simple comparison of outcomes between those students who received the outreach and those who did not.
-
-We estimated the propensity score as a function of student-level characteristics available from the Common App data, including: include race/ethnicity, age, gender, English spoken at home, dependent status, number of high schools attended, high school GPA, SAT/ACT performance, college credit exams count, TOEFL indicator, whether they had a sibling in college, and whether they submitted at least one Common App application before the start of outreach.
-
-To increase balance on our covariates, we placed additional restrictions on our matching algorithm to exact match on specific variables, such as students' high school. Exact matching forced the matching algorithm to *only* find potential matches for treated students in the same high school. This allowed us to control for the fact that students across different high schools have varied school experiences; therefore, matching within schools provides more reasonable matched control students.
-
-Given the algorithm we used, it is possible for one control student to be a perfect match for more than one treatment student. Therefore, we allowed the matching algorithm to match an outreach student to multiple control students. Where this occurred, the control student was up-weighted in our analysis to essentially be "counted" as a comparison for numerous treated students. After concluding our matching, we had a final outreach group of 99,593 students matched to 61,553 control students. @tbl-balance presents balance on student characteristics before and after our matching procedure. After matching, we found no difference above 0.1 standardized mean difference, a commonly accepted benchmark for achieving balance. For a technical explanation of our matching approach, please refer to Appendix A.
-
-## Data
-
-Common App and partners selected for outreach all students from the high school class of 2020 who met two specific criteria: 1) they would be first-generation college students, and 2) they had a low family income, as indicated by qualifying for a Common App fee waiver. In total, the outreach targeted nearly 174,000 students in the class of 2020.
-
-We received student-level data from the Common App for the entire cohort of students who had created a Common App account and had intended to apply to college -- hoping to enroll in fall 2020 -- including students who were selected for the outreach $(n = 173,776)$ and those who were not $(n = 1,229,232)$, for a total of nearly 1.5 million student records.
+### Sample 
 
 To evaluate the effectiveness of the outreach campaign, our analysis relied on matching students selected to receive outreach to similar students in the same high school who were not selected for outreach. In particular, some Common App students met one but not both criteria for inclusion in the outreach (i.e., first-generation college student *or* qualified for a fee-waiver). We use these students as our key source of comparison in the analyses. Therefore, our outreach ("treatment") group includes students who met both inclusion criteria (i.e., first-generation college student *and* qualified for a fee-waiver) while our control students met one but not *both* criteria.
 
-Once we cleaned and subset the data to match the outreach inclusion criteria, we arrived at a final analytic sample of 142,837 students who were targeted for the outreach and 263,399 students who were not treated and therefore qualified as potential control students.
+Common App and partners selected for outreach all students from the high school class of 2020 who had created a Common App account and met two specific criteria: 1) they would be first-generation college students, and 2) they had a low family income, as indicated by qualifying for a Common App fee waiver. We received student-level data from the Common App for the entire cohort of students who had created a Common App account and had intended to apply to college -- hoping to enroll in fall 2020 -- including students who were selected for the outreach $(n = 173,776)$ and those who were not $(n = 1,229,232)$, for a total of nearly 1.5 million student records. Once we clean our data we reduced our analytic sample to include students
+who lived in the US, had a valid cell-phone number, and attended a high school in which at least one student was targeted for outreach.
+Our final analytic sample included nearly half a million students (N = 406,236), with 142,837 who were targeted for outreach and 263,399 who were not treated and therefore qualified as potential control students.
+To our knowledge this is the largest chatbot study of its kind in higher education and represents nearly 13% of all stuent who applied to college using the Common App in 2019-2020.
 
-## Analytic strategy
+In Table X, we present sample descriptive statistics for students who received the oureach and those who did not. Students who were selected for the outreach differ systematicaly on important orbservable characteristis that would likely bias our findings. Students selected for outreach are more likely to have lower high school GPA, SAT/ACT score, completed less college credit exam than students who were not selected for outreach. In additiona, students in the outreach groups were more likely to self-identify as racially marginalized (83%) than non-outreach students (56%). 
 
-In this appendix, we provide a technical explanation of our analytic approach to constructing our matched control group using propensity score matching. Propensity score matching allows us to balance observed characteristics between treated and untreated students, leading to a more accurate estimate of the impact of the outreach.
+## Analytic Strategy
 
-We begin by estimating a propensity score, defined as the probability that a student would have been exposed to outreach, conditional on a set of observable characteristics. Our propensity score model took the following general form @eq-int-ps:
+### Propensity Score Matching
+
+It is important to note that the outreach team did not randomly assign the outreach for this campaign. Randomly assigning the outreach would ensure that students who received the outreach and those who did not would be balanced on both observable *and* unobservable characteristics. Given the lack of randomization, a simple comparison of outcomes between students who received the outreach and those who did not may -- incorrectly -- conclude that the outreach affected the outcome. To guard against this to the fullest extent possible, we matched students in the outreach group to demographically similar students in the same high school who were not treated. These matched students are then observationally similar to students in the outreach group and, therefore, a reasonable comparison group. Analytically, we do this matching via propensity score matching.
+
+Propensity score matching allows us to balance observed characteristics between treated and untreated students, leading to a more accurate estimate of the impact of the outreach, redusing some but not all of the bias between the treatment and the outcome. Propensity score matching is used in non-experimental studies (i.e., studies in which students were not randomized to outreach or control) to balance the observed characteristics between treated and untreated students. It involves estimating a *propensity score*, which is the probability that a student would have been exposed to outreach, conditional on a set of observable characteristics. This propensity score is then used to match treated students to control students with similar estimated propensity scores, resulting in a control group that is demographically similar to the outreach group. Propensity score matching allows us to more accurately evaluate the impact of the outreach than a simple comparison of outcomes between those students who received the outreach and those who did not.
+
+Our propensity score model took the following general form @eq-int-ps:
 
 $$
 Outreach_{is} = \beta_{0} + \beta_{1}X + \lambda_{is}
@@ -78,23 +51,21 @@ To examine how well our matching procedure was able to balance student character
 
 In addition to analyzing the distributional differences in the propensity score, we also looked at baseline characteristics between treatment and control before and after matching. @tbl-balance compares balance of student characteristics before and after matching. Overall, control group students (who are either "low-income" or "first generation" but not both) had higher GPA class rank (70.1% vs. 64.3%) and SAT scores (794.9 vs. 671.3) than treatment group students (who are both "low-income" and "first generation"). The treatment group also included a substantially larger percentage of minority students (28% Black and 41% Latinx) than the control group (19% Black and 23% Latinx). We achieve excellent balance on all covariates included in our matching approach, with no standard mean difference below 0.1. Our final matched sample includes a treatment group consisting of 99,593 students and a matched control of 61,553.
 
-To estimate the impact of outreach on student outcomes, we ran a series of regression models. Specifically, we regressed each outcome on an outreach indicator and student-level characteristics. We also included weights to account for our matching approach.[^03-commonapp_over-1] Our regressions took the following general form[^03-commonapp_over-2] @eq-out:
+### Outcome Model 
 
-[^03-commonapp_over-1]: Matching weights were constructed to account for our matching approach that allowed multiple control students to be matched to treated students. Each treated unit gets a weight of 1, while each control student is weighted as the sum of the inverse of the number of control units matched to the same treated unit across its matches.
+To estimate the impact of outreach on student outcomes, we ran a series of regression models. Specifically, we regressed each outcome on an outreach indicator and student-level characteristics. We also included weights to account for our matching approach.Matching weights were constructed to account for our matching approach that allowed multiple control students to be matched to treated students. Each treated unit gets a weight of 1, while each control student is weighted as the sum of the inverse of the number of control units matched to the same treated unit across its matches.
 
-[^03-commonapp_over-2]: We used robust standard errors clustered at the high school level.
+Our regressions took the following general form @eq-out:
 
 $$
 Y_{is} = \beta_{0} + \beta_{1}Outreach_{is} + X\theta + \lambda_s + \epsilon_{is}
 $$ {#eq-out}
 
-Where $Y_{is}$ represents our outcome of interest for student $i$ in school $s$. $Outreach$ is a binary indicator coded as 1 for students who received the outreach and 0 if a student did not. $X$ is a vector of student level characteristics such as age and gender. In addition we included high school fixed effects $(\lambda)$ which soak up any remaining variation in the outcome due to differences across high schools. $\beta_{1}$ is our coefficient of interest and represents the mean controlled difference in the outcome between those who received the outreach and those who did not.
+Where $Y_{is}$ represents our outcome of interest for student $i$ in school $s$. $Outreach$ is a binary indicator coded as 1 for students who received the outreach and 0 if a student did not. $X$ is a vector of student level characteristics such as age and gender. In addition we included high school fixed effects $(\lambda)$ which soak up any remaining variation in the outcome due to differences across high schools. $\beta_{1}$ is our coefficient of interest and represents the mean controlled difference in the outcome between those who received the outreach and those who did not. We used robust standard errors clustered at the high school level.
 
-Note that although we took a robust matching approach in constructing our control group, there could still be differences between our outreach and control group on student-level characteristics. Therefore, by including the vector of student level covariates $(X)$ in our regressions, we can account for any remaining imbalance between student characteristics that we observe and increase the precision of our impact estimates.[^03-commonapp_over-3]
+Note that although we took a robust matching approach in constructing our control group, there could still be differences between our outreach and control group on student-level characteristics. Therefore, by including the vector of student level covariates $(X)$ in our regressions, we can account for any remaining imbalance between student characteristics that we observe and increase the precision of our impact estimates. This approach is commonly reffered to as "doubly robust" (CITE).
 
-[^03-commonapp_over-3]: This is commonly referred to as a "doubly robust" approach.
-
-### Limitations
+## Limitations
 
 While this matching procedure was successful, we want to highlight the limitations in our ability to attribute a causal relationship between the outreach and the effects we estimate. Given that students were not randomly assigned to the outreach, we cannot make causal claims about the effectiveness of the outreach. However, our robust matching approach allows us to reduce some -- but not all -- the bias that could exist in explaining the relationship between receiving outreach and outcomes. Note that we are only matching on *observable* characteristics. There could be *unobservable* characteristics that the matching procedure cannot consider that could influence outcomes absent the intervention.
 
@@ -152,13 +123,13 @@ A final question we explored was whether impacts varied for those who engaged hi
 
 @tbl-20enrolleng presents results for students with high engagement throughout the outreach. As opposed to our overall modest negative impacts for the whole sample, here we found a slightly positive impact on fall 2020 enrollment for highly engaged students, around a 3 percentage point improvement over the matched controls. Students who engaged with Oli at a high rate were, on average, more likely female, came from a racially marginalized group, and had slightly lower SAT/ACT performance than students who didn't have high engagement with the chatbot. Furthermore, these students also had higher rates of college application submission than non-highly engaged students.
 
-### Enrollment Differentials in Context
+## Preliminary Results in Context
 
 We want to underscore that important, observable differences remain between the outreach group and the comparison group -- even after matching. As mentioned previously, the students selected for outreach were first-generation *and* low-income, while the control students were first-generation *or* low-income. This presented analytic obstacles in estimating outreach impacts.
 
 In this section, we outline two different strategies we took to investigate what differences between these two groups might have been absent the chatbot outreach.
 
-#### High School Longitudinal Study of 2009
+### High School Longitudinal Study of 2009
 
 First, we used the High School Longitudinal Study of 2009 (HSLS-09), a nationally representative sample of 9th graders in 2009 who were observed through 2016. The HSLS-09 dataset includes information on college-going. We subsetted the HSLS-09 data to a sample of students who had indicated college interest in 9th grade and had submitted at least one college application. This allowed us to mimic -- although imperfectly -- our 2020 Common App cohort of students who were college intending.
 
@@ -168,7 +139,7 @@ Overall, we found that students who were first-generation and low-income had low
 
 Drawbacks of relying on the HSLS-09 as a source for informing this differential include its age (it observes a cohort of students who completed high school several years prior to 2020) and differences in how we define the subsample of students, relative to the focal groups of interest in our analysis of the Common App data.Therefore, we turn to another data source to generate an additional comparison.
 
-#### Common App 2021 Cohort
+### Common App 2021 Cohort
 
 During the 2021 school year, Common App conducted an unrelated randomized controlled study (RCT) with a cohort of students similar to our 2020 sample. We were able to capitalize on the sample employed in this RCT to further investigate enrollment differentials. We worked with Common App to receive high-level descriptives for the cohort of students who did not receive the 2021 intervention. Specifically, we examined fall 2021 enrollment overall and disaggregated by 4-year versus 2-year institutions for students in the 2021 study control group. These differentials allowed us to observe enrollment outcomes for first-generation *and* low-income students and first-generation *or* low-income students from the class of 2021. Unlike the HSLS-09 dataset, the 2021 Common App dataset allows us to define low-income similarly to our 2020 cohort (i.e., qualified for a Common App fee waiver).
 
@@ -178,9 +149,7 @@ Ideally, we would have matched students in our 2020 sample to demographically si
 
 Based on the differentials of both these data sources, we conclude that -- absent any intervention -- students who are first-generation *and* low-income have lower college-going rates than those who only hold one of those identities. Therefore, we reason that absent the intervention we would expect that students in the outreach group would have lower college enrollment rates than the comparison group, with differences on the order of -1 to -5 percentage points. These differences suggest that to find a positive effect, the impact of the outreach would have had to be larger than these differentials. Therefore, the modest negative enrollment for outreach students we estimate for the entire sample (-2 percentage points) likely reflect these differentials -- and not -- detrimental effects of the chatbot outreach.
 
-## Looking Ahead
-
-NEED TO TALK ABOUT IN FUTURE WORK THAT I PLAN TO DO SENSITIVITY ANALYSIS
+## Discussion and Conclusion
 
 The outreach undertaken by Common App and its partners cast a wide net in hopes of helping students through the typically challenging transition to college during the uncertainty of the COVID-19 pandemic. As part of our evaluation, we conducted a quantitative impact analysis to investigate whether the outreach improved students' college-going outcomes and also a qualitative text analysis to explore students' engagement with the chatbot and CAC advisers. As discussed in detail throughout this report, the core analytic approach to our impact analysis relied on comparisons between observationally similar students who nevertheless differed in a critical way. Those in the treatment group were both first-generation *and* from low-income households. Those in the comparison group had one both not both of these characteristics.
 
