@@ -1,4 +1,4 @@
-# Paper 2: Navigating college enrollment during the COVID-19 pandemic: examining the effectiveness of an artificially intelligent chatbot in helping students navigate the road to college
+# Paper 2: When in-person support is not possible, can virtual outreach help? Evaluating the impact of an artificially intelligent conversational chatbot to promote college enrollment during the COVID-19 pandemic
 
 ## Introduction
 
@@ -123,7 +123,7 @@ A final question we explored was whether impacts varied for those who engaged hi
 
 @tbl-20enrolleng presents results for students with high engagement throughout the outreach. As opposed to our overall modest negative impacts for the whole sample, here we found a slightly positive impact on fall 2020 enrollment for highly engaged students, around a 3 percentage point improvement over the matched controls. Students who engaged with Oli at a high rate were, on average, more likely female, came from a racially marginalized group, and had slightly lower SAT/ACT performance than students who didn't have high engagement with the chatbot. Furthermore, these students also had higher rates of college application submission than non-highly engaged students.
 
-## Preliminary Results in Context
+### Preliminary Results in Context
 
 We want to underscore that important, observable differences remain between the outreach group and the comparison group -- even after matching. As mentioned previously, the students selected for outreach were first-generation *and* low-income, while the control students were first-generation *or* low-income. This presented analytic obstacles in estimating outreach impacts.
 
