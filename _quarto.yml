@@ -14,7 +14,6 @@ book:
     - 01-intro.qmd
     - 02-propensity_over.qmd
     - 03-commonapp_over.qmd
-    - 04-conclusions.qmd
     - references.qmd
 
 bibliography: CommonApp.bib
