@@ -56,17 +56,59 @@ $$
 ATT= \mathbb{E}(Y_{i1} -Y_{i0}|T_i=1)=\mathbb{E}(Y_{i1}|T_i=1)-\mathbb{E}(Y_{i0}|T_i=1)
 $$ {#eq-att}
 
+### Observational Studies
+
 In behavioral and social science research, ethical, cost, or practical barriers can preclude a researcher from conducting an RCT and instead must rely on non-experimental/observational studies (Bai, 20XX). As opposed to RCT's, students in observational studies either self-select or are placed into an intervention group without randomization. This complicates the ability to attribute causal claims because of imbalanced that are inetibly present in students observable and unobservable characteristics between those who received the intervention and those who did not. In other words, observational studies *cannot* ensure that a student outcome is independent of treatment assignment ($T$), due to the lack of randomization.
 
-Given this imbalance in group characteristics we may incorrectly attribute a change in outcomes to the intervention instead of differences in characteristics between those students who received the intervention and those who did not. A body of methodological literature has focused on quasi-experimental methods that attempt to remedy the short comings of observational data by attempting to approximate a RCT, one such popular approach is propensity score analysis (CITE).
+For example, let say than in our job-training example students were not randomized into treatment or control, instead students self-select into treatment. In this case the underlying treatment assignment is unknown. It could be the case that students who self-select into the job-training program are more motivated to find employment than those who did not sign up for the program. Given this imbalance in group characteristics we may incorrectly attribute a change in outcomes to the intervention instead of differences in characteristics between those students who received the intervention and those who did not.
 
-### Propensity Score Analysis
+To overcome this barrier, various statistical methods have been proposed that yield less-biased treatment effects with observational studies. These include, instrumental variable approaches (CITE), regression discontinuity (CITE), syntethic control (CITE), and propensity score approaches (CITE). For my dissertation I focus on propensity score approaches that leverage student-level covariates to create a balancing score that can account for *observed* group differences.
+
+### Propensity Scores
+
+Propensity score analysis was originally proposed by Rosenbaum and Rubin in 1983. In which they define a propensity score ($e$) as the conditional probability of assignment to treatment conditional on observed pre-treatment covariates. Defined as:
+
+$$
+e(X) = Pr(T=1|X)
+$$ {#eq-ps}
+
+Rosenbaum and Rubin (1983, 1984) demonstrate that if the PS is balanced across treatment and control groups then the distribution of observed covariates between treatment and control is also balanced (CITE). Therefore, by conditioning on the PS via matching, stratification, or weighting we can eliminate bias in our treatment effect, and approximate the true causal effect. However, for this to be true certain assumptions must hold based on the Rubin model:
+
+1.  Strong ignorability assumption: This assumption states that the potential outcomes of an individual is conditionaly independent of treatment assignment, if we successfully conditioned on all observed covariates, $Y_1, Y_0 \perp T|X$. In experimental studies this assumption is satisfied by the act of randomization, since randomization ensures that treatment assignment is independent of an individuals potential outcome. However, in observational studies this assumption holds only if *all* covariates that related to treatment assignment are included in the PS model.
+
+2.  Stable unit treatment value assumption (SUTVA): SUTVA states that the potential outcomes for an individual is unaffected by the treatment assignment of any other individual. Said another way, the outcome of a student is independent of whether another student is assigned to the treatment or control group.
+
+3.  Region of common support: This final assumption states that their needs to be sufficient overlap in the distribution of the estimated propensity scores (PS) between the treatment and control group. With suffecient support we can assure that we are able to find reasonable matches to control students.
+
+If these assumptions hold we are able to estimate causal effects from observational data. Unfortunately many of these assumptions are untestable. For example, in observational data the majority of the time we are blind to the underlying treatment assignment mechanism and therefore we can't be certain that *all* covariates related to treatment assignment are included in our PS model. In practice, propensity scores should be viewed as a means to reduce some -- but no all -- of the bias associated between treatment and outcome in observational studies.
+
+### Application of Propensity Scores
+
+The two most popular way to apply propensity scores to an analysis is through propensity score matching (PSM) or weighting (PSW). These applications attempt to balanced observed covariates between treatment and control groups leading to a less biased estimate of the treatment effect. PSM relies on creating matched sets of treated units with similar PS to control units. In the most simplest case, each treated unit is matched to only one control unit with similar propensity score forming a mached set. For example, if a student who received the job-training program has an estimated propensity score of .70, that student would be matched with a student who did not receive the training program with a similar propensity score, and is expected to be a demographically similar control student and therefore a suitable control. Some limitations do exist with this approach. If the pool of control students is small in comparison to the treatment pool, their may not be suitable matches for students. In addition, sample size and statistical power are a concern when the treatment group is relatively small.
+
+PSW on the other hand uses the propensity score to reweight observastion so that covariates are balanced between treateed and control. Although various, weighting schemes can be used the most popular one being inverse probability weihgtin (IPW) (CITE). Where treated units get assigned a weight of $1/e$, while control units get assigned a weight of $1/(1-e)$. This weighting approach reweights our analytic sample to have relative balance on the propensity score. PSW is the favored approach for propenisty score analysis given it makes use of the entire sample size wihtout dropping observation as with PSM. However, it is not without fault for exmaple, for observation that have relatively large or ...
 
 ### Estimating the Propensity Score
 
+The key step of any propenisty score analysis is in the estimation of the propensity score ($e$), without properly estimated propensity score we may not estiamte unbiased treatment effect. Any parametric or non-parametric model that can output a bounder probability between zero and one can be used to estimate a propensity score.
+
 #### Logistic Regression
 
+The most common apporach to estimating a propensity score - particularly in the social sicne literature - is logistic regresion (Thoemmes & Kim, 2011). This is likely due to its ease of interpretation and familiarity to many applied researchers (Keller et al., 2013). Defined as:
+
+$$
+e(X) = log\left( \frac{Pr(Z=1|X)}{1-Pr(Z=1|X)} \right) = \beta_o + \beta_1X_1 + \cdots + \beta_pX_p
+$$ {#eq-logistic}
+
+Where X is a vector of observed covariates... talk about variable selection...iterative nature, kitchen sink
+
 #### Machine Learning Approaches
+
+Recently, machine learnig approaches have been suggested as possiblitio for estimating the proepnsity score.
+
+#### 
+
+#### 
 
 ### High Dimensional Data
 
@@ -76,7 +118,7 @@ Given this imbalance in group characteristics we may incorrectly attribute a cha
 
 ### 
 
-rarely have the ability to implement high-fidelity RCTs, therefore we must rely on observational data and quasi experimental methods. In comparison to data from randomized experiments, observational data does not allow for randomization into treatment. Individuals self-select into treatment without knowing the underlying mechanism that leads to that selection, (I.e. The indepndentandce assumption is violated). Therefore, using a non-randomized version of our math curriculum example, student in the math curium group (Z = 1) may differ on baseline characteristics compared to students not given the curriculum (Z = 0). Perhaps students who were selected into the math curriculum were already high achieving in math, therefore looking at a naive estimate of the treatment effect one may wrongly conclude that the math curriculum has a positive effect on students. To overcome this violation, a researcher can leverage the rich set of covariates that may uncover the underlying selection mechanism as well as any confounders that effect the outcome of interest. If we can balance both treatment and control groups based on these observable covariates, then we can approach estimating unbiased treatment effects without randomization through propensity score analysis (CITE).
+### Assesing quality of PS
 
 \
 
