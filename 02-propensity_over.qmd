@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Questions of causality have traditionally been addressed using Randomized Control Trials (RCT), whereby students are randomly assigned to either a treatment group that receives some intervention or experiences some policy or a control group that receives no such treatment (Murnane & Willett, 2010). The act of randomization assures, on average, that both groups will be balanced on all observable *and* unobservable characteristics, ruling out that an intervention impact is due to the differences in the group compositions (Rosenbaum, 2010, 2020). However, in behavioral and social science research, ethical, cost, or practical barriers can perclude a researcher from conducting an RCT and instead must rely on non-experimental/observational studies (Bai, 20XX). As opposed to RCT's, obeservational studies students either self-select or are placed into an inntervetion group withouth randomizaiton. This complicates the ability to attribute causal claims because of imbalanced that are inatibly present in student characteristics between those who received the intervention -- the treatment group -- and those who did not. Given this imbalance in group characteristics we may incoreclty attribute a change in outcomes to the intervention insteaad of differences in characteristics between those students who received the intervetnion and those who did not. A body of methodological literature has focused on quasi-experimental methods that attempt to remedy the short comings of observational data by attempiting to aproximate a RCT, one such popular approach is propensity score analysis (CITE).
+Questions of causality have traditionally been addressed using Randomized Control Trials (RCT), whereby students are randomly assigned to either a treatment group that receives some intervention or experiences some policy or a control group that receives no such treatment (Murnane & Willett, 2010). The act of randomization assures, on average, that both groups will be balanced on all observable *and* unobservable characteristics, ruling out that an intervention impact is due to the differences in the group compositions (Rosenbaum, 2010, 2020). However, in behavioral and social science research, ethical, cost, or practical barriers can preclude a researcher from conducting an RCT and instead must rely on non-experimental/observational studies (Bai, 20XX). As opposed to RCT's, observational studies students either self-select or are placed into an intervention without randomization. This complicates the ability to attribute causal claims because of imbalanced that are inatibly present in student characteristics between those who received the intervention -- the treatment group -- and those who did not. Given this imbalance in group characteristics we may incoreclty attribute a change in outcomes to the intervention insteaad of differences in characteristics between those students who received the intervetnion and those who did not. A body of methodological literature has focused on quasi-experimental methods that attempt to remedy the short comings of observational data by attempiting to aproximate a RCT, one such popular approach is propensity score analysis (CITE).
 
 In education -- and social science broadly -- propensity score analysis is one of the most widely used quasi-experimental methods (Fan & Nowell, 2011; Powell et al., 2019; Rosenbaum, 2020; Stuart, 2007; Thoemmes & Kim, 2011). Propensity score analysis is used in non-experimental studies to balance the *observed* characteristics between treated and un-treated students, just as randomization to treatment and control conditions creates balance on observable variables. The propensity score represents the probability that a student *would have* been exposed to treatment, conditional on observable variables (Rosenbaum & Rubin, 1983, 1984). For example, recently, propensity score analysis has been applied in evaluating the impact of a math curriculum on high school students (CITE). Propensity scores can be used in multiple ways, includind propensity score matching (PSM) and propensity score weighting (PSW). In order to estimate unbiased treatment effects correctly using propensity scores, certain strict assumptions must be met; *ignorability assumption* (Rosenbaum & Rubin, 1981, 1984):
 
@@ -60,27 +60,72 @@ $$ {#eq-att}
 
 In behavioral and social science research, ethical, cost, or practical barriers can preclude a researcher from conducting an RCT and instead must rely on non-experimental/observational studies (Bai, 20XX). As opposed to RCT's, students in observational studies either self-select or are placed into an intervention group without randomization. This complicates the ability to attribute causal claims because of imbalanced that are inetibly present in students observable and unobservable characteristics between those who received the intervention and those who did not. In other words, observational studies *cannot* ensure that a student outcome is independent of treatment assignment ($T$), due to the lack of randomization.
 
-For example, let say than in our job-training example students were not randomized into treatment or control, instead students self-select into treatment. In this case the underlying treatment assignment is unknown. It could be the case that students who self-select into the job-training program are more motivated to find employment than those who did not sign up for the program. Given this imbalance in group characteristics we may incorrectly attribute a change in outcomes to the intervention instead of differences in characteristics between those students who received the intervention and those who did not.
+For example, say than in our job-training example students were not randomized into treatment or control, instead students self-select into treatment. In this case the underlying treatment assignment is unknown. It could be the case that students who self-select into the job-training program are more motivated to find employment than those who did not sign up for the program. Given this imbalance in group characteristics we may incorrectly attribute a change in outcomes to the intervention instead of differences in characteristics between those students who received the intervention and those who did not.
 
 To overcome this barrier, various statistical methods have been proposed that yield less-biased treatment effects with observational studies. These include, instrumental variable approaches (CITE), regression discontinuity (CITE), syntethic control (CITE), and propensity score approaches (CITE). For my dissertation I focus on propensity score approaches that leverage student-level covariates to create a balancing score that can account for *observed* group differences.
 
 ### Propensity Scores
 
-Propensity score analysis was originally proposed by Rosenbaum and Rubin in 1983. In which they define a propensity score ($e$) as the conditional probability of assignment to treatment conditional on observed pre-treatment covariates. Defined as:
+Propensity score analysis was originally proposed by Rosenbaum and Rubin in 1983 as a way to increase the accuracy of captuing an unbiased treatment effect (CITE). Propensity score analysis is the an increasingly popular method among social and behavioral researchers. In education specificaly, propenisty score analysis is among the most popular quasi-experimental method (CITE). Recent studies have evaluated the use of match curriculum using propensitys core, where they find....
+
+Formerly Rosenbaum and Rubin define a propensity score ($e$) as the conditional probability of assignment to treatment conditional on observed pre-treatment covariates. Defined as:
 
 $$
 e(X) = Pr(T=1|X)
 $$ {#eq-ps}
 
-Rosenbaum and Rubin (1983, 1984) demonstrate that if the PS is balanced across treatment and control groups then the distribution of observed covariates between treatment and control is also balanced (CITE). Therefore, by conditioning on the PS via matching, stratification, or weighting we can eliminate bias in our treatment effect, and approximate the true causal effect. However, for this to be true certain assumptions must hold based on the Rubin model:
+Given propensity scores are probabilities they range between zero and one, with values closer to one indicating that unit has a higher probability of being assinged to treatment.
 
-1.  Strong ignorability assumption: This assumption states that the potential outcomes of an individual is conditionaly independent of treatment assignment, if we successfully conditioned on all observed covariates, $Y_1, Y_0 \perp T|X$. In experimental studies this assumption is satisfied by the act of randomization, since randomization ensures that treatment assignment is independent of an individuals potential outcome. However, in observational studies this assumption holds only if *all* covariates that related to treatment assignment are included in the PS model.
+Rosenbaum and Rubin (1983, 1984) demonstrate that if the PS is balanced across treatment and control groups then the distribution of observed covariates between treatment and control is also balanced (CITE). Therefore, two students with similar propensity score, theoretically should have simular distribution of observed covariates.
 
-2.  Stable unit treatment value assumption (SUTVA): SUTVA states that the potential outcomes for an individual is unaffected by the treatment assignment of any other individual. Said another way, the outcome of a student is independent of whether another student is assigned to the treatment or control group.
+Researchers can condition on the propensity score using a variety of techniques including matching, which pairs treatateed student to control students based on their proximity of their propensity score; stratification, which groups students into unique strata based on their propensity score; and weightin, which reweights students in the sample so that the distribution of the propensity score of the control group is similar to that of the treated group. All these methods have the similar aim of using the propensity sore to adjust for the inbalance in covariate distribution between treated and cotnrol units. Therefore, by conditioning on the PS via matching, stratification, or weighting we can eliminate bias in our treatment effect, and approximate the true causal effect. However, for this to be true certain assumptions must hold based on the Rubin model.
 
-3.  Region of common support: This final assumption states that their needs to be sufficient overlap in the distribution of the estimated propensity scores (PS) between the treatment and control group. With suffecient support we can assure that we are able to find reasonable matches to control students.
+#### Assumptions
+
+Several assumptions must hold in order to correctly estimate an unbiased treatment effect using propensity score analysis. These include the strong ignorabiliyt assumption, stable unit value assumption, and region of common support.
+
+The strong ignorability assumption states that the potential outcomes of an individual is conditionaly independent of treatment assignment, if we successfully conditioned on all observed covariates, $Y_1, Y_0 \perp T|X$. In experimental studies this assumption is satisfied by the act of randomization, since randomization ensures that treatment assignment is independent of an individuals potential outcome. However, in observational studies this assumption holds only if *all* covariates that related to treatment assignment are included in the PS model.
+
+The second assumption, the stable unit treatment value assumption (SUTVA) states that the potential outcomes for an individual is unaffected by the treatment assignment of any other individual. Said another way, the outcome of a student is independent of whether another fkstudent is assigned to the treatment or control group.
+
+Finally the third assumptio is the region of common support. This assumption states that their needs to be sufficient overlap in the distribution of the estimated propensity scores (PS) between the treatment and control group. With suffecient support we can assure that we are able to find reasonable matches to control students.
 
 If these assumptions hold we are able to estimate causal effects from observational data. Unfortunately many of these assumptions are untestable. For example, in observational data the majority of the time we are blind to the underlying treatment assignment mechanism and therefore we can't be certain that *all* covariates related to treatment assignment are included in our PS model. In practice, propensity scores should be viewed as a means to reduce some -- but no all -- of the bias associated between treatment and outcome in observational studies.
+
+#### Covariate Selection
+
+A key step in propensity score analysis is selecting covariates that are theoretical sound and relate both to treatment assingemnt and the outcome. Since in order to estimate unbiased treatment effects correctly using propensity scores we have to capture *all* covariates related to the selection into treatment, leaving out no potential confounders (Rosenbaum, 2010, 2020). However, in practice it may be imposibble to know which covariates our confounders, therefore the literature suggests a "kitchen sink" approach for variable selection to guard against the the penalties of excluding potential founders (Pirracchio et al., 2015; Shortreed & Ertefaie, 2017). The exclusion of potential confounders lead to biased treament effect estimates (Rosenbaum et al., 1983; Shadish et al., 2010; Steiner, et al., 2011).
+
+### Estimating the Propensity Score
+
+The key step of any propenisty score analysis is in the estimation of the propensity score ($e$), without properly estimated propensity score we may not estiamte unbiased treatment effect. Any parametric or non-parametric model that can output a bounder probability between zero and one can be used to estimate a propensity score, including logistic regresison, tree based methods, and neural network approaches.
+
+#### Logistic Regression
+
+The most common apporach to estimating a propensity score - particularly in the social sicne literature - is logistic regresion (Thoemmes & Kim, 2011), due to its ease of interpretation and familiarity to many applied researchers (Keller et al., 2013). Additonally the logistic model can include both continous and categorical covariates. The logistic model is defined as:
+
+$$
+e(X) = log\left( \frac{Pr(Z=1|X)}{1-Pr(Z=1|X)} \right) = \beta_o + \beta_1X_1 + \cdots + \beta_pX_p
+$$
+
+Where $X$ is a vector of observed covariates being regressed on $Z$ a binary indicator equal to 1 if a student is in the treatment group and 0 otherwise. The predicted probabilities estimated by the logisti regression are the propenisty scores ($e$), randing from 0 to 1.
+
+Although this is the most widely used model to estimate propensity scores it may not be the most valid for inference. Various simulation studies suggests that using the logisti regression for modeling propenisty scores is inadequate and lead to biased treatment effects when incorrectly specified (Lee et al., 2010; Pan & Bai, 2015; Setoguchi et al., 2008; Westreich et al.,
+2010). This is especially true when estimating propensity score with a large amount of covariates. In this case the logistic model tend to degrade and estimate propenisty score that fall outside the 0 to 1 bounds. With the even increasing amounts of "big" administrative data at the disposal of applied beahvioral and social sicnece research the degradation of logistic regression is worrisome. However, outside the social sicnece research has suggested alterantive to the parametird logistic model with the use of machine learing algorithms.
+
+#### Machine Learning Approaches
+
+Machine learning algorithms have recently gained populairty in the causal inference literature, particularly the propensity score litreature (CITE Athey). This is due to these algortihgm being highly flexible and being able to model complex functional forms in an iterative manner without explicit manipulation from the reserch. With genrally simple modificaiton these alroghthm are able to output bounder probabilities that can be used as a propenisty score. Broadly, the machine leanring algorithms used in proepnisty score estimation can be classifed under tree-based methods, ensemble methods, and the focus of this disseration neural network based methods.
+
+#### Tree Based Methods 
+
+#### Ensemble Methods
+
+#### Neural Network 
+
+For the second condition, the literature suggests iterating through various model specifications, with each iteration adding interactions or non-linear terms until a balance is achieved amongst the observed characteristics between treated and un-treated students (Murnane & Willett, 2010). This iterative process becomes increasingly complex as the number of covariates increases and additionally their is no gurantee that the covariate balance will be achieved after these iterations (Diamon & Sekhon, 2013). The consequences are steep if these assumptions are not met, as it will lead to biased treatment effect estimates.
+
+These conditions may be difficult to satisfy in the social science literature, especially education, since behavioral data has many more intricacies than data used in the propensity score simulation literature (Thoemmes & Kim, 2011). Furthemore, much of the applied literature fails to follow the iterative approach in modeling the propensity score. Addtionally, the most widely used model for estimating the propensity score in education are logistic regression models, which are inadequate and lead to biased treatment effects when incorrectly specified (Lee et al., 2010; Pan & Bai, 2015; Setoguchi et al., 2008; Westreich et al., 2010). For example, logistic models tend to degrade when modeling high-dimensional data.
 
 ### Application of Propensity Scores
 
@@ -88,29 +133,13 @@ The two most popular way to apply propensity scores to an analysis is through pr
 
 PSW on the other hand uses the propensity score to reweight observastion so that covariates are balanced between treateed and control. Although various, weighting schemes can be used the most popular one being inverse probability weihgtin (IPW) (CITE). Where treated units get assigned a weight of $1/e$, while control units get assigned a weight of $1/(1-e)$. This weighting approach reweights our analytic sample to have relative balance on the propensity score. PSW is the favored approach for propenisty score analysis given it makes use of the entire sample size wihtout dropping observation as with PSM. However, it is not without fault for exmaple, for observation that have relatively large or ...
 
-### Estimating the Propensity Score
-
-The key step of any propenisty score analysis is in the estimation of the propensity score ($e$), without properly estimated propensity score we may not estiamte unbiased treatment effect. Any parametric or non-parametric model that can output a bounder probability between zero and one can be used to estimate a propensity score.
-
-#### Logistic Regression
-
-The most common apporach to estimating a propensity score - particularly in the social sicne literature - is logistic regresion (Thoemmes & Kim, 2011). This is likely due to its ease of interpretation and familiarity to many applied researchers (Keller et al., 2013). Defined as:
-
-$$
-e(X) = log\left( \frac{Pr(Z=1|X)}{1-Pr(Z=1|X)} \right) = \beta_o + \beta_1X_1 + \cdots + \beta_pX_p
-$$ {#eq-logistic}
-
-Where X is a vector of observed covariates... talk about variable selection...iterative nature, kitchen sink
-
-#### Machine Learning Approaches
-
-Recently, machine learnig approaches have been suggested as possiblitio for estimating the proepnsity score.
-
-#### 
+### 
 
 #### 
 
 ### High Dimensional Data
+
+To cndcut Ps correclty you need to balance covariates on sevel because with a low amount , realted to seletion and outcome. with few varaible is is unlikley that we will correctl apture the selection process (steiner, cook, sadihs, & clark, 2010)
 
 ### Neural Networks
 
