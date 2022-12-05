@@ -111,7 +111,7 @@ The most critical step in propensity score analysis is estimating the propensity
 Logistic regression is the most common model used to generate propensity scores in the social science literature due to its ease of interpretation and familiarity with many applied researchers (Keller et al., 2013) and its ability to accommodate both continuous and categorical covariates. The logistic model is defined as follows:
 
 $$
-e(x) = ln\left( \frac{Pr(Z=1|X)}{1-Pr(Z=1|X)} \right) = \beta_o + \beta_1X_1 + \cdots + \beta_pX_p
+ln\left( \frac{Pr(Z=1|X)}{1-Pr(Z=1|X)} \right) = \beta_o + \beta_1X_1 + \cdots + \beta_pX_p
 $$
 
 Where $X$ is a vector of observed covariates that are regressed on $Z$, a binary indicator equal to 1 if a student is in the treatment group and 0 otherwise. The output of the logistic regression is predicted probabilities that are continuous and bounded between 0 and 1 (i.e., propensity scores).
@@ -200,9 +200,114 @@ DNN's have gained significant attention in the industry and academic research, m
 
 talka bout them and propensity score and lack of that...generaly talk about other propensity score simluations with neural networks (maybe incorporate that in the invidiual sections)?
 
-## Simulation
+## Proposed Method
 
-Using Monte Carlo simulations, we compare our deep neural network approach to the traditional logistic model as well existing machine learning approach including X, X, for propenisty score estimation under high dimensional data. In this section I describe the proposed simulation design and analytic procedures.
+I propose to use a Monte Carlo simulation design to compare the performance of my DNN-based approach against the traditional logistic regression and other popular machine learning techniques used in the propensity score estimation literature including: classification and regression tree (CART), bagged CART, random forest, and single-layer neural network, for propensity score estimation in the context of high-dimensional data. In the following sections, I will describe the proposed simulation design, including the data generation process, testing scenarios, and performance metrics.
+
+### Simulation Study Design
+
+My simulation design is informed by earlier propensity score estimation simulations conducted by Setoguchi et al. (2008), Lee et al. (2009), and Cannas and Arpino (2019). I extend the simulation literature in three key ways. First, I develop a novel framework for simulating multi-type, correlated, high-dimensional administrative data that is representative of the relationships and data types found in educational research. Second, I test complexities in both the propensity score and outcome model, which is relatively novel in the propensity score literature (Cannas & Arpino, 2019) but more realistic for the education context, where complicated relationships between covariates, treatment assignment, and the outcome could exist. Finally, I provide the first evaluation of DNN applied to propensity score estimation.
+
+various hidden layers
+
+#### Covariates
+
+I will generate covariates that vary in dimensionality and sample size, and are of various scales (e.g., continous, categorical) to reflect the diverse datasets encountered by psychological and educational researchers. I generate three dimension of covariates (p = 20; 100; 200) and two sample sizes (300,000). The low-dimension setting was chosen since its around the median number of covariates used in a typical applied propensity score analysis in educaiton research (CITE).
+
+Covariates were generated from random pull from a normal distribvution (50%) with mean zero and standard deviation of one, uniform distribution with a range from 0 to 1 of whole integers (25%), and a bernoulli distribution with probalby of success p = .50 (25%). I tranform half of the normally distribute varibles into ordinal variablers by creating 5 equal interval cuts, this mimics a 5-point likert scales commonly used in educational research. Correlation was induced
+
+#### Propensity Score Model
+
+We generated a treatment and outcome model with varying levels of complexity including combinations of base model, linearity, and non-additivity:
+
+A propensity score model for a binary treatment was generate using a logistic model:
+
+$$
+Pr(Z = 1) = (1 + exp(-(\beta_0 + \sum_{i=1}^{p} \beta_iX_i)))^{-1}
+$$
+
+Our outcome model was generated as a linear combination of covariates, as followes:
+
+$$
+Y(Z) = \alpha^Z + \sum_{i=1}^{p} \pi_iX_i; Z = 0,1
+$$
+
+Whe varied our propensity score model and out outcome model by adding interaction (non-additivity) and higher order term (non-linearitys.
+
+Base model
+
+$$
+PS^{A}(X) = (1 + exp(-(\beta_0 + \sum_{i=1}^{p} \beta_iX_i)))^{-1}
+$$ $$
+Y^{a}(Z) = \alpha_0^{a,Z} + \sum_{i=1}^{p} \alpha_i^{a,Z}X_i = \alpha_0^{a,Z} + g^a(X); Z = 0,1
+$$
+
+Non-linearity
+
+$$
+PS^{B} = PS^{A}(X) + \beta_iX_i^2
+$$
+
+$$
+Y^{b}(Z) = g^a(X) + \alpha_iX_i^2; Z = 0,1
+$$
+
+Non-additivity
+
+$$
+PS^{C} = PS^{A}(X) + \beta_iX_iX_{i+1}
+$$
+
+$$
+Y^{c}(Z) = g^a(X) + \alpha_iX_iX_{i+1}; Z = 0,1
+$$
+
+Complex
+
+$$
+PS^{D} = PS^{A}(X) + \beta_iX_i^2 + \beta_iX_iX_{i+1}
+$$
+
+$$
+Y^{d}(Z) = g^a(X) + \alpha_iX_i^2 + \alpha_iX_iX_{i+1}; Z = 0,1
+$$
+
+Population treatment effect was set to 0.3 given education intervnetion have realteli small effects, average effect is .28 DF
+
+|     | A (base) | B (non-linearity | C (non-additivity) | D (complex) |
+|:---:|:--------:|:----------------:|:------------------:|:-----------:|
+|  a  |    Aa    |        Ba        |         Ca         |     Da      |
+|  b  |    Ab    |        Bb        |         Cb         |     Db      |
+|  c  |    Ac    |        Bc        |         Cc         |     Dc      |
+|  d  |    Ad    |        Bd        |         Cd         |     Dd      |
+
+We test a total of 16 simulation scenarion with three levels of covariates. For a total of 48 simulation conditions.
+
+logistic regression, classification and regression tree (CART), bagged CART, random forest, and single-layer neural network, deep neural network
+
+method , parameters and which R package that was used.
+
+run on computational cluster
+
+run it 1000 times
+
+Estimatint the treamtnet effects
+
+IPTW exstimate, using a regression model and talka bout the IPTW weights, should I trim weights?
+
+Performance metrics
+
+I will evaluate the performance of the various propensity score estimation methos though the folowing measures:
+
+average standrized absoluse mean distance; measure of covariate balance
+
+absolute relative bias
+
+standard error
+
+MSE
+
+weights
 
 ### Data Generation
 
@@ -221,10 +326,6 @@ To answer the research question, we generated three simulated cohorts of varying
 To generate the treatment variable, we generated a random number from \[0,1\] from a uniform distribution. Tx was set to equal one if the random number was less than the true propensity score estimated with formula (1). The covariance matrix for the constructed variables is shown in Appendix A. Scenarios to be Tested To compare the performance of logistic regression and DNN for propensity score estimates, we created realistic data structure scenarios that educational researchers could find themselves in. We varied the sample size and number of covariates to develop 6 unique scenarios. Table 1 shows the scenarios that we tested. Different sample sizes were used from 100, 1000, to 10000 as well as the number of covariates from 13 covariates (Low-Dimensional Data) to 100 covariates (High Dimensional Data). This should capture scenarios in which researchers are using very small educational datasets with a few covariates, to a large amount of administrative data that could yield hundreds of covariates. Since we theoretically know the membership assignment to tx for the entire sample we were able to employ cross-validation using the holdout method, in which we can split our dataset into two parts a Training dataset for which we train our model on and a Testing dataset to test our model specifications that were "learned" in the training step (Kohavi, 1995). We used standard holdout, with 75% of the dataset being used to train and 25% being "held out" to test. This avoids overfitting our models. For each scenario, we compared both logistic and DNN in estimating propensity scores. I accessed the performance of each model using an accuracy score given by:
 
 Simulated data and data analysis was conducted on Python 3 on a Mac platform.
-
-### Data
-
-### Simulation
 
 ## Looking Ahead
 
