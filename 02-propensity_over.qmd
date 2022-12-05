@@ -312,9 +312,8 @@ Specifically, I access the performance of popular machine learning techniques us
 
 -   **Deep Neural Network (DNN-2)**: a four layer DNN with an input layer, thow hidden layers, and an output layer. The input layer was equal to $p$ covariates and the hidden layers were made up of hidden neurons equal to 1/3 of the input covariates with default parameters. Using the R *keras* package (Chollet et al., 2017) which interfaces with Python.
 
-```{=html}
 <!-- -->
-```
+
 -   **Deep Neural Network (DNN-3)**: a five layer DNN with an input layer, three hidden layers, and an output layer. The input layer was equal to $p$ covariates and the hidden layers were made up of hidden neurons equal to 1/3 of the input covariates with default parameters. Using the R *keras* package (Chollet et al., 2017) which interfaces with Python.
 
 #### Simulation Scenarios
