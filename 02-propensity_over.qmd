@@ -176,7 +176,13 @@ Where $B_k$ and $w_{kj}$ are the bias and corresponding weights for each $A_k$ h
 
 This learning process of the NN works in similar way to a single neuron but instead of learning only one set of weights and bias terms it learns multiple, simultaneously. In a similar fashion, the ultimate goal of the NN is to learn the correct weights and bias parameters such that the loss function is minimized. In contrast to artifical neuron, NN can learn complex non-linear relationships in a computationally effecient manner. Relatively few studies have looked at the overall performance of NN in estimating propensity scores. XX find that the NN approach is able...
 
-More modern approaches use NN that have more than one hidden layer, with varying number of nodes. This NN architecutre is reffered to as deep neural networks (DNN) or multilayer neural networks.
+Some literature has focused on estimating the propensity score with NN Setoguchi et al, 2008; Westreaich et al., 2010, Keller
+
+More modern approaches use NN that have more than one hidden layer, with varying number of nodes. This NN architecutre is reffered to as deep neural networks (DNN) or multilayer neural networks, collier. NN were foudn to be are a viabl ealternative to logitic regreion specialy when the relationhio betwen covariatres and slection is simple NN approach vs lgoistc do the same. when they are completis NN outperform the lostic regsiion. Others hae shown that may be viable
+
+limited work in using NN with propensty scores in geenral , find produce less bias estimated than LR and CART setoguchi, collier and leite, canna dn arpono , and lead to better covariate balance Cannas
+
+no literature to date (look at the deep neural network literature on PS
 
 #### Deep Neural Networks
 
@@ -199,6 +205,20 @@ DNN's can uncover complex relationships in high-dimensional data with better pre
 DNN's have gained significant attention in the industry and academic research, making considerable advances in image recognition and natural language processing (Krittanawong et al., 2019; LeCun et al., 2015; Zou et al., 2019). Recent investments by Google in software development now makes it easy to develop DNN models using user-friendly programming languages (Doleck et al., 2020; Pang et al., 2019). Though to date, DNN has not been evaluated in propensity score estimation.
 
 talka bout them and propensity score and lack of that...generaly talk about other propensity score simluations with neural networks (maybe incorporate that in the invidiual sections)?
+
+Only a handful of studies have analyzed DNN and propenisty scores all outside educaiton research Weberpals, use an autoencoden specificaiton of a DNN where outer layers are brod and the inner layers are narrow to create a bottleneck
+
+We aimed to investigate if autoencoders, which are unsupervised deep learning encoder-decoder architectures that learn a latent non-linear lower-dimensional covari-ate representation, might be leveraged as a data-adaptive alternative to compute PS for comparative effectiveness research.. They find that the autoendore perform reasonaly well but di dnot yield any better results than other machine learning approahc such as LASOO , and was able to recover a treamtne effect, 125,000, and aroudn 125 covariates
+
+Alber Whata compare performance of DNN different sample sizes binary treatmn but only 15 covarites. they find that even in a low dimension settion DNN outperform the logistic model in estimation of the preopnsity score. although LR reduced produced less biased results , foudn better accuracy. they find that DNN outpefom LR
+
+Ramachandera use auto endocers to estimate the propensty score. not peer reviewed. nearly 400 covariates
+
+econometrica article applied example with 300,000
+
+never assesed in educaiton or psychologisl social domains
+
+alll this work occured outside social science, no peer reviewed piec eou on its sue. tehrefore this articl eis the first to tackle this
 
 ## Proposed Method
 
