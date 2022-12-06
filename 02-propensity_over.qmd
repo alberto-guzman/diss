@@ -204,39 +204,41 @@ talka bout them and propensity score and lack of that...generaly talk about othe
 
 ### Simulation Design
 
-My proposed simulation is informed by earlier propensity score estimation simulations conducted by Setoguchi et al. (2008), Lee et al. (2009), and Cannas and Arpino (2019). The starting point for the development of my simulation code-base began with the publicly available simulation code provided by Cannas and Arpino (2019).
+I used a Monte Carlo simulation to compare the performance of various propensity score estimation techniques against the traditional logistic regression and my proposed DNN-based approach using simulated high-dimensional data. I assess the performance by how well each method captures an artificial treatment effect and balances observed covariates. Specifically, I evaluate the performance of popular machine learning algorithms used in the propensity score estimation literature, including classification and regression tree (CART), bagged CART, random forest, and a single-layer neural network.
 
-I use a Monte Carlo simulation to compare the performance of various propensity score estimation methods against the traditional logistic regression and my proposed DNN-based approach in a high-dimensional context. I assess the performance by how well each method captures a simulated ATE and balances the observed covariates. Specifically, I access the performance of popular machine learning techniques used in the propensity score estimation literature, including classification and regression tree (CART), bagged CART, random forest, and single-layer neural network. In this section, I describe the simulation design for this study, including the data generation process and the scenarios that I consider.
+My proposed simulation design is informed by previous propensity score estimation studies conducted by Setoguchi et al. (2008), Lee et al. (2009), and Cannas and Arpino (2019). The starting point for my simulation code began with Cannas and Arpino's publicly available code from their 2019 manuscript. In the remainder of this section, I describe the simulation design for this study, including the data generation process and the scenarios that I consider.
 
 #### Covariates
 
-I took a programmatic approach to generating three covariate levels that varied in dimensionality ($p = 20, 100, 200$) . The covariates were generated from random pulls from three distributions; a normal distribution with a mean of 0 and SD of 1, a uniform distribution with a range from 0 to 1, and a Bernoulli distribution with a probability of success set to 0.5. For each covariate level half of the covariates were generated from the normal distribution, a quarter from the uniform distribution and the remaining quarter from the Bernoulli distribution. The majority of the propensity score simulation literature generate uncorrelated covariates (CITE), however, this is not representative of the correlated data typically found in administrative datasets. Therefore, I induce a correlation structure among the covariates by using the inverse CDF (cumulative distribution function) method (CITE).
+I took a programmatic approach to generate three covariate levels that varied in dimensionality ($p = 20, 100, 200$). The covariates were generated from random pulls from three distributions; a normal distribution with a mean of 0 and SD of 1, a uniform distribution with a range of 0 to 1, and a Bernoulli distribution with a probability of success set at 0.5. For each covariate level, half of the covariates were generated from the normal distribution, a quarter from the uniform distribution, and the remaining quarter from the Bernoulli distribution.
 
-Covariates were constructed in such a way that half of the covariates affected both the treatment and the outcome (i.e., confounders), a quarter affected only treatment, and the remaining quarter affected the outcome.
+Much of the literature on propensity score simulation generates uncorrelated covariates (CITE). However, this is not representative of the correlated data typically found in administrative data. Therefore, I generate correlated covariates using the inverse CDF (cumulative distribution function) method (CITE).
+
+Covariates were constructed so that half of the covariates affected both treatment and outcome (i.e., confounders), a quarter affected only treatment and the remaining quarter affected the outcome only.
 
 #### Sample Size
 
-I use a constant sample size of 300,000 for all simulation conditions. This sample size is in line with average high-dimensional datasets found in educaiton (CITE). Note most of the current propensity score simulation studies generate much lower samples sizes. Given I am trying to mimic real world applicaiton of high-dimensianl administrative data this sample size seems appropriate.
+I used a sample size of 200,000 for all simulation conditions. This sample size aligns with the average high-dimensional datasets found in education (CITE). Most of the current propensity score simulation studies generate much smaller sample sizes. Given that I am trying to mimic the real-world application of high-dimensional administrative data, this sample size is appropriate.
 
 #### Population Treatment Assignment Models
 
-I generated the population treatment assignment models using standard logistic regression. These population treatment assignment models can also be refereed to as population propensity score models since they generate the "true" probability of being assignment to treatment conditional on observed covariates. The following logistic regression model represented the general structure of these models.
+I generated the population treatment assignment models using standard logistic regression. These population treatment assignment models can also be referred to as population propensity score models since they generate the "true" probability of being assigned to treatment. The following logistic regression model represents the general structure of these models.
 
 $$
 Pr(Z = 1) = (1 + exp(-(\beta_0 + \sum_{i=1}^{p} \beta_iX_i)))^{-1}
 $$ {#eq-popps}
 
-Where $X_i$ represents $p$ covariates with their associated coefficients ($B_i$) . The output, $Pr(Z = 1)$ is the probability of assignment to the treatment condition (i.e. propensity score). The exact values of the coefficients will be based on previous coefficient values for propensity score simulation studies, mainly Keller, et al. 2015. I generated a binary treatment assignment variable by comparing an individuals true propensity score to a random draw from a uniform distribution bounded between 0 and 1. If an individuals propensity score was higher than the random draw from the uniform distribution the individual was assigned to treatment, such that $Z = 1$, otherwise $Z = 0$ . Using this approach the probability of assignment to treatment should be approximately 0.5. Which is the probability of assignment to a simple randomized experiment with a binary treatment.
+$X_i$ represents $p$ covariates and their associated coefficients ($\beta_i$). The output, $Pr(Z = 1)$ is the probability of assignment to the treatment condition (i.e., the propensity score). The exact values of the coefficients will be based on previous coefficient values for propensity score simulation studies, mainly Keller et al. 2015. I generated a binary treatment assignment variable by comparing an individual's true propensity score to a random draw from a uniform distribution between 0 and 1. If the propensity score of an individual was higher than the random draw of the uniform distribution, the individual was assigned to treatment such that $Z = 1$, otherwise $Z = 0$. This approach should approximate a probability of assignment to treatment of 0.5, which is the probability of assignment to a simple randomized experiment with binary treatment.
 
-For this simulation, I generated three types of population treatment assignment models (A, B, C, and D) in which I added increasing levels of complexity to the model in the form of interactions (i.e., non-additivity) and higher order terms (i.e. non-linearity).
+I generated three types of population treatment assignment models (A, B, C, and D) in which I added increasing levels of complexity to the model in the form of interactions (i.e., non-additivity) and higher order terms (i.e., non-linearity).
 
-**Scenario "A"** includes only main effects which assumes a linear relationship between covariates and treatment assignment. I consider this our base model which is expressed using the following formula:
+**Scenario "A"** includes only main effects, which assumes a linear relationship between covariates and treatment assignment. I consider this the base model, which is expressed using the following formula:
 
 $$
 PS^{A}(X) = (1 + exp(-(\beta_0 + \sum_{i=1}^{p} \beta_iX_i)))^{-1}
 $$ {#eq-psA}
 
-$X_i$ represents $p$ covariates with their associated coefficients $\beta_i$. The output, $Pr(Z = 1)$ is the probability of assignment to the treatment condition (i.e. propensity score).
+$X_i$ represents $p$ covariates and their associated coefficients $\beta_i$. The output, $Pr(Z = 1)$ is the probability of assignment to the treatment condition (i.e., propensity score).
 
 **Scenario "B"** describes a non-linear model in which I include quadratic terms on a subset of covariates:
 
@@ -258,53 +260,53 @@ $$ {#eq-psD}
 
 #### Population Outcome Models
 
-In addition, I generated a series of population outcome models in which I also varied the level of complexities between covariates and a potential outcome by including interactions and higher order terms. Adding these complexities in the outcome model is relatively novel in the propensity score literature, although it is much more representative of the complex associations found in educational research (CITE).
+In addition to the population treatment assignment models, I generated a series of population outcome models in which I also varied the level of complexities between covariates and potential outcomes by including interactions and higher-order terms. Adding these complexities to the outcome model is relatively novel in the propensity score literature, although it is much more representative of the complex associations found in datasets in educational research (CITE).
 
-Continuous potential outcomes were generated through regression models. The general structure of the population outcome models is defines as follows:
+Continuous potential outcomes were generated through regression models. The general structure of the population outcome models is defined as follows:
 
 $$
 Y(Z) = \alpha^Z + \sum_{i=1}^{p} \pi_iX_i; Z = 0,1
-$$
+$$ {#eq-outcome}
 
-Where $X_i$ represents $p$ covariates with their associated coefficients ($\pi_i$) . The output, $Y$ is the continuous outcome. When $Z=1$, the outcome is the potential outcome for treatment and when $Z = 0$ the potential outcome for the control. $\alpha^Z$ represented the coefficient and intercept for $\alpha^0$ and $\alpha^1$ which are set such that the population treatment effect is 0.3. Which is in line with the typical small treatment effects we observe in education research in which the average effect size is equal to .28 SD (CITE).
+$X_i$ represents $p$ covariates with their associated coefficients ($\pi_i$). The output, $Y$ is the continuous outcome. When $Z=1$, the outcome is the potential outcome of treatment, and when $Z = 0$, the potential outcome of control. $\alpha^Z$ represented the coefficient and intercept for $\alpha^0$ and $\alpha^1$, which are set such that the population treatment effect is equal to 0.3. This is in line with the typical small treatment effects that we observe in education research in which the average effect size is equal to.28 SD (CITE).
 
-Similar to the population treatment assignment models, I generated three types of population outcome models, indexed by lower-case letters (a, b, c, and d) with varying levels of complexity.
+Like the population treatment assignment models, I generated three types of population outcome models indexed by lower-case letters (a, b, c, d) with varying levels of complexity.
 
-**Scenario "a"** - the base model - includes only main effects which assumes a linear relationship between covariates and potential outcome. I consider this our base model which is expressed using the following formula:
+**Scenario "a"** - the base model - includes only main effects, which assumes a linear relationship between covariates and potential outcomes. I consider this the base model, which is expressed using the following formula:
 
 $$
 Y^{a}(Z) = \alpha_0^{a,Z} + \sum_{i=1}^{p} \alpha_i^{a,Z}X_i = \alpha_0^{a,Z} + g^a(X); Z = 0,1
-$$
+$$ {#eq-outcome_a}
 
-Where $X_i$ represents $p$ covariates with their associated coefficients ($\alpha_i^{\alpha,Z}$) depending on treatment assignment, $Z$. The output, $Y^{a}(Z)$ is set to $Y^{a}(1)$ for the outcome model related to treatment assignment and $Y^{a}(0)$ for the control condition.
+Where $X_i$ represents $p$ covariates and their associated coefficients ($\alpha_i^{\alpha,Z}$) which depend on treatment assignment, $Z$. The output, $Y^{a}(Z)$ is set to $Y^{a}(1)$ for the outcome related to treatment and $Y^{a}(0)$ for the control.
 
 **Scenario "b"** describes a non-linear model in which I include quadratic terms on a subset of covariates:
 
 $$
 Y^{b}(Z) =  \alpha_0^{a,Z} + g^a(X) + \alpha_iX_i^2; Z = 0,1
-$$
+$$ {#eq-outcome_b}
 
 **Scenario "c"** describes a non-additive model in which I include interactions on a subset of covariates:
 
 $$
 Y^{c}(Z) =  \alpha_0^{a,Z} + g^a(X) + \alpha_iX_iX_{i+1}; Z = 0,1
-$$
+$$ {#eq-outcome_c}
 
 **Scenario "d"** describes the complex model which includes both non-linearities and non-additivities:
 
 $$
 Y^{d}(Z) =  \alpha_0^{a,Z} + g^a(X) + \alpha_iX_i^2 + \alpha_iX_iX_{i+1}; Z = 0,1
-$$
+$$ {#eq-outcome_d}
 
 #### Propensity Score Estimation Methods
 
-Specifically, I access the performance of popular machine learning techniques used in the propensity score estimation literature, including classification and regression tree (CART), bagged CART, random forest, and single-layer neural network. In this section, I describe the simulation design for this study, including the data generation process and the scenarios that I consider.
+I access the performance of popular machine learning techniques used in the propensity score estimation literature, including classification and regression tree (CART), bagged CART, random forest, and single-layer neural network. In this section, I describe the simulation design for this study, including the data generation process and the scenarios that I consider.
 
 -   **Logistic regression**: standard logistic regression with only main effects
 
 -   **Classification and Regression Trees (CART)**: using the R *rpart* package (Therneau & Atkinson, 2018) with default parameters and recursive partitioning.
 
--   **Bagged CART**: boostrapped aggregated trees with 100 bootstrap samples using the R *ipred* package (Peters, Hothorn, & Lausen, 2002).
+-   **Bagged CART**: bootstrapped aggregated trees with 100 bootstrap samples using the R *ipred* package (Peters, Hothorn, & Lausen, 2002).
 
 -   **Random Forest**: parallel tree generation on subsamples based on randomly selected covariates using the R *randomForest* package with default parameters (Liaw & Wiener, 2002).
 
@@ -312,13 +314,33 @@ Specifically, I access the performance of popular machine learning techniques us
 
 -   **Deep Neural Network (DNN-2)**: a four layer DNN with an input layer, thow hidden layers, and an output layer. The input layer was equal to $p$ covariates and the hidden layers were made up of hidden neurons equal to 1/3 of the input covariates with default parameters. Using the R *keras* package (Chollet et al., 2017) which interfaces with Python.
 
-<!-- -->
-
 -   **Deep Neural Network (DNN-3)**: a five layer DNN with an input layer, three hidden layers, and an output layer. The input layer was equal to $p$ covariates and the hidden layers were made up of hidden neurons equal to 1/3 of the input covariates with default parameters. Using the R *keras* package (Chollet et al., 2017) which interfaces with Python.
+
+I used well-established best practices for default parameters in all models to mimic the real-world application of these methods by applied researchers.
 
 #### Simulation Scenarios
 
-In total I test three covariates levels (p = 20, 100, 200), with four population treatment asisngment models (A,B,C,D) and four population outcome models (a,b,c,d). I cross all these conditions for a total of 48 simulated conditions. Given the high-dimensional data being generated in my simulation I use the University of Pittsburgh Center for Research Computing cluster to run all my simulations in high-memory nodes. Each scenario was simulated 1,000 to make it a true Monte Carlo simulation. Simulated data and data analysis was conducted on Python 3 on a Mac platform.
+In total, I tested three covariates levels (p = 20, 100, 200), with four treatment models (A, B, C, D) and four outcome models (a, b, c, d), for a total of 48 simulated conditions. Given the high-dimensional data generated in my simulation, I used the University of Pittsburgh Center for Research Computing cluster to run the simulation on high-memory nodes. Each scenario was simulated 1,000 times, making it a true Monte Carlo experiment. @tbl-cross shows the crossing of the four treatment and outcome models.
+
+#### Estimating Treatment Effects - Propensity Score Weighting
+
+To recapture the treatment effect using the methods detailed above, I used a propensity score weighting approach, specifically the inverse probability of treatment weighting (IPTW) (CITE), where covariate balance is achieved between treated and untreated units by reweighting observations based on their estimated propensity score. Such that each treated observation is equal to 1/e(x), and untreated units receive a weight of 1/(1-ei(x), where ei(x) is the estimated propensity score for unit i this weighting scheme estimates the ATE. However, in observational studies, the more policy-relevant estimand is the ATT. Therefore, for this simulation, I give a weight of 1 to each treated unit, and a control unit is assigned a weight of e(x)/(1-e(x) so that untreated units with a similar propensity score to that of treated units are up-weighted and untreated units with dissimilar propensity scores to treated units are down-weighted (CITE). The ATT was calculated using regression where the outcome variable (Y) was predicted by a binary treatment assignment variable, with ATT weights included.
+
+#### Performance Metrics
+
+To gauge the performance of each propensity score estimation method, I used the following metrics, which are widely used to access model performance in the propensity score simulation literature (CITE):
+
+-   **Average Standardized Absolute Mean Distance (ASAM)**: is a measure of of covariate balance. After calculating the ATT, the absolute value of the standardized difference of means between the treated and untreated group was calculated for each covariate and averaged across all covariates. Lower ASAM values indicate better covariate balance.
+
+-   **Absolute Relative Bias (Bias)**: the absolute difference between the estimated treatment effect and the population treatment effect. Lower values indicate less bias in recapturing the population treatment effect of 0.3.
+
+-   **Mean Squared Error (MSE)**: the average squared difference between the estimated treatment effect and the population treatment effect. MSE is a good representation of both bias and variance and a common performance metric in machine learning literature (CITE).
+
+-   **Weights**: a known issue with PSW is that extreme weights can result in biased treatment effects. Therefore I examine the distribution of the estimated weights among the control group.
+
+## Looking Ahead
+
+## Tables and Figures
 
 |     | A (base) | B (non-linearity | C (non-additivity) | D (complex) |
 |:---:|:--------:|:----------------:|:------------------:|:-----------:|
@@ -327,24 +349,4 @@ In total I test three covariates levels (p = 20, 100, 200), with four population
 |  c  |    Ac    |        Bc        |         Cc         |     Dc      |
 |  d  |    Ad    |        Bd        |         Cd         |     Dd      |
 
-#### Estimating Treatment Effects - Propensity Score Weighting (PW)
-
-In order to recapture the treatment effect I used a propensity score weighting approach, specifaly inverse probability of treatment weighting (IPTW) (CITE). Where covariate balance is achieved between treated and untreated units by reweighting observations based on their propensity scores. Such that each treatd obervation is equal to 1/e(x) and untreated units receive a weight of 1/(1-ei(x), where ei(x) is the estimated propensity socre for unit i this weighting scheme estimates the ATE. However, in observational studies the more policy relevent estimand is the ATT. Therefore for this simulation I give a weighth of 1 to each treated unit and a control unit gets assigned a weight of e(x)/(1-e(x), so that untreated units with similar propensity score to that of treated units are upweighted and untreated units with disimilar proensity scores to treated units are downweighted (CITE). The ATT was calculated using alinear model where the outcome variable was (Y) and being predicted by a binary treatment assigmetn varible (Z), with ATT weights included.
-
-#### Performance Metrics
-
-To gauge performance of the aforementioned methods I used the following metrics:
-
--   **Average Standardized Absolute Mean Distance (ASAM)**: is a measure of of covariate balance. After calculating the ATT, the absolute value of the standardized difference of means between the treated and untreated group was calculated for each covariate and averaged across all covariates. Lower ASAM values indicate better covariate balance.
-
--   **Absolute Relative Bias**: the absolute difference between the estimated treatment effect and the population treatment effect. Lower values indicate less bias in recapturing the population treatment effect of 0.3.
-
--   **Mean Squared Error (MSE)**: measures the average squared difference between the estimated treatment effect and the population treatment effect. MSE is a good representation of both bias and variance and a common performane metric in machine learning literature.
-
--   **Weights**: a known issue with PSW is that extreme weights can result in biased treatment effect. Thefore I examin the distribution of the estimated wweights for the untreated units
-
-## Looking Ahead
-
-As educational research moves towards the age of Big Data, researchers will have access to tremendous amounts of covariates. With such a large number of covariates at our disposal, researchers can leverage causal methods like propensity score estimation. The traditional approach has been to use logistic regression, but as computational power has increased more sophisticated Deep Learning methods have been developed that are well situated to solve classification problems such as propensity score estimation. Results showed that DNN and Logistic regression performed equally well across conditions and sample sizes. In the final iteration of the paper, we will focus on creating a Monte Carlo simulation study to analyze these effects. We will further consider varying the linear relationship the covariates had with the outcome to more complex non-linear patterns, perhaps in that context DNN model would outperform Logistic models.
-
-## Tables and Figures
+: Simulation conditions for the crossing of the treatment and outcome models {#tbl-cross}
