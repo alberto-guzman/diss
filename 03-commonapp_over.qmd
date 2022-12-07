@@ -220,8 +220,7 @@ In the absence of outreach, students in any comparison group can be expected to 
 
 We used propensity score matching to create an analysis sample of students who received outreach that is best suited for comparison to a similar group of students who were not offered outreach. More specifically, our matching procedure identified pairs of students who did and did not receive outreach where each pair attended the same high school and are broadly similar in terms of six demographic variables and four academic indicators. To the degree that first-generation *and* low-income students face greater barriers than first-generation *or* low-income students do, using these variables in the matching procedure should help to reduce the underlying difference in college enrollment rates for treatment and control group students expected in the absence of the intervention. Nevertheless, we still anticipated that within each matched pair, the student who received outreach would face greater barriers to college enrollment and that a comparison of enrollment rates for those in matched pairs would still underestimate the effect of advising.
 
-Despite these challenging issues, it was still quite plausible that our evaluation would find statistically significant evidence that virtual advising increased college enrollment in 2020. One recent multi-district study estimated a 5.2 percentage point increase in four-year college enrollment as the result of text-based FAFSA outreach and support from students' own high school counselors [@Avery.2021]. An effect of that size could well have been enough to provide a positive and significant result in this study. On the other hand, recent studies of similar outreach and support implemented at scale have found much smaller effects of virtual advising than in-person advising designed to deliver the same kind of support [@Avery.2021; @phillips2022does]. Overall and based on our empirical results, we conclude that the chatbot campaign had no impact on the targeted class of 2020 students submitting college applications or enrolling in college.
-The limited engagement of students with the bot likely explains these results. While some students were asking the bot important questions about how to enroll in college, decipher financial aid letters, and choose a major, most students did not message Oli in substantively meaningful ways. On average, students sent 8 text messages throughout the 38 week intervention, while 2.5% of students messaged a CAC adviser. A sizable portion of the study population--16%--opted out of the intervention and thus did not receive all of Oli's guidance. However, there was evidence to suggest that the chatbot had a positive impact on college enrollment for students who were highly engaged with the bot during the intervention. This group of highly engaged students may warrant further investigation, as they could shed light on what types of conversations with the bot were most helpful in supporting their postsecondary transition. However, with an intervention that cast such a wide net and that provided relatively general guidance related to college-going processes, it is perhaps unsurprising that the overall effects of the outreach were null.
+Despite these challenging issues, it was still quite plausible that our evaluation would find statistically significant evidence that virtual advising increased college enrollment in 2020. One recent multi-district study estimated a 5.2 percentage point increase in four-year college enrollment as the result of text-based FAFSA outreach and support from students' own high school counselors [@Avery.2021]. An effect of that size could well have been enough to provide a positive and significant result in this study. On the other hand, recent studies of similar outreach and support implemented at scale have found much smaller effects of virtual advising than in-person advising designed to deliver the same kind of support [@Avery.2021; @phillips2022does]. Overall and based on our empirical results, we conclude that the chatbot campaign had no impact on the targeted class of 2020 students submitting college applications or enrolling in college. The limited engagement of students with the bot likely explains these results. While some students were asking the bot important questions about how to enroll in college, decipher financial aid letters, and choose a major, most students did not message Oli in substantively meaningful ways. On average, students sent 8 text messages throughout the 38 week intervention, while 2.5% of students messaged a CAC adviser. A sizable portion of the study population--16%--opted out of the intervention and thus did not receive all of Oli's guidance. However, there was evidence to suggest that the chatbot had a positive impact on college enrollment for students who were highly engaged with the bot during the intervention. This group of highly engaged students may warrant further investigation, as they could shed light on what types of conversations with the bot were most helpful in supporting their postsecondary transition. However, with an intervention that cast such a wide net and that provided relatively general guidance related to college-going processes, it is perhaps unsurprising that the overall effects of the outreach were null.
 
 Taken together, we reasoned that this outreach faced an uphill battle to improve outcomes beyond the differentials that exist absent the intervention. Even though we cannot know what the true causal impact of the outreach was, the evidence we gathered leads us to conclude that the outreach likely neither helped nor harmed students in applying to and enrolling in college.
 
@@ -232,7 +231,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                                                   |           |         | **Before Matching** |           |         | **After Matching** |
-|------------------|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
+|---------------------------------------------------|:---------:|:-------:|:-------------------:|:---------:|:-------:|:------------------:|
 |                                                   | Treatment | Control |    Std.Mean.Diff    | Treatment | Control |   Std.Mean.Diff    |
 |                                                   |           |         |                     |           |         |                    |
 | Age                                               |  17.082   | 17.023  |        0.118        |   17.05   | 17.025  |       0.050        |
@@ -282,7 +281,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                         |  Fall 2020   | Spring 2021  |  Fall 2021   | Spring 2022  | Gap semester | Gap year  |
-|:----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
+|:------------------------|:------------:|:------------:|:------------:|:------------:|:------------:|:---------:|
 | Enrollment Differential | -0.020\*\*\* | -0.031\*\*\* | -0.033\*\*\* | -0.038\*\*\* |    0.003     | 0.004\*\* |
 |                         |   (0.004)    |   (0.005)    |   (0.005)    |   (0.005)    |   (0.002)    |  (0.002)  |
 |                         |              |              |              |              |              |           |
@@ -298,7 +297,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                         | Fall 2020 | Spring 2021 | Fall 2021 | Spring 2022 | Gap semester | Gap year |
-|:----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
+|:------------------------|:---------:|:-----------:|:---------:|:-----------:|:------------:|:--------:|
 | Enrollment Differential |   0.008   |    0.030    |  -0.007   |    0.016    |    0.001     |  0.000   |
 |                         |  (0.016)  |   (0.016)   |  (0.016)  |   (0.016)   |   (0.006)    | (0.006)  |
 |                         |           |             |           |             |              |          |
@@ -316,7 +315,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                         |  Fall 2020   |    4-year    | 4-year public | 4-year private |   2-year    |  Full-time   |
-|:----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
+|:------------------------|:------------:|:------------:|:-------------:|:--------------:|:-----------:|:------------:|
 | Enrollment Differential | -0.020\*\*\* | -0.040\*\*\* |    -0.007     |  -0.033\*\*\*  | 0.019\*\*\* | -0.029\*\*\* |
 |                         |   (0.004)    |   (0.005)    |    (0.005)    |    (0.004)     |   (0.003)   |   (0.005)    |
 |                         |              |              |               |                |             |              |
@@ -332,7 +331,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                         |  Fall 2020   |    4-year    | 4-year public | 4-year private |   2-year    |  Full-time   |
-|:----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
+|:------------------------|:------------:|:------------:|:-------------:|:--------------:|:-----------:|:------------:|
 | Enrollment Differential | -0.021\*\*\* | -0.044\*\*\* |    -0.007     |  -0.037\*\*\*  | 0.022\*\*\* | -0.034\*\*\* |
 |                         |   (0.005)    |   (0.006)    |    (0.007)    |    (0.006)     |   (0.004)   |   (0.006)    |
 |                         |              |              |               |                |             |              |
@@ -348,7 +347,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                         | Fall 2020 | Spring 2021 | Fall 2021 | Spring 2022 | Gap semester | Gap year |
-|:----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
+|:------------------------|:---------:|:-----------:|:---------:|:-----------:|:------------:|:--------:|
 | Enrollment Differential |  -0.017   |   -0.016    |  -0.011   |   -0.011    |    -0.001    |  0.006   |
 |                         |  (0.010)  |   (0.011)   |  (0.011)  |   (0.011)   |   (0.004)    | (0.003)  |
 |                         |           |             |           |             |              |          |
@@ -364,7 +363,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                         | Fall 2020 | 4-year  | 4-year public | 4-year private |   2-year    | Full-time |
-|:----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
+|:------------------------|:---------:|:-------:|:-------------:|:--------------:|:-----------:|:---------:|
 | Enrollment Differential | 0.026\*\* |  0.002  |   0.032\*\*   |  -0.032\*\*\*  | 0.024\*\*\* |   0.005   |
 |                         |  (0.009)  | (0.010) |    (0.011)    |    (0.009)     |   (0.007)   |  (0.010)  |
 |                         |           |         |               |                |             |           |
