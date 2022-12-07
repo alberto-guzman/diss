@@ -34,11 +34,13 @@ Therefore, my first dissertation study aims to assess the performance of the tra
 
 The remainder of this document is structured as follows: First, I review the relevant literature for this study. Then, I describe my proposed data and simulation approach.
 
+\newpage
+
 ## Literature Review
 
 In this section, I review the literature on causal inference and propensity score analysis, focusing on machine learning approaches to estimating propensity scores. In addition, I draw on the literature on neural network approaches, specifically deep neural networks, to motivate the development of my DNN-based method for estimating propensity scores.
 
-### Neyman-Rubin-Holland Model for Causal Inference
+### Neyman-Holland-Rubin Model for Causal Inference
 
 My approach to causal inference is based on the Neyman-Holland-Rubin model, hereafter referred to as the Rubin model [@rubin1976inference; @rubin2005causal; @holland1986statistics; @neyman1923application]. A core tenet of the Rubin model states that a treatment effect is the difference between two potential outcomes for an individual [@rubin2005causal]. For a dichotomous treatment variable ($Z$), let $Z_i = 1$ if the $i$'th student was in the treatment group -- say a college access program - and $Z_i = 0$ if they were not. Let $Y_{iz}$ be a potential outcome for an individual student depending on treatment assignment $Z$, such that an individual student has two potential outcomes. $Y_{i1}$ is the potential outcome had a student participated in the college access program and $Y_{i0}$ is the potential outcome had that same student not participated. Therefore, the treatment effect of the college access program for student $i$ would simply be the difference in their potential outcomes:
 
@@ -69,6 +71,8 @@ In behavioral and social science research, ethical, cost, or practical barriers 
 For example, say that in our college-access program example, students were not randomized into treatment or control. Instead, the students self-selected into treatment. In this scenario, the underlying treatment assignment is unknown. It could be that students who self-select into the program are generally more interested in going to college than those who did not sign up. Given this imbalance in college interest, we may incorrectly attribute a increase in college enrollment to the treatment instead of differences in college interest between treated and untreated students. In other words, observational studies *cannot* ensure that a student's outcome is independent of treatment assignment ($Z$) [@Rosenbaum.2010].
 
 Various statistical methods have been proposed that focus on estimating unbiased treatment effects in observational studies. These include instrumental variable approaches, regression discontinuity, synthetic control, and propensity score analysis [@Austin.2011; @Bai.2011; @Stuart.2010; @Rosenbaum.2010]. For my dissertation, I focus on propensity score analysis which leverage student-level covariates to create a balancing score that can account for *observed* group differences.
+
+\newpage
 
 ### Propensity Scores
 
@@ -102,7 +106,9 @@ A reasonable approach to selecting covariates in propensity score analysis is se
 
 To better capture the relationship among covariates, the literature suggests iterating through various model specifications, with each iteration adding interactions or non-linear terms until a balance is achieved among the observed characteristics between treated and untreated students [@murnane2010methods; @Rosenbaum.2010]. This iterative process becomes increasingly cumbersome as the number of available covariates increases.
 
-### Estimating the Propensity Score
+\newpage
+
+### Estimating Propensity Scores
 
 The most critical step in propensity score analysis is estimating the propensity score ($e$), since a misspecified propensity model will yield propensity scores that are not well suited to correctly balanced observed characteristics. Any parametric or non-parametric model can generate propensity scores as long if it outputs a bounded probability between 0 and 1. Logistic regression is the most common parametric model used for estimating the propensity score, especially in applied educational research [@Stuart.2010; @ho2007matching; @Lee.2010; @Collier.2021lp; @Keller.2015q8].
 
@@ -126,7 +132,7 @@ Machine learning algorithms have recently gained popularity in the causal infere
 
 One popular machine learning approach to estimating propensity score is classification and regression trees (CART) [@li1984classification]. This algorithm recursively divides data into subsets based on individual covariates to predict the probability of membership assignment of a given individual. To generate propensity scores, the outcome is set to a binary indicator of treatment assignment ($Z$). This algorithm splits covariates by level of importance, with the first split being the covariate that can produce the most distinctive split. For example, if a student above 15 years of age is related to treatment assignment, the first split would split the data into students with $age > 15$ and $age < 15$. The algorithm continues by splitting the data by the next most influential covariate split, creating a tree-like structure, see @fig-decision_tree. Splitting stops when the data are binned into unique "branches," which minimizes the prediction error in which an additional split would not improve the prediction of treatment assignment. The final "branches" of the model represent the individual grouping of students with similar propensity scores [@Stuart.2010]. The output of CART is the predicted probabilities which are then used as propensity scores. Like logistic regression, the CART algorithm can handle continuous and categorical covariates . However, unlike logistic regression, CART is insensitive to outliers and can automatically model interactions and higher-order terms [@Lee.2010]. Through a simulation, Lee et al. (2009) found that CART outperformed logistic regression in bias reduction and covariate balance when the data had complex associations.
 
-[![Simple decision tree predicting students GPA based on gender and homework grade](figures/decision_tree.jpg){#fig-decision_tree fig-align="center" width="512"}](https://www.apa.org/science/about/psa/2018/04/classification-regression-trees)
+[![Simple decision tree predicting students GPA based on gender and homework grade](figures/decision_tree.jpg){#fig-decision_tree fig-align="center" width="436"}](https://www.apa.org/science/about/psa/2018/04/classification-regression-trees)
 
 However, a well-documented issue with CART is that the single tree may likely overfit the data [@Stuart.2010; @ho2007matching]. Therefore, a modified version of CART was developed that "prunes" back branches that do not lead to a reduction in prediction error, referred to as pruned-CART [@gelfand1989iterative], which generates a tree that is less likely to overfit the data. Although pruning can alleviate some of the changes in overfitting of the data, a significant drawback of CART is that it relies on a single tree, which may be weak in predicting the propensity score.
 
@@ -134,13 +140,15 @@ However, a well-documented issue with CART is that the single tree may likely ov
 
 Ensemble methods are a family of algorithms that generate multiple trees predicting treatment assignment [@Keller.2019; @Stuart.2010; @ho2007matching; @Lee.2010]. Exploiting differences among each tree ensemble method can significantly improve prediction, given that many weak trees together can create better prediction than a single CART [@Lee.2010]. A popular ensemble method is bootstrapped aggregated CART, referred to as Bagged CART. Bagged CART involves fitting multiple CARTs (i.e., trees) on bootstrapped data samples [@Lee.2010]. By "growing" trees on bootstrapped samples, we can reduce the chances of overfitting our data. Each tree will generate a probability that an individual will be assigned to treatment, with a final probability of membership based on aggregating the probability of assignment across all trees. Finally, a more robust ensemble method is random forest [@biau2016random]. Compared to CART and Bagging, the random forest algorithm grows trees by randomly selecting covariates and individuals to grow individual trees. With each new tree, the algorithm "learns" the best combination of covariates to generate a final probabilistic prediction based on the "forest" it has created. These random forest techniques have shown significant promise in predicting propensity scores in the presence of complex data associations [@Cannas.2019; @Lee.2010]. However, with the recent advances in computing power, non-tree-based methods, such as neural networks, have increased in popularity [@Collier.2021lp; @Setoguchi.2008; @Keller.2015q8].
 
-### Artificial Neural Networks
+\newpage
+
+### Artificial Neural Network Architectures
 
 #### Artificial Neuron
 
 The building block for artificial neural networks was initially developed by psychologist Frank Rosenblatt (1958) with their idea of a perceptron or artificial neuron, see @fig-perceptron. An artificial neuron is a simplified mathematical model of neurons in our brain [@james2013introduction]. Neurons are biological switches that take input signals from other neurons that cause the neuron to fire. Neurons can be thought of as simple processing units. In our brain, these individual neurons are connected into vast networks of billions of neurons, where the outputs of one neuron become inputs of another, allowing for the transmission of complex information [@schmidhuber2015deep; @LeCun.2015].
 
-![Structure of a perceptron - artificial neuron](figures/perceptron.png){#fig-perceptron fig-align="center" width="548"}
+![Structure of a perceptron - artificial neuron](figures/perceptron.png){#fig-perceptron fig-align="center" width="437"}
 
 An artificial neuron mimics the function of a biological neuron. The artificial neuron takes in a set of inputs of $p$ variables, $X=(X_1, X_2, \cdots, X_i)$ that have corresponding weights $w=(w_1, w_2, \cdots ,w_i)$ that represent the different input strength of each variable. Each variable is then multiplied by its corresponding weight. These weighted variables are then summed together, and a bias term is added ($\beta_0$) to create a linear transformation of the input variables. Weight and bias terms are analogous to the slope and intercept of linear regression. The linear transformation is then passed to an activation function $g(z)$. The activation function takes in the linear transformation and performs a computation that generates an output ($\hat{y}$), which outputs either a 1 or 0. This activation function can also be set to be a linear function, such as the sigmoid function, which outputs values between 0 and 1.
 
@@ -160,7 +168,9 @@ The goal of the neuron and most machine learning algorithms is to correctly lear
 
 Following the development of the artificial neuron, work began to model more complex processing units composed of interconnected artificial neurons organized in layers, culminating with the creation of the single-layer feed-forward neural network (NN) (@fig-nn)\[@Schmidhuber.2015; @Collier.2022; @Keller.2015q8\]. NN are referred to as single-layer because of the single middle layer of interconnection artificial neurons. These NN can learn very complex data representations by generating various non-linear representations of the data through multiple artificial neurons [@james2013introduction]. These non-linear outputs are passed into a final layer which pools the outputs of the individual neurons into a non-linear function, $f(x)$, which generates a prediction ($\hat{y}$). By having multiple artificial neurons calculating predictions on various non-linear combinations of the input variables, these networks can learn complex non-linear and non-additive associations between covariates.
 
-![Structure of single-layer neural network](figures/nn.png){#fig-nn fig-align="center"}
+![Structure of single-layer neural network](figures/nn.png){#fig-nn fig-align="center" width="493"}
+
+\newpage
 
 The NN comprises a series of artificial neurons organized into three layers[@james2013introduction]. The first layer is the input layer of $p$ variables, $X_p=(X_1, X_2, \cdots, X_p)$, our observed covariates. Those input variables are fully connected to the second layer - a hidden layer - made up of $K$ hidden neurons, $A_k = (A_1, A_2, \cdots, A_k)$, which are identical to the artificial neurons mentioned previously, except that the activation function is swapped out to a non-linear function. Each hidden neuron calculates its own prediction based on its unique non-linear combination of variable inputs and associated weight and bias parameters. The last layer is the output layer, which pools the non-linear outputs of the hidden neurons and passes them as inputs to a non-linear output function, $f(x)$, which generates a final prediction ($\hat{y}$). The interconnected neurons allow NN to learn more complex associations between covariates and treatment assignment than a single artificial neuron [@james2013introduction; @Schmidhuber.2015; @hernandez2019systematic].
 
@@ -217,6 +227,8 @@ To date, DNN has not been sufficiently evaluated in the broader literature on ca
 Only two medical peer-reviewed studies have attempted to use DNN for propensity score estimation [@Whata.2022; @Weberpals.2021]. @Weberpals.2021 use data from around 130,000 cancer patients to construct a simulated data set with 31 baseline covariates in which treatment receives a fictional cancer drug, and the outcome is a binary survival indicator. Using a specific DNN architecture called an "autoencoder" with three hidden layers, they find that DNN reduces confounding bias in treatment effect over the traditional logistic model with manual variable selection. In contrast, @Whata.2022 examine the performance of logistics regression compared to DNN with four hidden layers using a simulation (with 15 covariates) and a real-world application. In their simulation, they varied the level of complexity in the population treatment model but not the outcome model. They found that DNN outperformed logistic regression in terms of covariate balance, classification accuracy, and absolute relative bias.
 
 Both studies speak to the increase in interest in using DNN for causal inference and shed light on the possibilities that DNN are a valid approach to estimating the propensity score. My dissertation builds on these studies by comparing DNN with traditional logistic regression and several machine learning approaches well established in the propensity score simulation literature. In addition, my simulation test complexities in both the outcome *and* treatment models. This study will be the first to test DNN for propensity score estimation outside medical research and with high-dimensional data that mimic high-dimensional administrative datasets encountered by educational researchers.
+
+\newpage
 
 ## Proposed Method
 
@@ -364,3 +376,7 @@ To gauge the performance of each propensity score estimation method, I used the 
 -   **Mean Squared Error (MSE)**: the average squared difference between the estimated treatment effect and the population treatment effect. MSE is a good representation of both bias and variance and a common performance metric in machine learning literature [@athey2015machine; @Mullainathan.2017].
 
 -   **Weights**: a known issue with PSW is that extreme weights can result in biased treatment effects. Therefore I examine the distribution of the estimated weights among the control group.
+
+### Looking Ahead
+
+All the simulation code is complete, and I can generate preliminary results. My preliminary results suggest that the DNN approach outperforms logistic regression and machine learning approaches when complexities are included in the treatment and outcome model. When only main effects are included, logistic regression leads to less biased treatment effects over all other methods. I am working on the code that induces correlations among covariates based on feedback from Xu and Paul. I am also fixing some errors in the programmatic way I build the treatment and outcome model. I should have final results by the end of the month.

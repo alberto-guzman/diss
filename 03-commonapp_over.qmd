@@ -14,6 +14,8 @@ Therefore, my second dissertation study aims to contribute to the literature on 
 
 The remainder of the section is structured as follows: First, I review the relevant literature for this study. Then, I describe the data and my analytic approach. Finally, I conclude with a discussion of findings.
 
+\newpage
+
 ## Literature Review
 
 In this section, I review the literature on college access in general as well as during the COVID-19 pandemic. In addition, I draw on literature examining how behavioral text message nudge interventions and chatbots can assist high school students in overcoming obstacles to college access.
@@ -78,6 +80,8 @@ Collectively, these studies demonstrate that chatbots can help to improve studen
 
 Therefore, my second dissertation study contributes to the literature on the scalability of chatbot interventions by evaluating the large-scale chatbot campaign implemented by the Common App, College Advising Corps, and Mainstay aimed at low-income, first-generation students.
 
+\newpage
+
 ## Data
 
 We leveraged several different data sources to evaluate the effectiveness of the outreach campaign. First, we utilized administrative records from the Common App, which provided a rich data source of any information a student provided on their Common App application, including student demographics, high school academic achievement, and college entrance exams. Second, Mainstay provided access to the data from the chatbot platform utilized to provide outreach to students. This platform captured rich data on the content and timing of the chatbot communication among students, the chatbot, and CAC advisers. Using the Mainstay data, we generated variables that captured student opt-out requests and engagement throughout the intervention. Finally, we matched students in our analytic file to data from the National Student Clearinghouse (NSC) to observe if and where students enrolled in college in fall 2020 and persistence in subsequent terms.
@@ -128,6 +132,8 @@ Although we took a robust matching approach in constructing our control group, t
 
 In order to account for our nearest-neighbor matching approach with replacement, we include matching weights ($w$) in our regression models. Where within each matched group -- which includes at least one treated unit and at least one control unit -- each treated unit gets a \$w=1\$, and each control unit is given a preliminary weight of $w=n_{ti}/n_{ci}$ , where $n_{ti}$ is the number of treated units in matched group $i$ and $n_{ci}$ is the number of control units in matched group $i$. Then each control unit's weight is added up across the groups in which it was matched and scaled to sum to the number of uniquely matched control units.
 
+\newpage
+
 ## Limitations
 
 The main limitation in our analysis is our ability to attribute a causal relationship between the outreach and the effects we estimate. Given that students were not randomly assigned to the outreach, we cannot make causal claims about the effectiveness of the outreach. However, our robust matching approach allows us to reduce some -- but not all -- the bias that could exist in explaining the relationship between receiving outreach and outcomes. Note that we are only matching on *observable* characteristics. There could be *unobservable* characteristics that the matching procedure cannot consider that could influence outcomes absent the intervention.
@@ -135,6 +141,8 @@ The main limitation in our analysis is our ability to attribute a causal relatio
 Furthermore, important observable differences do remain between the outreach group and the comparison group, even after matching. Students selected for outreach were first-generation *and* low-income, while control students were either first-generation *or* low-income. The outreach team selected students in this manner to reach as many students as possible, specifically students who would likely benefit from this sort of outreach. Although this was a wise approach for targeting students in need of support, it created some analytic obstacles for our impact analysis that cannot be remedied through matching. In particular, in any matched pair of low-income students, the treatment group student is first-generation and the control group student is not, and similarly, in any matched pair of first-generation students, the treatment group student is low-income and the control group student is not.
 
 Students in the outreach group have two factors that -- due to an array of systemic issues -- may disadvantage them in terms of college enrollment. Therefore, we may expect that -- even absent the intervention -- students in the outreach group likely have lower college enrollment rates than those who did not receive the outreach. Given how the outreach groups were defined, we cannot observe college enrollment outcomes for control students who were first-generation *and* low-income, which would be the natural comparison for our outreach group. This is because, for the class of 2020, the intervention was targeted to *all* students who met these two criteria. After presenting our findings, we discuss two different strategies we used to investigate what the differences between these two groups might have been absent the chatbot outreach. Overall, we find that students who met both factors had somewhat lower enrollment rates than those who exhibit only one of the two factors.
+
+\newpage
 
 ## Results
 
@@ -182,7 +190,9 @@ A final question we explored was whether impacts varied for those who engaged hi
 
 @tbl-20enrolleng presents results for students with high engagement throughout the outreach. As opposed to our overall modest negative impacts for the whole sample, here we found a slightly positive impact on fall 2020 enrollment for highly engaged students, around a 3 percentage point improvement over the matched controls. Students who engaged with Oli at a high rate were, on average, more likely female, came from a racially marginalized group, and had slightly lower SAT/ACT performance than students who didn't have high engagement with the chatbot. Furthermore, these students also had higher rates of college application submission than non-highly engaged students.
 
-### Results in Context
+\newpage
+
+## Results in Context
 
 We want to underscore that important, observable differences remain between the outreach group and the comparison group -- even after matching. As mentioned previously, the students selected for outreach were first-generation *and* low-income, while the control students were first-generation *or* low-income. This presented analytic obstacles in estimating outreach impacts.
 
@@ -208,6 +218,8 @@ Ideally, we would have matched students in our 2020 sample to demographically si
 
 Based on the differentials of both these data sources, we conclude that -- absent any intervention -- students who are first-generation *and* low-income have lower college-going rates than those who only hold one of those identities. Therefore, we reason that absent the intervention we would expect that students in the outreach group would have lower college enrollment rates than the comparison group, with differences on the order of -1 to -5 percentage points. These differences suggest that to find a positive effect, the impact of the outreach would have had to be larger than these differentials. Therefore, the modest negative enrollment for outreach students we estimate for the entire sample (-2 percentage points) likely reflect these differentials -- and not -- detrimental effects of the chatbot outreach.
 
+\newpage
+
 ## Discussion and Conclusion
 
 The outreach undertaken by Common App and its partners cast a wide net in hopes of helping students through the typically challenging transition to college during the uncertainty of the COVID-19 pandemic. As part of our investigation we investigated whether the outreach improved students' college-going outcomes. The core analytic approach to our analysis relied on comparisons between observationally similar students who nevertheless differed in a critical way. Those in the treatment group were both first-generation *and* from low-income households. Those in the comparison group had one but not both of these characteristics.
@@ -231,7 +243,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                                                   |           |         | **Before Matching** |           |         | **After Matching** |
-|---------------------------------------------------|:---------:|:-------:|:-------------------:|:---------:|:-------:|:------------------:|
+|------------------|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
 |                                                   | Treatment | Control |    Std.Mean.Diff    | Treatment | Control |   Std.Mean.Diff    |
 |                                                   |           |         |                     |           |         |                    |
 | Age                                               |  17.082   | 17.023  |        0.118        |   17.05   | 17.025  |       0.050        |
@@ -281,7 +293,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                         |  Fall 2020   | Spring 2021  |  Fall 2021   | Spring 2022  | Gap semester | Gap year  |
-|:------------------------|:------------:|:------------:|:------------:|:------------:|:------------:|:---------:|
+|:----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
 | Enrollment Differential | -0.020\*\*\* | -0.031\*\*\* | -0.033\*\*\* | -0.038\*\*\* |    0.003     | 0.004\*\* |
 |                         |   (0.004)    |   (0.005)    |   (0.005)    |   (0.005)    |   (0.002)    |  (0.002)  |
 |                         |              |              |              |              |              |           |
@@ -297,7 +309,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                         | Fall 2020 | Spring 2021 | Fall 2021 | Spring 2022 | Gap semester | Gap year |
-|:------------------------|:---------:|:-----------:|:---------:|:-----------:|:------------:|:--------:|
+|:----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
 | Enrollment Differential |   0.008   |    0.030    |  -0.007   |    0.016    |    0.001     |  0.000   |
 |                         |  (0.016)  |   (0.016)   |  (0.016)  |   (0.016)   |   (0.006)    | (0.006)  |
 |                         |           |             |           |             |              |          |
@@ -315,7 +327,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                         |  Fall 2020   |    4-year    | 4-year public | 4-year private |   2-year    |  Full-time   |
-|:------------------------|:------------:|:------------:|:-------------:|:--------------:|:-----------:|:------------:|
+|:----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
 | Enrollment Differential | -0.020\*\*\* | -0.040\*\*\* |    -0.007     |  -0.033\*\*\*  | 0.019\*\*\* | -0.029\*\*\* |
 |                         |   (0.004)    |   (0.005)    |    (0.005)    |    (0.004)     |   (0.003)   |   (0.005)    |
 |                         |              |              |               |                |             |              |
@@ -331,7 +343,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                         |  Fall 2020   |    4-year    | 4-year public | 4-year private |   2-year    |  Full-time   |
-|:------------------------|:------------:|:------------:|:-------------:|:--------------:|:-----------:|:------------:|
+|:----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
 | Enrollment Differential | -0.021\*\*\* | -0.044\*\*\* |    -0.007     |  -0.037\*\*\*  | 0.022\*\*\* | -0.034\*\*\* |
 |                         |   (0.005)    |   (0.006)    |    (0.007)    |    (0.006)     |   (0.004)   |   (0.006)    |
 |                         |              |              |               |                |             |              |
@@ -347,7 +359,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                         | Fall 2020 | Spring 2021 | Fall 2021 | Spring 2022 | Gap semester | Gap year |
-|:------------------------|:---------:|:-----------:|:---------:|:-----------:|:------------:|:--------:|
+|:----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
 | Enrollment Differential |  -0.017   |   -0.016    |  -0.011   |   -0.011    |    -0.001    |  0.006   |
 |                         |  (0.010)  |   (0.011)   |  (0.011)  |   (0.011)   |   (0.004)    | (0.003)  |
 |                         |           |             |           |             |              |          |
@@ -363,7 +375,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                         | Fall 2020 | 4-year  | 4-year public | 4-year private |   2-year    | Full-time |
-|:------------------------|:---------:|:-------:|:-------------:|:--------------:|:-----------:|:---------:|
+|:----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
 | Enrollment Differential | 0.026\*\* |  0.002  |   0.032\*\*   |  -0.032\*\*\*  | 0.024\*\*\* |   0.005   |
 |                         |  (0.009)  | (0.010) |    (0.011)    |    (0.009)     |   (0.007)   |  (0.010)  |
 |                         |           |         |               |                |             |           |
