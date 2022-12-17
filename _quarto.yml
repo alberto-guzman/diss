@@ -17,6 +17,8 @@ book:
     - references.qmd
 
 bibliography: m3m4.bib
+csl: apa.csl
+link-citations: yes
 
 format:
   pdf:
