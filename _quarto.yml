@@ -15,24 +15,24 @@ book:
     - 02-propensity_over.qmd
     - 03-commonapp_over.qmd
     - references.qmd
-
+    
 bibliography: m3m4.bib
 csl: apa.csl
 link-citations: yes
 
 
-
-format:
-  pdf:
+format: 
+  titlepage-pdf:
     documentclass: report
-    toc-depth: 3
-    lot: TRUE
-    lof: TRUE
-    number-sections: FALSE
     geometry: margin=1.0in
     fontsize: 12pt
-    
-    
+    toc-depth: 3
+    number-sections: TRUE
+    toc: TRUE
+    lof: TRUE
+    lot: TRUE
+    titlepage: "plain"
+    keep-tex: true
     
 
- 
+    
