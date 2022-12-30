@@ -32,7 +32,6 @@ format:
     lof: TRUE
     lot: TRUE
     titlepage: "plain"
-    keep-tex: true
-    
+
 
     
