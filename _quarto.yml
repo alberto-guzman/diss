@@ -3,10 +3,9 @@ project:
   execute-dir: project
   
 book:
-  title: "Dissertation Proposal - Milestone 3 & 4"
-  subtitle: "Deep learning for investigating causal effects with high-dimensional data: analytic tools and applications to educational interventions"
+  title: "Deep Learning for Investigating Causal Effects with High-Dimensional Data: Analytic Tools and Applications to Educational Interventions"
   author: "Alberto Guzman-Alvarez"
-  output-file: "alberto_guzmanalvarez_m3m4"
+  output-file: "alberto_guzmanalvarez_diss"
   date: last-modified
   date-format: long
   chapters:
@@ -31,7 +30,7 @@ format:
     toc: TRUE
     lof: TRUE
     lot: TRUE
-    titlepage: "plain"
+    titlepage: plain
 
 
     
