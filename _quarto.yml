@@ -3,8 +3,8 @@ project:
   execute-dir: project
   
 book:
-  title: "Deep Learning for Investigating Causal Effects with High-Dimensional Data: Analytic Tools and Applications to Educational Interventions"
-  author: "Alberto Guzman-Alvarez"
+  title: "**Deep Learning for Investigating Causal Effects with High-Dimensional Data: Analytic Tools and Applications to Educational Interventions**"
+  author: "**Alberto Guzman-Alvarez**"
   output-file: "alberto_guzmanalvarez_diss"
   date: last-modified
   date-format: long
@@ -14,6 +14,8 @@ book:
     - 02-propensity_over.qmd
     - 03-commonapp_over.qmd
     - references.qmd
+  appendices: 
+    - appendix_a.qmd
     
 bibliography: m3m4.bib
 csl: apa.csl
@@ -31,6 +33,17 @@ format:
     lof: TRUE
     lot: TRUE
     titlepage: plain
+    titlepage-footer: |
+        University of Pittburgh\ 
+        2023
+    titlepage-include-file:
+     - copyright.tex
+    titlepage-theme:
+            elements: [ "\\titleblock", "by", "\\authorblock","B.S., University of California - Davis, 2013","M.A., University of Pittsburgh, 2018", 
+            "Submitted to the Graduate Faculty of the School of Education in partial fulfillment of the requirements for the degree of Doctor of Philosophy",
+            "\\vfill", "\\footerblock"] 
+            author-space-after: 0 in
+            title-align: center
 
 
     
