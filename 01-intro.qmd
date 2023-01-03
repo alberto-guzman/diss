@@ -8,11 +8,11 @@ Questions of causality have traditionally been addressed using Randomized Contro
 
 In education, propensity score analysis is one of the most widely used quasi-experimental methods [@Fan.2011; @Powell.2020; @Rosenbaum.2010; @Thoemmes.2011pt9; @Stuart.2010]. Propensity score analysis is used in non-experimental studies to balance the observed characteristics between treated and untreated students, just as randomization to treatment and control conditions creates balance on observable variables. The propensity score represents the probability that a student would have been exposed to treatment, conditional on observable covariates [@Rosenbaum.1981; @Rosenbaum.1984].
 
-However, to estimate unbiased treatment effects correctly using propensity scores, certain strict assumptions must be met; ignorability assumption [@Rosenbaum.2010]. The propensity score model must:
+However, to estimate unbiased treatment effects correctly using propensity scores, certain strict assumptions must be met such that the propensity score model:
 
-(1) capture all of the characteristics related to the selection into treatment, leaving out no potential confounders [@Rosenbaum.2010].
+(1) captures all of the characteristics related to selection into treatment [@Rosenbaum.2010].
 
-(2) correctly model the association between the student's characteristics and treatment selection, meaning that all proper interactions and non-linear terms should be specified [@Rosenbaum.2010].
+(2) correctly models the association between the student's characteristics and treatment selection, meaning that all proper interactions and non-linear terms should be specified [@Rosenbaum.2010].
 
 The literature suggests a "kitchen sink" approach for variable selection to guard against the first condition since the penalties are high if a potential confounder is not included in the propensity score model [@Pirracchio.2015; @Shortreed.2017lu8; @Stuart.2010]. For the second condition, the literature suggests iterating through various model specifications, with each iteration adding interactions or nonlinear terms until a balance is achieved among the observed characteristics between treated and untreated students [@Stuart.2010]. The consequences are steep if these assumptions are not met, as it will lead to biased treatment effect estimates (CITE).
 
@@ -26,7 +26,7 @@ My dissertation includes two studies: a methodological and substantive applicati
 
 #### Paper 1: Evaluating modern propensity score estimation methods with high-dimensional data
 
-Estimating the propensity score is a crucial step in propensity score analysis. Incorrect specification of the propensity score model will result in biased treatment effects [@d2020underspecification; @murnane2010methods; @Rosenbaum.2010]. Therefore, in this simulation study, I introduce DNN into the field of education research and show that their unique properties, such as flexibility and lax model assumptions, are suitable and appropriate for propensity score estimation.
+Estimating the propensity score is a crucial step in propensity score analysis. Incorrect specifications of the propensity score model will result in biased treatment effects [@d2020underspecification; @murnane2010methods; @Rosenbaum.2010]. Therefore, in this simulation study, I introduce DNN into the field of education research and show that their unique properties, such as flexibility and lax model assumptions, are suitable and appropriate for propensity score estimation.
 
 In my first study, I aim to assess the performance of the traditional logistic model and other machine learning methods with high-dimensional data, using propensity score weighting. In addition, I overcome the limitations of existing methods by proposing a novel DNN-based approach to the estimation of propensity scores and illustrate a novel new framework for generating multi-type, correlated high-dimensional data replicating the high-dimensional administrative data that is becoming available to education researchers.
 
