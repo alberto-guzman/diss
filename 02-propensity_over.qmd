@@ -230,15 +230,13 @@ Both studies speak to the increase in interest in using DNN for causal inference
 
 \newpage
 
-## Proposed Method
+## Method
 
-### Simulation Design
+The focus of my second dissertation study is to evaluate the performance of various modern machine learning techniques, including classification and regression tree (CART), bagged CART, random forest, and a single-layer neural network, against the traditional logistic regression and my proposed DNN-based approach using high-dimensional data. Specifically, I will evaluate the impacts of various degrees of data dimensionality (i.e., low vs high-dimensional context) and misspecifications in both the population treatment and outcome models on the estimate of the treatment effect and covariate balance. To achieve this, I will use a Monte Carlo simulation design informed by previous propensity score estimation studies conducted by Setoguchi et al. (2008), Lee et al. (2009), and Cannas and Arpino (2019). My simulation code will begin with Cannas and Arpino's publicly available code from their 2019 manuscript and will be guided by best practices in statistical simulation outlined by Morris et al. (2018). In the remainder of this section, I will describe the simulation design for this study, including the data generation mechanisms, estimands of interest, specific specifications of methods evaluated, and performance measures.
 
-I used a Monte Carlo simulation to compare the performance of various propensity score estimation techniques against the traditional logistic regression and my proposed DNN-based approach using high-dimensional data. I assess the performance by how well each method captures an artificial treatment effect and balances observed covariates. Specifically, I evaluate the performance of popular machine learning algorithms used in the propensity score estimation literature, including classification and regression tree (CART), bagged CART, random forest, and a single-layer neural network.
+### Data-Generation Mechanisms
 
-My proposed simulation design is informed by previous propensity score estimation studies conducted by Setoguchi et al. (2008), Lee et al. (2009), and Cannas and Arpino (2019). The starting point for my simulation code began with Cannas and Arpino's publicly available code from their 2019 manuscript. In the remainder of this section, I describe the simulation design for this study, including the data generation process and the scenarios that I consider.
-
-#### Covariates
+Covariates
 
 I took a programmatic approach to generate three covariate levels that varied in dimensionality ($p = 20, 100, 200$). The covariates were generated from random pulls from three distributions; a normal distribution with a mean of 0 and SD of 1, a uniform distribution with a range of 0 to 1, and a Bernoulli distribution with a probability of success set at 0.5. For each covariate level, half of the covariates were generated from the normal distribution, a quarter from the uniform distribution, and the remaining quarter from the Bernoulli distribution.
 

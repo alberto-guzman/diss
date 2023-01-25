@@ -90,7 +90,7 @@ In order to evaluate the effectiveness of the outreach campaign, our analysis re
 
 From the Common App we received student-level data for the entire cohort of students who had created a Common App account and had intended to apply to college -- hoping to enroll in fall 2020 -- including students who were selected for the outreach $(n = 173,776)$ and those who were not $(n = 1,229,232)$, for a total of nearly 1.5 million student records. Once we cleaned the data, we reduced our analytic sample to include students who lived in the US, had a valid cell phone number, and attended a high school where at least one student was targeted for outreach. Our final analytic sample included nearly half a million students $(N = 406,236)$, including 142,837 students who were targeted for outreach and 263,399 who were not treated and therefore qualified as potential control students.
 
-## Analytic Strategy
+## Method
 
 ### Propensity Score Matching
 
