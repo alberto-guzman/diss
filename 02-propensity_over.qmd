@@ -150,7 +150,7 @@ The building block for artificial neural networks was initially developed by psy
 
 ![Structure of a perceptron - artificial neuron](figures/perceptron.png){#fig-perceptron fig-align="center" width="437"}
 
-An artificial neuron mimics the function of a biological neuron. The artificial neuron takes in a set of inputs of $p$ variables, $X=(X_1, X_2, \cdots, X_i)$ that have corresponding weights $w=(w_1, w_2, \cdots ,w_i)$ that represent the different input strength of each variable. Each variable is then multiplied by its corresponding weight. These weighted variables are then summed together, and a bias term is added ($\beta_0$) to create a linear transformation of the input variables. Weight and bias terms are analogous to the slope and intercept of linear regression. The linear transformation is then passed to an activation function $g(z)$. The activation function takes in the linear transformation and performs a computation that generates an output ($\hat{y}$), which outputs either a 1 or 0. This activation function can also be set to be a linear function, such as the sigmoid function, which outputs values between 0 and 1.
+An artificial neuron mimics the function of a biological neuron. The artificial neuron takes in a set of inputs of $p$ variables, $X=(X_1, X_2, \dots, X_i)$ that have corresponding weights $w=(w_1, w_2, \dots ,w_i)$ that represent the different input strength of each variable. Each variable is then multiplied by its corresponding weight. These weighted variables are then summed together, and a bias term is added ($\beta_0$) to create a linear transformation of the input variables. Weight and bias terms are analogous to the slope and intercept of linear regression. The linear transformation is then passed to an activation function $g(z)$. The activation function takes in the linear transformation and performs a computation that generates an output ($\hat{y}$), which outputs either a 1 or 0. This activation function can also be set to be a linear function, such as the sigmoid function, which outputs values between 0 and 1.
 
 We can express this artificial neuron generally as:
 
@@ -172,7 +172,7 @@ Following the development of the artificial neuron, work began to model more com
 
 \newpage
 
-The NN comprises a series of artificial neurons organized into three layers[@james2013introduction]. The first layer is the input layer of $p$ variables, $X_p=(X_1, X_2, \cdots, X_p)$, our observed covariates. Those input variables are fully connected to the second layer - a hidden layer - made up of $K$ hidden neurons, $A_k = (A_1, A_2, \cdots, A_k)$, which are identical to the artificial neurons mentioned previously, except that the activation function is swapped out to a non-linear function. Each hidden neuron calculates its own prediction based on its unique non-linear combination of variable inputs and associated weight and bias parameters. The last layer is the output layer, which pools the non-linear outputs of the hidden neurons and passes them as inputs to a non-linear output function, $f(x)$, which generates a final prediction ($\hat{y}$). The interconnected neurons allow NN to learn more complex associations between covariates and treatment assignment than a single artificial neuron [@james2013introduction; @Schmidhuber.2015; @hernandez2019systematic].
+The NN comprises a series of artificial neurons organized into three layers[@james2013introduction]. The first layer is the input layer of $p$ variables, $X_p=(X_1, X_2, \dots, X_p)$, our observed covariates. Those input variables are fully connected to the second layer - a hidden layer - made up of $K$ hidden neurons, $A_k = (A_1, A_2, \dots, A_k)$, which are identical to the artificial neurons mentioned previously, except that the activation function is swapped out to a non-linear function. Each hidden neuron calculates its own prediction based on its unique non-linear combination of variable inputs and associated weight and bias parameters. The last layer is the output layer, which pools the non-linear outputs of the hidden neurons and passes them as inputs to a non-linear output function, $f(x)$, which generates a final prediction ($\hat{y}$). The interconnected neurons allow NN to learn more complex associations between covariates and treatment assignment than a single artificial neuron [@james2013introduction; @Schmidhuber.2015; @hernandez2019systematic].
 
 We can express a NN generally as[^02-propensity_over-1]:
 
@@ -182,7 +182,7 @@ $$
 \hat{y} = f(x) = B_0 + \sum_{k=1}^{K}B_kh_k(X) = B_0 + \sum_{k=1}^{K}B_kg(w_{k0}+\sum_{j=1}^{p}w_{kj}X_j)
 $$ {#eq-nn_gen}
 
-Where each hidden unit $A_k, k =1,\cdots,K$ is created from a weighted linear combination of input variables, $X_1,X_2, \cdots,X_p$ that are applied to an activation function $g(z)$ resulting in an "activation" for each hidden neuron, $A_k$:
+Where each hidden unit $A_k, k =1,\dots,K$ is created from a weighted linear combination of input variables, $X_1,X_2, \dots,X_p$ that are applied to an activation function $g(z)$ resulting in an "activation" for each hidden neuron, $A_k$:
 
 $$
 A_k = h_k(X) = g(w_{k0}+\sum_{j=1}^{p}w_{kj}X_j)
@@ -206,7 +206,7 @@ $$
 A_k^{(1)}=h_k^{(1)}(X) = g(w_{k0}^{(1)}+\sum_{j=1}^{p}w_{kj}^{(1)}X_j)
 $$ {#eq-dnn-1}
 
-Where each hidden unit in the first layer $A_k^{(1)}, k =1,\cdots,K_1$ is created from a weighted linear combination of input variables, $X_1,X_2, \cdots,X_p$ that are applied to a non-linear activation function $g(z)$ that results in an output for each hidden neuron in the first layer, $A_k^{(1)}$.
+Where each hidden unit in the first layer $A_k^{(1)}, k =1,\dots,K_1$ is created from a weighted linear combination of input variables, $X_1,X_2, \dots,X_p$ that are applied to a non-linear activation function $g(z)$ that results in an output for each hidden neuron in the first layer, $A_k^{(1)}$.
 
 The second hidden layer $L_2$ takes as inputs the outputs of $A_k^{(1)}$ of the first hidden layer and computes a new non-linear transformation, $A_k^{(2)}$. The new activations of the second layer are calculated as follows:
 
@@ -214,7 +214,7 @@ $$
 A_l^{(2)}=h_k^{(2)}(X) = g(w_{l0}^{(2)}+\sum_{k=1}^{K_1}w_{lk}^{(2)}A_k^{(1)})
 $$ {#eq-dnn-2}
 
-Where each hidden unit in the second layer $A_l^{(2)}, l =1,\cdots,K_2$ is a function of the output of the weighted non-linear combinations of $A_k^{(1)}$, this process can be extended to additional hidden layers. As data move from layer to layer, DNN can approximate increasingly complex functional forms [@LeCun.2015; @schmidhuber2015deep; @james2013introduction]. The final layer of the DNN aggregates the outputs of the second layer and feeds them into an output function that generates a prediction. Although any number of hidden layers can be chosen, it comes with computational costs as the number of hidden layers increases [@LeCun.2015]. Outside of image and speech recognition, only a few hidden layers are needed to capture almost any functional form, with three hidden layers being the "goldilocks" number [@james2013introduction].
+Where each hidden unit in the second layer $A_l^{(2)}, l =1,\dots,K_2$ is a function of the output of the weighted non-linear combinations of $A_k^{(1)}$, this process can be extended to additional hidden layers. As data move from layer to layer, DNN can approximate increasingly complex functional forms [@LeCun.2015; @schmidhuber2015deep; @james2013introduction]. The final layer of the DNN aggregates the outputs of the second layer and feeds them into an output function that generates a prediction. Although any number of hidden layers can be chosen, it comes with computational costs as the number of hidden layers increases [@LeCun.2015]. Outside of image and speech recognition, only a few hidden layers are needed to capture almost any functional form, with three hidden layers being the "goldilocks" number [@james2013introduction].
 
 #### Deep Neural in Causal Inference
 
@@ -236,9 +236,13 @@ The focus of my second dissertation study is to evaluate the performance of vari
 
 ### Data-Generation Mechanisms
 
-Covariates
+The data generation mechanism was informed by the evaluation I conducted as part of my first dissertaton study
 
-I took a programmatic approach to generate three covariate levels that varied in dimensionality ($p = 20, 100, 200$). The covariates were generated from random pulls from three distributions; a normal distribution with a mean of 0 and SD of 1, a uniform distribution with a range of 0 to 1, and a Bernoulli distribution with a probability of success set at 0.5. For each covariate level, half of the covariates were generated from the normal distribution, a quarter from the uniform distribution, and the remaining quarter from the Bernoulli distribution.
+#### Covariates
+
+I took a programmatic approach to generate correlated covariates $(X_1,X_2,X_3,\dots,X_p$ that varied in dimensionality ($p = 20, 100, 200$). The simulated covariates were generated from random pulls from a multivariate normal distribution with $\mu=0$ and $\sigma=1$, with a specified correlation matrix with correlations set between -0.3 and 0.3 using the *mvrnorm* function from the *MASS* package in *R* (CITE).
+
+In order to keep the correlation structure intact I used the inverse CDF (cumulative distribution function) approach to convert the initial random pull of covariates from the multivariate normal distribution to three distributions; a normal distribution with a mean of 0 and SD of 1, a uniform distribution with a range of 0 to 1, and a Bernoulli distribution with a probability of success set at 0.5. For each covariate condition, half of the covariates were generated from the normal distribution, a quarter from the uniform distribution, and the remaining quarter from the Bernoulli distribution.
 
 Much of the literature on propensity score simulation generates uncorrelated covariates [@Setoguchi.2008; @Stuart.2010; @ho2007matching; @Lee.2010]. However, this is not representative of the correlated data typically found in administrative data. Therefore, I generate correlated covariates using the inverse CDF (cumulative distribution function) method.
 
@@ -246,7 +250,7 @@ Covariates were constructed so that half of the covariates affected both treatme
 
 #### Sample Size
 
-I used a sample size of 200,000 for all simulation conditions. This sample size aligns with the average high-dimensional datasets found in education @Reardon.2019. Most of the current propensity score simulation studies generate much smaller sample sizes[@Setoguchi.2008; @Stuart.2010; @ho2007matching; @Lee.2010]. Given that I am trying to mimic the real-world application of high-dimensional administrative data, this sample size is appropriate.
+I used a fixed sample size of 10,000 for all simulation conditions. Note that most of the current propensity score simulation studies generate much smaller sample sizes[@Setoguchi.2008; @Stuart.2010; @ho2007matching; @Lee.2010]. Given that I am trying to mimic the real-world application of high-dimensional administrative data, this sample size is appropriate.
 
 #### Population Treatment Assignment Models
 
@@ -256,7 +260,9 @@ $$
 Pr(Z = 1) = (1 + exp(-(\beta_0 + \sum_{i=1}^{p} \beta_iX_i)))^{-1}
 $$ {#eq-popps}
 
-$X_i$ represents $p$ covariates and their associated coefficients ($\beta_i$). The output, $Pr(Z = 1)$ is the probability of assignment to the treatment condition (i.e., the propensity score). The exact values of the coefficients will be based on previous coefficient values for propensity score simulation studies, mainly @Keller.2015q8. I generated a binary treatment assignment variable by comparing an individual's true propensity score to a random draw from a uniform distribution between 0 and 1. If the propensity score of an individual was higher than the random draw of the uniform distribution, the individual was assigned to treatment such that $Z = 1$, otherwise $Z = 0$. This approach should approximate a probability of assignment to treatment of 0.5, which is the probability of assignment to a randomized experiment with binary treatment.
+$X_i$ represents $p$ covariates and their associated coefficients ($\beta_i$). The output, $Pr(Z = 1)$ is the probability of assignment to the treatment condition (i.e., the propensity score).
+
+The exact values of the coefficients will be based on previous coefficient values for propensity score simulation studies, mainly @Keller.2015q8. I generated a binary treatment assignment variable by comparing an individual's true propensity score to a random draw from a uniform distribution between 0 and 1. If the propensity score of an individual was higher than the random draw of the uniform distribution, the individual was assigned to treatment such that $Z = 1$, otherwise $Z = 0$. This approach should approximate a probability of assignment to treatment of 0.5, which is the probability of assignment to a randomized experiment with binary treatment.
 
 I generated three types of population treatment assignment models (A, B, C, and D) in which I added increasing levels of complexity to the model in the form of interactions (i.e., non-additivity) and higher order terms (i.e., non-linearity).
 
