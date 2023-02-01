@@ -59,7 +59,7 @@ Where $\mathbb{E}(Y_{i1})$ is the expected value of all students in the treatmen
 In addition, we may also be interested in estimating the average treatment effect among those who were assigned to the treatment group. In this case, we may be interested in the average treatment effect on the treated (ATT) [@Rosenbaum.2010], which is defined as:
 
 $$
-ATT= \mathbb{E}(Y_{i1} -Y_{i0}|T_i=1)=\mathbb{E}(Y_{i1}|Z_i=1)-\mathbb{E}(Y_{i0}|Z_i=1)
+ATT= \mathbb{E}(Y_{i1} -Y_{i0}|Z_i=1)=\mathbb{E}(Y_{i1}|Z_i=1)-\mathbb{E}(Y_{i0}|Z_i=1)
 $$ {#eq-att}
 
 In practice, the ATT is the most policy-relevant estimand since its the treatment effect on students who took up treatment [@Stuart.2010].
@@ -84,21 +84,21 @@ $$
 e(x) = Pr(Z=1|X)
 $$ {#eq-ps}
 
-Propensity scores are typically estimated as predicted probabilities from a logistic regression in which a binary outcome variable indicating whether a unit received treatment is being predicted by observed individual characteristics ($X$). They range from 0 to 1, with values closer to 1 indicating that an individual is more likely to be assigned to treatment. Rosenbaum and Rubin demonstrate that if the propensity score is balanced across treatment and control groups, then the distribution of observed covariates between treatment and control is also balanced [@Rosenbaum.1981; @Rosenbaum.1984; @Rosenbaum.2022]. Therefore, theoretically, two students with similar propensity scores should have a similar underlying distribution of observed covariates.
+Propensity scores are typically estimated as predicted probabilities from a logistic regression in which a binary outcome variable indicating whether a unit received treatment is being predicted by observed individual characteristics ($X$). They range from 0 to 1, with values closer to 1 indicating that an individual is more likely to be assigned to treatment. Rosenbaum and Rubin demonstrate that if the propensity score is balanced between treatment and control groups, then the distribution of observed covariates between treatment and control is also balanced [@Rosenbaum.1981; @Rosenbaum.1984; @Rosenbaum.2022]. Therefore, theoretically, two students with similar propensity scores should have a similar underlying distribution of observed covariates.
 
-Researchers can condition on the propensity score using a variety of techniques, including matching [@ho2007matching], which pairs treated students with control students based on the proximity of their propensity score; stratification, which groups students into unique strata based on their propensity score [@Rosenbaum.2010]; and weighting [@Lee.2010], which reweighs students in the sample so that the distribution of the propensity score of the control group is similar to that of the treated group. All these methods have a similar aim of using the propensity score to adjust for the imbalance in the covariate distribution between treated and control units to approximate true randomization conditions. Therefore, by conditioning on the propensity score through matching, stratification, or weighting, we can eliminate bias in our treatment effect and approximate the true causal effect [@Pan.2018qcl]. However, for this to be true, certain assumptions must hold.
+Researchers can condition on the propensity score using a variety of techniques, including matching [@ho2007matching], which pairs treated students with control students based on the proximity of their propensity score; stratification, which groups students into unique strata based on their propensity score [@Rosenbaum.2010]; and weighting [@Lee.2010], which reweighs students in the sample so that the distribution of the propensity score of the control group is similar to that of the treated group. All these methods have a similar aim of using the propensity score to adjust for the imbalance in the covariate distribution between treated and control units to approximate true randomization conditions. Therefore, by conditioning on the propensity score through matching, stratification, or weighting, we can eliminate bias in our treatment effect due to observed confounding and approximate the true causal effect [@Pan.2018qcl]. However, for this to be true, certain assumptions must hold.
 
 #### Assumptions
 
-Several assumptions must be met to estimate an unbiased treatment effect using propensity scores. These include the strong ignorability assumption, the stable unit value assumption, and region of common support [@rubin2005causal].
+Several assumptions must be met to estimate an unbiased treatment effect using propensity scores. These include the stable unit value assumption (SUTVA), the strong ignorability assumption, and region of common support [@rubin2005causal].
 
-The strong ignorability assumption states that the potential outcome of an individual is conditionally independent of treatment assignment if we successfully conditioned on all covariates related to treatment, $Y_1, Y_0 \perp Z|X$. In experimental studies, this assumption is satisfied by the act of randomization, since randomization ensures that treatment assignment is independent of an individual's outcome [@rubin2005causal; @Rosenbaum.2022]. However, in observational studies, this assumption holds if *all* covariates related to treatment assignment are included in the propensity score model [@Rosenbaum.1981; @Rosenbaum.1984].
+The first assumption, the stable unit treatment value assumption (SUTVA), states that 1) their is only one version of the treatment condtion, and 2) the potential outcome of an individual is unaffected by the treatment assignment of any other individual [@Rosenbaum.2022]. In other words, the outcome of a student is independent of whether another student is assigned to the treatment or control group.
 
-The second assumption, the stable unit treatment value assumption (SUTVA), states that the potential outcome of an individual is unaffected by the treatment assignment of any other individual [@Rosenbaum.2022]. In other words, the outcome of a student is independent of whether another student is assigned to the treatment or control group.
+The strong ignorability assumption states that the potential outcome of an individual is conditionally independent of treatment assignment if we successfully conditioned on all covariates related to treatment, $Y_1, Y_0 \perp Z|X$. In experimental studies, this assumption is satisfied by the act of randomization, since randomization ensures that treatment assignment is independent of an individual's outcome [@rubin2005causal; @Rosenbaum.2022]. However, in observational studies, this assumption holds if *all* covariates related to treatment assignment are included in the propensity score model [@Rosenbaum.1981; @Rosenbaum.1984]. In practice, this is unlikely and therefore sensity analysis have been proporsed as necesarry to asses the influence of unmeasured confounding (CITE).
 
-Finally, the third assumption is the region of common support. This assumption states that there must be sufficient overlap in the estimated propensity score distribution between the treatment and control groups [@Rosenbaum.2022]. With sufficient overlap, we can ensure that we can find suitable matches for treated students.
+Finally, the third assumption is the region of common support. This assumption states that there must be sufficient overlap in the estimated propensity score distribution between the treatment and control groups [@Rosenbaum.2022]. With sufficient overlap, we can ensure that we can find suitable matches for treated students. We can asses if we have adequate support by plotting the distribution of the propensity scores in the treatment group and control group overlayed and aassesing if the distributions succifiend overlap (CITE). 
 
-If these assumptions hold, we can estimate causal effects from observational data. Unfortunately, many of these assumptions are untestable [@Stuart.2010; @ho2007matching; @Lee.2010]. For example, in observational data, the majority of the time, we are blind to the underlying treatment assignment mechanism, and therefore we cannot be sure that *all* covariates related to treatment assignment are included in our propensity score model [@Stuart.2010]. In practice, propensity score analysis should be viewed as a means of reducing some, but not all, of the bias between the treatment and the outcome in observational studies. Since we cannot ensure that all confounding variables are included in our propensity score model. Therefore, special attention should be paid to which covariates are selected to be included in the propensity score model.
+If these assumptions hold, we can estimate causal effects from observational data. Unfortunately, many of these assumptions are untestable [@Stuart.2010; @ho2007matching; @Lee.2010]. For example, in observational data, the majority of the time, we are blind to the underlying treatment assignment mechanism, and therefore we cannot be sure that *all* covariates related to treatment assignment are included in our propensity score model [@Stuart.2010]. In practice, propensity score analysis should be viewed as a means of reducing some, but not all, of the bias between the treatment and the outcome in observational studies. Since we cannot ensure that all confounding variables are included in our propensity score model. Therefore, special attention should be paid to which covariates are selected to be included in the propensity score model as well as perform sensitity analysis to asses the influence of unmeasured confounding (CITE).
 
 #### Covariate Selection
 
@@ -117,10 +117,10 @@ The most critical step in propensity score analysis is estimating the propensity
 Logistic regression is the most common model used to generate propensity scores in the social science literature due to its ease of interpretation and familiarity with many applied researchers and its ability to accommodate both continuous and categorical covariates[@Keller.2015q8]. The logistic model is defined as follows:
 
 $$
-logit(Z_i = 1|X)=log\left( \frac{Pr(Z=1|X)}{1-Pr(Z=1|X)} \right) = \beta_o + \beta_1X_1 + \cdots + \beta_pX_p
+logit(Z = 1|X)=log\left( \frac{Pr(Z=1|X)}{1-Pr(Z=1|X)} \right) = \beta_o + \beta_1X_1 + \cdots + \beta_pX_p
 $$ {#eq-log}
 
-Where $X$ is a vector of observed covariates that are regressed on $Z$, a binary indicator equal to 1 if a student is in the treatment group and 0 otherwise. The output of the logistic regression is predicted probabilities that are continuous and bounded between 0 and 1 (i.e., propensity scores).
+Where $Z$, a binary indicator equal to 1 if a student is in the treatment group and 0 otherwise, regressed on $X$ a vector of observed covariates. The output of the logistic regression is predicted probabilities that are continuous and bounded between 0 and 1 (i.e., propensity scores).
 
 Although logistic regression is the most widely used model for estimating propensity scores, it may not be the most valid for inference. Various simulation studies suggest that using logistic regression for modeling propensity scores is inadequate and leads to biased treatment effects when incorrectly specified, given that parametric models require assumptions regarding the functional form and variable distributions [@Lee.2010; @Pan.2018qcl; @Setoguchi.2008; @Westreich.2010]. This is especially true when estimating propensity scores with hundreds of covariates [@Hill.2011soh]. The logistic model tends to degrade and estimate a propensity score that falls outside the desired 0 to 1 bound in a high-dimensional context [@Hill.2011soh; @Collier.2021lp; @Keller.2015q8]. With the ever-increasing amounts of "big" administrative data at the disposal of applied behavioral and social science research, the degradation of logistic regression is worrisome. However, outside social science, research has suggested alternatives to logistic regression in estimating the propensity score that use non-parametric machine learning algorithms [@Stuart.2010; @ho2007matching; @Lee.2010; @Setoguchi.2008; @Watkins.2013; @Westreich.2010; @Cannas.2019].
 
@@ -218,7 +218,7 @@ Where each hidden unit in the second layer $A_l^{(2)}, l =1,\dots,K_2$ is a func
 
 #### Deep Neural in Causal Inference
 
-DNN can uncover complex relationships in high-dimensional data with better precision than traditional statistical and machine learning methods, which were novel just a decade ago [@hernandez2019systematic; @LeCun.2015; @Schmidhuber.2015]. A DNN ability to identify the intricate relationships within large-volume, high-dimensional data makes these algorithms applicable to causal methods, such as propensity score analysis.
+DNN can uncover complex relationships in high-dimensional data with better precision than traditional statistical and machine learning methods, which were novel just a decade ago [@hernandez2019systematic; @LeCun.2015; @Schmidhuber.2015]. A DNN capability to uncovere these intricate relationships within large-volume, high-dimensional data makes these algorithms applicable to causal methods, such as propensity score analysis.
 
 DNN have gained significant attention in industry and academic research, making considerable advances in image recognition and natural language processing [@LeCun.2015; @james2013introduction]. Recent investments by Google in software development now make it easy to develop DNN models using user-friendly programming languages [@Pang.2019].
 
@@ -257,27 +257,27 @@ I used a fixed sample size of 10,000 for all simulation conditions. Note that mo
 I generated the population treatment assignment models using standard logistic regression. These population treatment assignment models can also be referred to as population propensity score models since they generate the "true" probability of being assigned to treatment. The following logistic regression model represents the general structure of these models.
 
 $$
-Pr(Z = 1) = (1 + exp(-(\beta_0 + \sum_{i=1}^{p} \beta_iX_i)))^{-1}
+Pr(Z = 1) = (1 + exp(-(\beta_0 + \sum_{i=1}^{p} \betaX)))^{-1}
 $$ {#eq-popps}
 
-$X_i$ represents $p$ covariates and their associated coefficients ($\beta_i$). The output, $Pr(Z = 1)$ is the probability of assignment to the treatment condition (i.e., the propensity score).
+$X_i$ represents $p$ covariates and their associated coefficients ($\beta$). The output, $Pr(Z = 1)$ is the probability of assignment to the treatment condition (i.e., the propensity score).
 
-The exact values of the coefficients will be based on previous coefficient values for propensity score simulation studies, mainly @Keller.2015q8. I generated a binary treatment assignment variable by comparing an individual's true propensity score to a random draw from a uniform distribution between 0 and 1. If the propensity score of an individual was higher than the random draw of the uniform distribution, the individual was assigned to treatment such that $Z = 1$, otherwise $Z = 0$. This approach should approximate a probability of assignment to treatment of 0.5, which is the probability of assignment to a randomized experiment with binary treatment.
+The exact values of the coefficients will be based on previous coefficient values for propensity score simulation studies, mainly @Keller.2015q8. I generated a binary treatment assignment variable by comparing an individual's true propensity score to a random draw from a uniform distribution between 0 and 1. (CITE) If the propensity score of an individual was higher than the random draw of the uniform distribution, the individual was assigned to treatment such that $Z = 1$, otherwise $Z = 0$. This approach should approximate a probability of assignment to treatment of 0.5, which is the probability of assignment to a randomized experiment with binary treatment.
 
 I generated three types of population treatment assignment models (A, B, C, and D) in which I added increasing levels of complexity to the model in the form of interactions (i.e., non-additivity) and higher order terms (i.e., non-linearity).
 
 **Scenario "A"** includes only main effects, which assumes a linear relationship between covariates and treatment assignment. I consider this the base model, which is expressed using the following formula:
 
 $$
-PS^{A}(X) = (1 + exp(-(\beta_0 + \sum_{i=1}^{p} \beta_iX_i)))^{-1}
+PS^{A}(X) = (1 + exp(-(\beta_0 + \sum_{i=1}^{p} \betaX)))^{-1}
 $$ {#eq-psA}
 
-$X_i$ represents $p$ covariates and their associated coefficients $\beta_i$. The output, $Pr(Z = 1)$ is the probability of assignment to the treatment condition (i.e., propensity score).
+$X$ represents $p$ covariates and their associated coefficients $\beta$. The output, $Pr(Z = 1)$ is the probability of assignment to the treatment condition (i.e., propensity score).
 
 **Scenario "B"** describes a non-linear model in which I include quadratic terms on a subset of covariates:
 
 $$
-PS^{B} = PS^{A}(X) + \beta_iX_i^2
+PS^{B} = PS^{A}(X) + \betaX^2
 $$ {#eq-psB}
 
 **Scenario "C"** describes a non-additive model in which I include interactions on a subset of covariates:
@@ -334,7 +334,7 @@ $$ {#eq-outcome_d}
 
 #### Propensity Score Estimation Methods
 
-I access the performance of popular machine learning techniques used in the propensity score estimation literature, including classification and regression tree (CART), bagged CART, random forest, and single-layer neural network.
+I assess the performance of popular machine learning techniques used in the propensity score estimation literature, including classification and regression tree (CART), bagged CART, random forest, and single-layer neural network.
 
 -   **Logistic regression**: standard logistic regression with only main effects
 
@@ -354,7 +354,7 @@ I used well-established best practices for default parameters in all models to m
 
 #### Simulation Scenarios
 
-In total, I tested three covariates levels (p = 20, 100, 200), with four treatment models (A, B, C, D) and four outcome models (a, b, c, d), for a total of 48 simulated conditions. Given the high-dimensional data generated in my simulation, I used the University of Pittsburgh Center for Research Computing cluster to run the simulation on high-memory nodes. Each scenario was simulated 1,000 times, making it a true Monte Carlo experiment. @tbl-cross shows the crossing of the four treatment and outcome models.
+In total, I tested three COVARIATE LEVELS(p = 20, 100, 200), with four treatment models (A, B, C, D) and four outcome models (a, b, c, d), for a total of 48 simulated conditions. Given the high-dimensional data generated in my simulation, I used the University of Pittsburgh Center for Research Computing cluster to run the simulation on high-memory nodes. Each scenario was simulated 1,000 times, making it a true Monte Carlo experiment. @tbl-cross shows the crossing of the four treatment and outcome models.
 
 |     | A (base) | B (non-linearity | C (non-additivity) | D (complex) |
 |:---:|:--------:|:----------------:|:------------------:|:-----------:|
