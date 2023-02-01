@@ -232,7 +232,7 @@ Both studies speak to the increase in interest in using DNN for causal inference
 
 ## Method
 
-The focus of my second dissertation study is to evaluate the performance of various modern machine learning techniques, including classification and regression tree (CART), bagged CART, random forest, and a single-layer neural network, against the traditional logistic regression and my proposed DNN-based approach using high-dimensional data. Specifically, I will evaluate the impacts of various degrees of data dimensionality (i.e., low vs high-dimensional context) and misspecifications in both the population treatment and outcome models on the estimate of the treatment effect and covariate balance. 
+The focus of my second dissertation study is to evaluate the performance of various modern machine learning techniques, including classification and regression tree (CART), bagged CART, random forest, and a single-layer neural network, against the traditional logistic regression and my proposed DNN-based approach using high-dimensional data. Specifically, I will evaluate the impacts of various degrees of data dimensionality (i.e., low vs high-dimensional context) and misspecifications in both the population treatment and outcome models on the estimate of the treatment effect and covariate balance.
 
 To achieve this, I will use a Monte Carlo simulation design informed by previous propensity score estimation studies conducted by Setoguchi et al. (2008), Lee et al. (2009), and Cannas and Arpino (2019). My simulation code will begin with Cannas and Arpino's publicly available code from their 2019 manuscript and will be guided by best practices in statistical simulation outlined by Morris et al. (2018). In the remainder of this section, I will describe the simulation design for this study, including the data generation mechanisms, estimands of interest, specific specifications of methods evaluated, and performance measures.
 
@@ -242,7 +242,7 @@ The data generation mechanism was informed by the evaluation I conducted as part
 
 #### Covariates
 
-I took a programmatic approach to generate correlated covariates, $(X_1,X_2,X_3,\dots,X_p$ . Specifically, I simulated three covariate conditions that varied in the number of covaraites generated ($p = 20, 100, 200$). The 20 covariate condition was considerd given that its the average amount of covariates used in the typical propensity score analysis in educational research (Ansong, Wu, & Chowa, 2015; Cho et al., 2012; Monlezun et al., 2015;Morgan et al., 2015; Sullivan & Field, 2013). The remaining two condtions (p = 100, 200) were chosen because they are representative of the high-dimensional datasets in education (CITE HILL). 
+I took a programmatic approach to generate correlated covariates, $(X_1,X_2,X_3,\dots,X_p$ . Specifically, I simulated three covariate conditions that varied in the number of covaraites generated ($p = 20, 100, 200$). The 20 covariate condition was considerd given that its the average amount of covariates used in the typical propensity score analysis in educational research (Ansong, Wu, & Chowa, 2015; Cho et al., 2012; Monlezun et al., 2015;Morgan et al., 2015; Sullivan & Field, 2013). The remaining two condtions (p = 100, 200) were chosen because they are representative of the high-dimensional datasets in education (CITE HILL).
 
 Much of the literature on propensity score simulation generates uncorrelated covariates [@Setoguchi.2008; @Stuart.2010; @ho2007matching; @Lee.2010]. However, this is not representative of the correlated data typically found in administrative data.All covaraites were generated from random pulls from a multivariate normal distribution with $\mu=0$ and $\sigma=1$, with a specified correlation matrix with correlations set between -0.3 and 0.3 using the *mvrnorm* function from the *MASS* package in *R* (CITE).
 
@@ -260,14 +260,14 @@ $$
 Pr(Z = 1) = (1 + exp(-(\beta_0 + \sum_{i=1}^{p} \beta_X)))^{-1}
 $$ {#eq-popps}
 
-$X_i$ represents $p$ covariates and their associated coefficients ($\beta$). The output, $Pr(Z = 1)$ is the probability of assignment to the treatment condition (i.e., the propensity score). The values for the $\beta_X) coeffecients for the population treamtnet models were based on the evalution of the common application such that the intercept $\beta_0 = 0.25$, and the remaining $\beta_X_i$ coefecients were given a random value between -0.4 and 0.4. 
+$X_i$ represents $p$ covariates and their associated coefficients ($\beta$). The output, $Pr(Z = 1)$ is the probability of assignment to the treatment condition (i.e., the propensity score). The values for the $(\beta_X)$ coeffecients for the population treamtnet models were based on the evalution of the common application such that the intercept $0.25$, and the remaining $\beta_X$ coefecients were given a random value between -0.4 and 0.4.
 
 I generated two types of population treatment assignment models (Base(T) and Complex(T)) in which I added levels of complexity to the model in the form of interactions (i.e., non-additivity) and higher order terms (i.e., non-linearity) to the covariates related to treatment and overall confounders.
 
 **Base(T)** includes only main effects, which assumes a linear relationship between covariates and treatment assignment. I consider this the base model, which is expressed using the following formula:
 
 $$
-PS^{A}(X) = (1 + exp(-(\beta_0 + \sum_{i=1}^{p} \betaX)))^{-1}
+PS^{A}(X) = (1 + exp(-(\beta_0 + \sum_{i=1}^{p} \beta_X)))^{-1}
 $$ {#eq-psA}
 
 $X$ represents $p$ covariates and their associated coefficients $\beta$. The output, $Pr(Z = 1)$ is the probability of assignment to the treatment condition (i.e., propensity score).
@@ -284,7 +284,7 @@ Using the propensity scores generated from these population treatment models I g
 
 In addition to the population treatment assignment models, I generated a two population outcome models in which I also varied the level of complexities between covariates and potential outcomes by including interactions and higher-order terms on covariates related to outcome and overall confounders. Adding these complexities to the outcome model is relatively novel in the propensity score literature, although it is much more representative of the complex associations found in datasets in educational research @Cannas.2019.
 
-Continuous potential outcomes were generated through regression models. Where similar to the population treatment models the values of $\alpha$ were based on the Common App evalution such that the intercet $\alpha_0$ equaled -0.18 and the remaining $\alpha$ coefecient received a random valued between -0.2 and 0.3. 
+Continuous potential outcomes were generated through regression models. Where similar to the population treatment models the values of $\alpha$ were based on the Common App evalution such that the intercet $\alpha_0$ equaled -0.18 and the remaining $\alpha$ coefecient received a random valued between -0.2 and 0.3.
 
 The general structure of the population outcome models is defined as follows:
 
@@ -330,21 +330,21 @@ I used default parameters for all models to mimic the real-world application of 
 
 #### Hyperparameters
 
-A common critique around neural network approaches, and widely most machine learning algorithms is the need for the researcher to indicate varies values for parameter. Choosing the wrong parameter may lead to widely different results (CITE). For example, tree based approaches like CART rely on specifying the number of trees to train most researcher using the forest pacakge liely dont change this parameter but defaults values are provided by the package creaters, in this case 100 trees is the default. Common wisdom says you can find the optimal number for these parameters using k-fold cross validation where your sample is split into various training and testing set and various value of the parameter one is trying to tune are tested, to find the optimal number. Although this is well established practice, when these methods are applied may researcher fail to do this appraoch and go back to default parameters (CITE). 
+A common critique around neural network approaches, and widely most machine learning algorithms is the need for the researcher to indicate varies values for parameter. Choosing the wrong parameter may lead to widely different results (CITE). For example, tree based approaches like CART rely on specifying the number of trees to train most researcher using the forest pacakge liely dont change this parameter but defaults values are provided by the package creaters, in this case 100 trees is the default. Common wisdom says you can find the optimal number for these parameters using k-fold cross validation where your sample is split into various training and testing set and various value of the parameter one is trying to tune are tested, to find the optimal number. Although this is well established practice, when these methods are applied may researcher fail to do this appraoch and go back to default parameters (CITE).
 
-Neural networks are no different, for exmple one can control how many hidden layers are include, how many hidden nurons, the learning rate, and weight decay. Various combinations of this would lead to different results. Note that X and X used neural networks to estimate propenisty scores and used a neural network trained on a large dataset to find the optimal parameters and then used those parameters for the simulation. This is a good approach however, it may not generalize outside their specific simulation conditons. A better approach and one that I take is to train within each iteraction to find the optimal learnign rate for the specific data at hand. 
+Neural networks are no different, for exmple one can control how many hidden layers are include, how many hidden nurons, the learning rate, and weight decay. Various combinations of this would lead to different results. Note that X and X used neural networks to estimate propenisty scores and used a neural network trained on a large dataset to find the optimal parameters and then used those parameters for the simulation. This is a good approach however, it may not generalize outside their specific simulation conditons. A better approach and one that I take is to train within each iteraction to find the optimal learnign rate for the specific data at hand.
 
-In reality this would be incredibly time consuming to use cross validation during each iteration. However, with advances in the deep neural network space with pacakges like Keras they have build in "optimizer" that do the trianing. IN this case its ADAm. Adam is an algorithm optimizer that iteratively lears the proper weight. Somethinga bout in an effecient manner. 
+In reality this would be incredibly time consuming to use cross validation during each iteration. However, with advances in the deep neural network space with pacakges like Keras they have build in "optimizer" that do the trianing. IN this case its ADAm. Adam is an algorithm optimizer that iteratively lears the proper weight. Somethinga bout in an effecient manner.
 
-Therefore for my simulation I use the keras optimizer to automatically find the otpimal learning rate tha tminimes a loss. To get some gains in computaitons effecienty for the neural network based apporahc i use early stopping techniqey, by which i set the once the delat values of does not change after 5 trainign runs I deem the network trained. Additionally, I use L2 regularization to penalize large weights set to .005. All neural network are trained with hidden layers euqla to 2/3 P and relu activaton fucntions that are computationally effecntio with L2 reularizaito applied to each hidden layer and the output layer. The ouput layer is set to a sigmoid activation fucntion in order to generate bounded probabilities between o and 1. I train on a standard 80/20 split and use 100 epochs, and 32 batch since. The losst function is defineda s the binary crossentropy which is good for binary classificaiton. Table X include the hyperparamters values for each of my neural networks I oncisder. 
+Therefore for my simulation I use the keras optimizer to automatically find the otpimal learning rate tha tminimes a loss. To get some gains in computaitons effecienty for the neural network based apporahc i use early stopping techniqey, by which i set the once the delat values of does not change after 5 trainign runs I deem the network trained. Additionally, I use L2 regularization to penalize large weights set to .005. All neural network are trained with hidden layers euqla to 2/3 P and relu activaton fucntions that are computationally effecntio with L2 reularizaito applied to each hidden layer and the output layer. The ouput layer is set to a sigmoid activation fucntion in order to generate bounded probabilities between o and 1. I train on a standard 80/20 split and use 100 epochs, and 32 batch since. The losst function is defineda s the binary crossentropy which is good for binary classificaiton. Table X include the hyperparamters values for each of my neural networks I oncisder.
 
-Additonally I test a 2 hidden layer approach and 3 hidden layer appraoch. 
+Additonally I test a 2 hidden layer approach and 3 hidden layer appraoch.
 
 #### Estimating Treatment Effects - Propensity Score Weighting
 
 To recapture the treatment effect using the methods detailed above, I used a propensity score weighting approach, specifically the inverse probability of treatment weighting (IPTW) [@Lee.2010], where covariate balance is achieved between treated and untreated units by reweighting observations based on their estimated propensity score. Such that each treated observation is equal to $1/e_i(x)$, and untreated units receive a weight of $1/(1-e_i(x)$, where $e_i(x)$ is the estimated propensity score for unit $i$ this weighting scheme estimates the ATE.
 
-The ATE was calculated using the R survey package where the outcome variable ($Y$) was predicted by a binary treatment assignment variable, with ATT weights included. Both the ATE point estimate were safed, as well as the standard error and the 95 confidence interval. 
+The ATE was calculated using the R survey package where the outcome variable ($Y$) was predicted by a binary treatment assignment variable, with ATT weights included. Both the ATE point estimate were safed, as well as the standard error and the 95 confidence interval.
 
 #### Performance Metrics
 
@@ -352,19 +352,19 @@ To gauge the performance of each propensity score estimation method, I used the 
 
 -   **Bias**: the difference between the estimated treatment effect and the population treatment effect of 0.3. Bias values indicate deviations from the estimated ATE and the population treatment effect. This also lets us see if we over or under estimate bias
 
--   **Absoluate Bias**: the absolute difference between the estimated treatment effect and the population treatment effect of 0.3. 
+-   **Absoluate Bias**: the absolute difference between the estimated treatment effect and the population treatment effect of 0.3.
 
 -   **Absolute Relative Bias (Bias)**: the absolute difference between the estimated treatment effect and the population treatment effect, divided by the true population treatment effect of 0.3.
 
 -   **Average Standardized Absolute Mean Distance (ASAM)**: is a measure of of covariate balance. After calculating the ATT, the absolute value of the standardized difference of means between the treated and untreated group was calculated for each covariate and averaged across all covariates. Lower ASAM values indicate better covariate balance.
 
--   **ATE Standard Error**: is simply the standard error associated with the estimated ATE. 
+-   **ATE Standard Error**: is simply the standard error associated with the estimated ATE.
 
 -   **Mean Squared Error (MSE)**: the average squared difference between the estimated treatment effect and the population treatment effect. MSE is a good representation of both bias and variance and a common performance metric in machine learning literature [@athey2015machine; @Mullainathan.2017].
 
--   **Power**: indicator of wether the p-value associated with the estimated ATE is lower than an alpha leve of 0.05. 
+-   **Power**: indicator of wether the p-value associated with the estimated ATE is lower than an alpha leve of 0.05.
 
--   **Type I error**: indicator of wether the p-value associated with the estimated ATE is lower than an alpha leve of 0.05, when the population treatment effect is set to 0. 
+-   **Type I error**: indicator of wether the p-value associated with the estimated ATE is lower than an alpha leve of 0.05, when the population treatment effect is set to 0.
 
 -   **95% Confidence Interval Coverage**: indicator of wether the population treatment effect of 0.3 is found within the estimate 95% confidence interval.
 
@@ -377,15 +377,5 @@ In total, I tested three covariates conditions (p = 20, 100, 200), with two trea
 #### Software
 
 Given the high-dimensional data generated in my simulation and computationall complextity of the methods, I used the University of Pittsburgh Center for Research Computing cluster to run the simulation on high-memory nodes. All simulations were perfromed in R version 4.1.0 and Python 3.7, and Keras version and Tensorflow ...
-
-
-
-
-
-
-
-
-
-
 
 ### appendix code

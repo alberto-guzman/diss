@@ -1,4 +1,4 @@
 ---
-title: "appendix_a"
+title: "Appendix A"
 ---
 

@@ -16,6 +16,7 @@ book:
     - references.qmd
   appendices: 
     - appendix_a.qmd
+    - appendix_b.qmd
     
 bibliography: m3m4.bib
 csl: apa.csl
