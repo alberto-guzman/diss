@@ -8,7 +8,7 @@ To address this uncertainty, the Common Application (Common App), a non-profit o
 
 Over 38 weeks, an artificially intelligent (AI) chatbot named *Oli* sent students scripted messages on various college search, application, and enrollment-related topics. Staff developed the scripted messages at the Common App in collaboration with CAC. They included messages reminding students about upcoming deadlines, such as "Hey <STUDENT NAME>, #CollegeSigningDay is this Friday, May 1st. Have you decided what school you're going to attend?" To better target the information, Oli solicited information directly from students about the types of resources they needed and pressing questions they had. The chatbot "learned" how to interact with students by first having staff at the partnered organizations seed the chatbot with frequently asked questions and answers. As Oli interacted with students, it built an ever-increasing knowledge base for student questions that aided the chatbot in providing more targeted and individualized real-time responses. As the intervention rolled out, Common App and CAC staff could monitor interactions and correct and add to Oli's knowledge base. Student questions that Oli could not answer were forwarded to college advisers at the CAC, who would follow up directly with individual students.
 
-In recent years, researchers have developed an interest in understanding how insights from behavioral economics can inform strategies to support students to and through college [@Oreopoulos.2020]. Several of these studies have involved designing and testing proactive communication strategies using text messaging as the primary mode of communication [@Page.2016x1k]. Recent studies have investigated text messaging communication employing artificially intelligent chatbot capability [@Nurshatayeva.2021; @Page.2017jj; @Page.2020]. These studies have demonstrated that chatbots can be effective in assisting students to complete pre-matriculation tasks and enroll in college [\@Nurshatayeva.2021; \@Page.2017jj; \@Page.2020]. However, there are numerous open questions regarding the scalability of these chatbot interventions. Text nudge interventions have mixed results when implemented at scale, with many studies finding minimal to no effects on college-related outcomes [@Bird.2021; @Oreopoulos.2020].
+In recent years, researchers have developed an interest in understanding how insights from behavioral economics can inform strategies to support students to and through college [@Oreopoulos.2020]. Several of these studies have involved designing and testing proactive communication strategies using text messaging as the primary mode of communication [@Page.2016x1k]. Recent studies have investigated text messaging communication employing artificially intelligent chatbot capability [@Nurshatayeva.2021; @Page.2017jj; @Page.2020]. These studies have demonstrated that chatbots can be effective in assisting students to complete pre-matriculation tasks and enroll in college \[\@Nurshatayeva.2021; \@Page.2017jj; \@Page.2020\]. However, there are numerous open questions regarding the scalability of these chatbot interventions. Text nudge interventions have mixed results when implemented at scale, with many studies finding minimal to no effects on college-related outcomes [@Bird.2021; @Oreopoulos.2020].
 
 Therefore, my second dissertation study aims to contribute to the literature on the scalability of chatbot interventions by evaluating the large-scale chatbot campaign implemented by the Common App, College Advising Corps, and Mainstay aimed at low-income, first-generation students. Specifically, I investigate whether the college applications and enrollment rates were higher among students targeted for this chatbot outreach compared to their observationally similar peers who were not targeted. In addition, I examine treatment heterogeneity based on students' application behavior, racial/ethnic identity, and the level of chatbot engagement.
 
@@ -22,7 +22,7 @@ In this section, I review the literature on college access in general as well as
 
 Before reviewing the literature, I first define how I conceptualize first-generation students -- students whose parents do not have any postsecondary education experience -- and the systemic barriers they face in college access. I take an anti-deficit approach to my framing of first-generation students -- many of whom also tend to be economically and racially marginalized [@Harper.2010; @Hernandez.2022]. Anti-deficit practices explore how marginalized students persist in the face of social and structural barriers to reframe students' experiences from ones of struggling to ones of resiliency [@Harper.2010]. Since most deficit approaches focus on what students lack, anti-deficit strategies focus on what students bring that leads to their resilience and persistence. Although I take an anti-deficit stance in my review of the literature, I recognize that the majority of the existing literature on college access, especially that focuses on economically and racially marginalized students, is written from a deficit perspective [@McLewis.2021].
 
-It is important to acknowledge the structural and social barriers that lead to disparate postsecondary outcomes for first-generation students. For example, economically and racially marginalized individuals face structural barriers to accessing quality education, housing, and employment conditions . Decades of federal redlining in housing and the policy of using local taxes to fund schools, for instance, produce racial and socioeconomic disparities in educational opportunities and family wealth [\@Oromaner.1986; \@Ornelas.2004; \@Soria.2020; \@Hernandez.2022]. In addition, racially marginalized students face social and systemic barriers and federal policies that have historically limited their access to high-quality primary and secondary education [@McLewis.2021; @Ornelas.2004; @Hernandez.2022]. For example, policies that funnel racially marginalized students into underserved schools with limited access to college prep courses, and school tracking policies that exclude racially marginalized students from gaining access to the college prep tracks that would qualify them to apply to college [@Oakes.2007; @Ornelas.2004; @Oromaner.1986]. As a result, disparities in college access and completion based on parental education, as well as social and structural barriers, are significant contributors to the rising income inequality in the US.
+It is important to acknowledge the structural and social barriers that lead to disparate postsecondary outcomes for first-generation students. For example, economically and racially marginalized individuals face structural barriers to accessing quality education, housing, and employment conditions . Decades of federal redlining in housing and the policy of using local taxes to fund schools, for instance, produce racial and socioeconomic disparities in educational opportunities and family wealth \[\@Oromaner.1986; \@Ornelas.2004; \@Soria.2020; \@Hernandez.2022\]. In addition, racially marginalized students face social and systemic barriers and federal policies that have historically limited their access to high-quality primary and secondary education [@McLewis.2021; @Ornelas.2004; @Hernandez.2022]. For example, policies that funnel racially marginalized students into underserved schools with limited access to college prep courses, and school tracking policies that exclude racially marginalized students from gaining access to the college prep tracks that would qualify them to apply to college [@Oakes.2007; @Ornelas.2004; @Oromaner.1986]. As a result, disparities in college access and completion based on parental education, as well as social and structural barriers, are significant contributors to the rising income inequality in the US.
 
 #### College access and returns to a college education
 
@@ -243,7 +243,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                                                   |           |         | **Before Matching** |           |         | **After Matching** |
-|------------------|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
+|---------------------------------------------------|:---------:|:-------:|:-------------------:|:---------:|:-------:|:------------------:|
 |                                                   | Treatment | Control |    Std.Mean.Diff    | Treatment | Control |   Std.Mean.Diff    |
 |                                                   |           |         |                     |           |         |                    |
 | Age                                               |  17.082   | 17.023  |        0.118        |   17.05   | 17.025  |       0.050        |
@@ -293,7 +293,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                         |  Fall 2020   | Spring 2021  |  Fall 2021   | Spring 2022  | Gap semester | Gap year  |
-|:----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
+|:------------------------|:------------:|:------------:|:------------:|:------------:|:------------:|:---------:|
 | Enrollment Differential | -0.020\*\*\* | -0.031\*\*\* | -0.033\*\*\* | -0.038\*\*\* |    0.003     | 0.004\*\* |
 |                         |   (0.004)    |   (0.005)    |   (0.005)    |   (0.005)    |   (0.002)    |  (0.002)  |
 |                         |              |              |              |              |              |           |
@@ -309,7 +309,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                         | Fall 2020 | Spring 2021 | Fall 2021 | Spring 2022 | Gap semester | Gap year |
-|:----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
+|:------------------------|:---------:|:-----------:|:---------:|:-----------:|:------------:|:--------:|
 | Enrollment Differential |   0.008   |    0.030    |  -0.007   |    0.016    |    0.001     |  0.000   |
 |                         |  (0.016)  |   (0.016)   |  (0.016)  |   (0.016)   |   (0.006)    | (0.006)  |
 |                         |           |             |           |             |              |          |
@@ -327,7 +327,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                         |  Fall 2020   |    4-year    | 4-year public | 4-year private |   2-year    |  Full-time   |
-|:----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
+|:------------------------|:------------:|:------------:|:-------------:|:--------------:|:-----------:|:------------:|
 | Enrollment Differential | -0.020\*\*\* | -0.040\*\*\* |    -0.007     |  -0.033\*\*\*  | 0.019\*\*\* | -0.029\*\*\* |
 |                         |   (0.004)    |   (0.005)    |    (0.005)    |    (0.004)     |   (0.003)   |   (0.005)    |
 |                         |              |              |               |                |             |              |
@@ -343,7 +343,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                         |  Fall 2020   |    4-year    | 4-year public | 4-year private |   2-year    |  Full-time   |
-|:----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
+|:------------------------|:------------:|:------------:|:-------------:|:--------------:|:-----------:|:------------:|
 | Enrollment Differential | -0.021\*\*\* | -0.044\*\*\* |    -0.007     |  -0.037\*\*\*  | 0.022\*\*\* | -0.034\*\*\* |
 |                         |   (0.005)    |   (0.006)    |    (0.007)    |    (0.006)     |   (0.004)   |   (0.006)    |
 |                         |              |              |               |                |             |              |
@@ -359,7 +359,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                         | Fall 2020 | Spring 2021 | Fall 2021 | Spring 2022 | Gap semester | Gap year |
-|:----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
+|:------------------------|:---------:|:-----------:|:---------:|:-----------:|:------------:|:--------:|
 | Enrollment Differential |  -0.017   |   -0.016    |  -0.011   |   -0.011    |    -0.001    |  0.006   |
 |                         |  (0.010)  |   (0.011)   |  (0.011)  |   (0.011)   |   (0.004)    | (0.003)  |
 |                         |           |             |           |             |              |          |
@@ -375,7 +375,7 @@ Taken together, we reasoned that this outreach faced an uphill battle to improve
 \newpage
 
 |                         | Fall 2020 | 4-year  | 4-year public | 4-year private |   2-year    | Full-time |
-|:----------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
+|:------------------------|:---------:|:-------:|:-------------:|:--------------:|:-----------:|:---------:|
 | Enrollment Differential | 0.026\*\* |  0.002  |   0.032\*\*   |  -0.032\*\*\*  | 0.024\*\*\* |   0.005   |
 |                         |  (0.009)  | (0.010) |    (0.011)    |    (0.009)     |   (0.007)   |  (0.010)  |
 |                         |           |         |               |                |             |           |
