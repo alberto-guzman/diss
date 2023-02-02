@@ -380,6 +380,22 @@ Given the high-dimensional data generated in my simulation and computationall co
 
 ## Results
 
+### 
+
+### Bias of ATE Estimation
+
+#### Treatment and Outcome Models are Correctly Specified
+
+#### Treatment and Outcome Models are Incorrectly Specified
+
+### Variability and Mean Squared Error (MSE) of ATE Estimation 
+
+### Covariate Balance
+
+### Weights Assessment
+
+### Power 
+
 ## Discussion and Conclusion
 
 ## Tables and Figures
