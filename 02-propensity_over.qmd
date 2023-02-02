@@ -380,7 +380,7 @@ Given the high-dimensional data generated in my simulation and computationall co
 
 ## Results
 
-In this section I outline the results of the simulation study in three major sections. First, I present restulst in terms of bias in the estimation of the ATE, then I analyze the variablity in the ATE estimation, followed by an analyzese of covariate balance. Finally, I end this section discussion an analyzzis of the IPTW weights and statistical power. In each section I organize the results by complexity in the treatment and outcome models, begining with base and then complex. I also look at dimensionality
+This section presents the results of the simulation study in three main parts. Firstly, I will show the results regarding the bias in the ATE estimation. Secondly, I will examine the variability in the ATE estimation. Thirdly, I will analyze the covariate balance. Finally, I will conclude this section with a discussion of the IPTW weights and statistical power. The results are organized based on the complexity of the treatment and outcome models, starting with the basic models and then moving on to the complex models. Additionally, the results are organized based on the dimensionality of the data.
 
 ### Bias of ATE Estimation
 
@@ -388,26 +388,63 @@ My primary goal with this simulation was to evalute which methods produced the m
 
 #### Treatment and Outcome Models are Correctly Specified
 
-Next I look bias performance of each method based on complexities in the treatment and outcome model. Figure X presents a paneled graph where the upper left panel indicates the condition in which both the treatment and outcome model where correclty specifice, meaning only main effects where included in the data generation process, and where then being estimated by main effects with each method. Overall I find that all methods across conditions performed well with bias being less than 5%, with the exception of bagged cart which produced extremely biased results with 20 covariates. Not suprising in the the 20 covariate case logistic regression produces the least biased estimates, however the neural network approaches are within the same area. As the number of covariates increase I find that all methods perform exceptionally well, with logistic and the neural network approaches bproducing the least biased estimates. 
+Next I look bias performance of each method based on complexities in the treatment and outcome model. Figure X presents a paneled graph where the upper left panel indicates the condition in which both the treatment and outcome model where correclty specifice, meaning only main effects where included in the data generation process, and where then being estimated by main effects with each method. Overall I find that all methods across conditions performed well with bias being less than 5%, with the exception of bagged cart which produced extremely biased results with 20 covariates. Not suprising in the the 20 covariate case logistic regression produces the least biased estimates, however the neural network approaches are within the same area. As the number of covariates increase I find that all methods perform exceptionally well, with logistic and the neural network approaches bproducing the least biased estimates.
 
 #### Treatment and Outcome Models are Incorrectly Specified
 
-When the treatment and outcome models are incoreclty specified, meaning that quadratics and interactions are included in the data generating mechanisms, while each method is estimating the propensity score with only main effects. In the low dimenasional case all methods do exceptionally well with logistic regression producing the biased results, as with the base model bag cart produces the most amount of bias. With 100 covariates all non-parametric methods perform well below 5% bias with with dnn-3 and cart producing the least biased estiamtes. In the higher dimensional case all mahcine learning methods perform well, however dnn-2 and dnn-3 produced slighly higher estimates, the random forest techniques produced the least biased results. 
+When the treatment and outcome models are incoreclty specified, meaning that quadratics and interactions are included in the data generating mechanisms, while each method is estimating the propensity score with only main effects. In the low dimenasional case all methods do exceptionally well with logistic regression producing the biased results, as with the base model bag cart produces the most amount of bias. With 100 covariates all non-parametric methods perform well below 5% bias with with dnn-3 and cart producing the least biased estiamtes. In the higher dimensional case all mahcine learning methods perform well, however dnn-2 and dnn-3 produced slighly higher estimates, the random forest techniques produced the least biased results.
 
-#### Diversion Treatment and Outcome Models
+#### Deviations from the Treatment and Outcome Models
 
-Figure X anything off the dianol in the panels signify diversions from the treatmetn and outcome model. For example, the lower left panel are the results for when the treatment model is complex and the outcome model only has base terms. Overall i find that when complexities are in the outcome model affect bias performance compared to complexities in the treatment model. I find that the my dnn approach produces the least biased estimates in the scenario where complexities are indlued in the outcome model but not in the treatment model. Overall, bias perfromance appear to be sensitive to mispecfication in the outcome model, or when miscpeficaiton are present in both outcome and treatment model. 
+In Figure X, deviations from the treatment and outcome model are indicated by points off the diagonal in the panels. The lower left panel displays the results when the treatment model is complex and the outcome model only has main effects. My findings show that when complexities are present in the outcome model, they tend to have a greater impact on bias performance compared to complexities in the treatment model. The DNN approach I propose produces the least biased estimates in scenarios where complexities are included in the outcome model but not in the treatment model. In conclusion, bias performance appears to be sensitive to mispecification in the outcome model or when mispecifications exist in both the outcome and treatment models.
 
-### Variability and Mean Squared Error (MSE) of ATE Estimation 
+### Variability and Mean Squared Error (MSE) of ATE Estimation
+
+Although the ATE point estimates are crucial metrics, it is also important to consider the variability of the ATE. Figure X showcases a comparison of each method's performance across different dimensions, focusing on the standard error of the ATE, mean squared error, and 95% confidence interval coverage. The optimal method should not only have a low bias in the ATE point estimate but also exhibit minimal variability. As seen in the figure, in the low-covariate scenario of 20, all methods display relatively similar results in terms of standard error of the ATE. As I increase the number of covariates logistic regression produced larger standard errors, while th emachine learning methods produce far smaller standard errors. Across both 100 and 200 covariate scenarios random fores t and cart perform well leading to the smalles standard erorrs. My dnn aporach perform well. Overall, these findings suggest that in low-dimensional scenarios logistic regression produces the least biased estimate, while in high-dimensional scenarios, machine learning approaches perform better, with random forest and bagged cart having the smallest standard errors.
+
+The mean squared error (MSE) is an important metric that helps to evaluate both the bias and the spread of the ATE. It measures the average squared difference between the estimated values and the true values, where a lower MSE indicates a better fit between the estimated and true values. Figure X, panel X presents the results of the simulation in terms of mean squared error. Just like the standard error results, in the low dimensional scenario with 20 covariates, all methods perform similarly. However, as the dimensionality increases, I find that the DNN-2 approach performs the best and leads to the lowest MSE value. This suggests that the DNN-2 approach provides a good fit between the estimated and true ATE values, even in high-dimensional data.
+
+In the context of simulation studies, the coverage rate of the 95% confidence interval is a crucial metric to consider. It reflects the precision of the estimated ATE and the likelihood of capturing the true ATE within the interval. A low coverage rate implies a wide confidence interval, which means the estimated ATE is imprecise and uncertain. On the other hand, a high coverage rate indicates a narrow confidence interval, which means the estimated ATE is more precise. Evaluating the coverage rate of the 95% confidence interval provides valuable insights into the consistency and reliability of the estimation methods used. In the low-dimensional setting, logistic regression yields a better coverage rate compared to other methods. However, with high numbers of covariates, bagging has the best coverage rate, followed by logistic regression and the neural network approaches. On the other hand, both CART and random forest have a relatively low coverage rate.
+
+#### Deviations from the Treatment and Outcome Models
+
+
+#### Treatment and Outcome Models are Incorrectly Specified
+
+#### Deviations from the Treatment and Outcome Models
+
 
 ### Covariate Balance
 
+Covariate balance is a crucial aspect to consider in simulation studies that utilize propensity score weighting. The average standardized absolute mean difference (ASAM) between the treatment and control groups is one metric used to assess balance. The ASAM reflects the degree of similarity in the covariate distributions between the two groups, which can significantly impact the results of the simulation. Maintaining covariate balance reduces the risk of bias in the estimated treatment effects and leads to more accurate results. The success of the propensity score weighting method in achieving balance can be evaluated by analyzing the ASAM values.
+
+The results of the ASAM evaluation can be seen in Figure X, panel X. Across all covariate levels, the ASAM values were acceptable for all methods, with the exception of CART, Random Forest, and Logistic Regression, which had the largest ASAM values. In the high-dimensional scenario, my DNN approach performed the best, leading to the lowest ASAM values.
+
+#### Treatment and Outcome Models are Incorrectly Specified
+
+#### Deviations from the Treatment and Outcome Models
+
+
 ### Weights Assessment
 
-### Power 
+Assessing the mean of the inverse propensity score weights (IPTW) is important in simulation studies that examine propensity score weighting. This is because the mean of the IPTW is a measure of the overall balance achieved by the propensity score weighting method. If the mean of the IPTW is far from 1, it may indicate that the treatment and control groups still have unbalanced covariate distributions, potentially leading to biased treatment effect estimates.
+
+Figure x showe the results for weights, note that by contructions all weights will have a value above 1. All machine learnig methods lead to acceptable weights below 2.5. However, in the high dimensional cases logisti regression is producing extreme weights. 
+
+### Power
+
+In the context of simulation studies, it is important to analyze statistical power. Power refers to the proportion of times that the estimated ATE is found to be significant at the .05 level. Low power indicates that the study has a high rate of type II errors, meaning that the study is unlikely to detect true differences in treatment effects. Conversely, high power means that the study has a low rate of type II errors and is more likely to detect true differences in treatment effects. It is important to strive for high power in simulation studies to increase the accuracy and reliability of the results.
+
+Figure X show the results for power. In the low dimesnion case lgoistic regression has high power, correclty finding a statsitically significant treatment effect 100% of the time. As we introduce more covarite the logistic models power reduces. In the high dimensional settting particualry fores t and cart. 
+
+### Summary of Results
+
+
+
+
+
 
 ## Discussion and Conclusion
-
 
 -complexities in outcome effect bias more. simulaiton should take this into account
 
