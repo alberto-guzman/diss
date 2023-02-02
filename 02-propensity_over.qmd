@@ -380,13 +380,23 @@ Given the high-dimensional data generated in my simulation and computationall co
 
 ## Results
 
-### 
+In this section I outline the results of the simulation study in three major sections. First, I present restulst in terms of bias in the estimation of the ATE, then I analyze the variablity in the ATE estimation, followed by an analyzese of covariate balance. Finally, I end this section discussion an analyzzis of the IPTW weights and statistical power. In each section I organize the results by complexity in the treatment and outcome models, begining with base and then complex. I also look at dimensionality
 
 ### Bias of ATE Estimation
 
+My primary goal with this simulation was to evalute which methods produced the most unbiased estimate in terms of the ATE in high dimensional setting. Given that the main goal with any type of quasi-experimental method is to recover the "true" population treatment effect. To begig I summarize the simulation results across all condtiions (Base(T),Complex(T),Base(Y), Complex(Y)) in order to get a sense of overall performance across condtions. I focus on comparing performance of each method across covariate dimensionalities. Figure X, I present the absolute percent bias by method and across covariate conditoins. Overall, I find that in the low-dimensional case, 20 covarites, logistice regresison produces the least amount of bias, although the DNN and NN approaches are fairly in line and all other approaches all produceing less that 5% bias (CITE). One expection is bagged cart produces a large a moutn of bias with 20 covariates. As I increase the number of covariates from 20 to 100 and 200 logistic regression starts to produce signifncalty worse than all other methods. With 100 covaraites I find that all non-paramatric methods perform realtively well with all having bias well below 5%. IN the 100 covariate sense the lowest bias estimates are produced by my DNN approach specifically DNN-2. With 200 covariates all machine learnign approach perfrom well although I do see an increase in bias across all methods. Forest produces the least biased estimates followed by bagged cart, nn-2 and dnn-3. Overall, these findings suggest that in the low dimensional setting logistic regresison produces the least biased estimated, while as dimenstionally increase logistic regression produces widely biased estimates compared to all other machine learning approaches. Of the machine learnig approaches my dnn approaches produce lower bias in 100 covariates while random forest performs better in the 200 covaraite case. Somethis about logist bias x times more than even blah blah.
+
 #### Treatment and Outcome Models are Correctly Specified
 
+Next I look bias performance of each method based on complexities in the treatment and outcome model. Figure X presents a paneled graph where the upper left panel indicates the condition in which both the treatment and outcome model where correclty specifice, meaning only main effects where included in the data generation process, and where then being estimated by main effects with each method. Overall I find that all methods across conditions performed well with bias being less than 5%, with the exception of bagged cart which produced extremely biased results with 20 covariates. Not suprising in the the 20 covariate case logistic regression produces the least biased estimates, however the neural network approaches are within the same area. As the number of covariates increase I find that all methods perform exceptionally well, with logistic and the neural network approaches bproducing the least biased estimates. 
+
 #### Treatment and Outcome Models are Incorrectly Specified
+
+When the treatment and outcome models are incoreclty specified, meaning that quadratics and interactions are included in the data generating mechanisms, while each method is estimating the propensity score with only main effects. In the low dimenasional case all methods do exceptionally well with logistic regression producing the biased results, as with the base model bag cart produces the most amount of bias. With 100 covariates all non-parametric methods perform well below 5% bias with with dnn-3 and cart producing the least biased estiamtes. In the higher dimensional case all mahcine learning methods perform well, however dnn-2 and dnn-3 produced slighly higher estimates, the random forest techniques produced the least biased results. 
+
+#### Diversion Treatment and Outcome Models
+
+Figure X anything off the dianol in the panels signify diversions from the treatmetn and outcome model. For example, the lower left panel are the results for when the treatment model is complex and the outcome model only has base terms. Overall i find that when complexities are in the outcome model affect bias performance compared to complexities in the treatment model. I find that the my dnn approach produces the least biased estimates in the scenario where complexities are indlued in the outcome model but not in the treatment model. Overall, bias perfromance appear to be sensitive to mispecfication in the outcome model, or when miscpeficaiton are present in both outcome and treatment model. 
 
 ### Variability and Mean Squared Error (MSE) of ATE Estimation 
 
@@ -397,5 +407,8 @@ Given the high-dimensional data generated in my simulation and computationall co
 ### Power 
 
 ## Discussion and Conclusion
+
+
+-complexities in outcome effect bias more. simulaiton should take this into account
 
 ## Tables and Figures
