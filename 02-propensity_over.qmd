@@ -6,7 +6,7 @@ Traditionally, questions of causality have been addressed through the use of ran
 
 Observational data complicates causal inference because, in the absence of randomization, an imbalance in the distribution of student covariates between groups could lead us to incorrectly attribute a change in outcome to the intervention or policy, as opposed to differences in group composition [@Rosenbaum.2010]. A vast body of methodological literature has centered on developing quasi-experimental methods that attempt to address the internal validity issues associated with observational data by balancing the *observed* characteristics of those who received treatment and those who did not. One such popular approach is propensity score analysis [@Stuart.2010; @Lee.2010].
 
-Propensity score analysis is one of the most commonly employed quasi-experimental methods in education research [@Fan.2011; @Powell.2020; @Rosenbaum.2010; @Stuart.2010; @ho2007matching; @Lee.2010]. Propensity score analysis attempts to balance *observed* characteristics between treated and untreated students, just as randomization to treatment and control conditions creates balance on observable characteristics. The propensity score represents the probability that a student *would have* been exposed to treatment, conditional on observed covariates [@Rosenbaum.1981; @Rosenbaum.1984]. Propensity scores can be used in a variety of ways to balance student covariates, including propensity score matching, in which treated and untreated students with similar propensity scores are matched, and propensity score weighting, in which treatment groups are re-weighted so that observed covariates are balanced between both groups, and stratification where the propensity score is used to group students into unique strata with similar propensity scores with the goal of balancign observed covariates within each stratum [@Pan.2018qcl].
+Propensity score analysis is one of the most commonly employed quasi-experimental methods in education research [@Fan.2011; @Powell.2020; @Rosenbaum.2010; @Stuart.2010; @ho2007matching; @Lee.2010]. Propensity score analysis attempts to balance *observed* characteristics between treated and untreated students, just as randomization to treatment and control conditions creates balance on observable characteristics. The propensity score represents the probability that a student *would have* been exposed to treatment, conditional on observed covariates [@Rosenbaum.1981; @Rosenbaum.1984]. Propensity scores can be used in a variety of ways to balance student covariates, including propensity score matching, in which treated and untreated students with similar propensity scores are matched, and propensity score weighting, in which treatment groups are re-weighted so that observed covariates are balanced between both groups, and stratification where the propensity score is used to group students into unique strata with similar propensity scores with the goal of balancing observed covariates within each stratum [@Pan.2018qcl].
 
 However, to estimate unbiased treatment effects, the researcher must correctly specify the propensity score model such that:
 
@@ -14,7 +14,7 @@ However, to estimate unbiased treatment effects, the researcher must correctly s
 
 2.  The propensity score model accurately models the relationship between covariates and treatment selection, meaning that all appropriate interactions and non-linear terms are specified [@Rosenbaum.1987; @Rosenbaum.1984; @Rosenbaum.1981].
 
-The literature suggests a "kitchen sink" approach for variable selection to guard against the first condition because the penalties are high if a potential confounder is *not* included in the propensity score model, resulting in biased treatment effect estimates [@Pirracchio.2015; @Shortreed.2017lu8; @Stuart.2010]. Given some confounders are simply unmeasured, many have proposed the use of sensitity analysis to understand how the exclusion of an unmeasured confounder could ifluence treatment effects (CITE). For the second condition, the literature suggests iterating through various model specifications, with each iteration adding interactions or non-linear terms until a balance is achieved among the observed characteristics between treated and untreated students [@murnane2010methods; @Rosenbaum.2010].
+The literature suggests a "kitchen sink" approach for variable selection to guard against the first condition because the penalties are high if a potential confounder is *not* included in the propensity score model, resulting in biased treatment effect estimates [@Pirracchio.2015; @Shortreed.2017lu8; @Stuart.2010]. Given some confounders are simply unmeasured, many have proposed the use of sensitivity analysis to understand how the exclusion of an unmeasured confounder could influence treatment effects (CITE). For the second condition, the literature suggests iterating through various model specifications, with each iteration adding interactions or non-linear terms until a balance is achieved among the observed characteristics between treated and untreated students [@murnane2010methods; @Rosenbaum.2010].
 
 At first glance, high-dimensional (i.e., big data) data should be an asset to propensity score analysis, since conventional practices stress the importance of including *all* available variables in the propensity score model, given that it increases the likelihood of capturing all relevant confounders. Nevertheless, this is not the case. The performance of the traditional logistic model for estimating propensity scores tends to degrade as more variables are included in the estimation step [@Hill.2011soh].
 
@@ -48,7 +48,7 @@ $$
 \tau_i = Y_{i1} - Y_{i0}
 $$ {#eq-treat}
 
-However, in the real world, we do not simultaneously observe both potential outcomes for the same student. That is to say, we can only observe student $i$'s potential outcome in the collegge acccess program if they participated in the program. This is why the fundamental problem of causal inference is a missing data problem [@holland1986statistics]. Although we cannot directly observe these potential outcomes under certain assumptions, we can estimate the average treatment effect (ATE) across our sample, defined as:
+However, in the real world, we do not simultaneously observe both potential outcomes for the same student. That is to say, we can only observe student $i$'s potential outcome in the college access program if they participated in the program. This is why the fundamental problem of causal inference is a missing data problem [@holland1986statistics]. Although we cannot directly observe these potential outcomes under certain assumptions, we can estimate the average treatment effect (ATE) across our sample, defined as:
 
 $$
 ATE= \mathbb{E}(Y_{i1} -Y_{i0})=\mathbb{E}(Y_{i1})-\mathbb{E}(Y_{i0})
@@ -56,7 +56,7 @@ $$ {#eq-ate}
 
 Where $\mathbb{E}(Y_{i1})$ is the expected value of all students in the treatment group and $\mathbb{E}(Y_{i0})$ is the expected value of all students in the control group. In the context of a true experiment in which students are *randomly* assigned to treatment conditions, we can estimate the ATE in a straightforward manner since with a large enough sample size, both treated and control students will be balanced on all observable and unobservable characteristics. Stated differently, a randomized experiment ensures that $Y_1$ and $Y_0$ are independent of treatment assignment ($Z$), and therefore, the treatment effect can be regarded as causal [@Rosenbaum.2010].
 
-In addition, we may also be interested in estimating the average treatment effect among those who were assigned to the treatment group. In this case, we may be interested in the average treatment effect on the treated (ATT) [@Rosenbaum.2010], which is defined as:
+In addition, we may also be interested in estimating the average treatment effect among those who actually received the treatment. In this case, we may be interested in the average treatment effect on the treated (ATT) [@Rosenbaum.2010], which is defined as:
 
 $$
 ATT= \mathbb{E}(Y_{i1} -Y_{i0}|Z_i=1)=\mathbb{E}(Y_{i1}|Z_i=1)-\mathbb{E}(Y_{i0}|Z_i=1)
@@ -81,10 +81,10 @@ Rosenbaum and Rubin initially proposed the concept of a propensity score as a me
 Rosenbaum and Rubin define a propensity score, $e(x)$ as the probability of assignment to treatment conditional on observed pre-treatment covariates. Defined as:
 
 $$
-e(x) = Pr(Z=1|X)
+e(x) = Pr(Z=1|\boldsymbol{X})
 $$ {#eq-ps}
 
-Propensity scores are typically estimated as predicted probabilities from a logistic regression in which a binary outcome variable indicating whether a unit received treatment is being predicted by observed individual characteristics ($X$). They range from 0 to 1, with values closer to 1 indicating that an individual is more likely to be assigned to treatment. Rosenbaum and Rubin demonstrate that if the propensity score is balanced between treatment and control groups, then the distribution of observed covariates between treatment and control is also balanced [@Rosenbaum.1981; @Rosenbaum.1984; @Rosenbaum.2022]. Therefore, theoretically, two students with similar propensity scores should have a similar underlying distribution of observed covariates.
+Propensity scores are typically estimated as predicted probabilities from a logistic regression in which a binary outcome variable indicating whether a unit received treatment is being predicted by observed individual characteristics ($\boldsymbol{X}$). They range from 0 to 1, with values closer to 1 indicating that an individual is more likely to be assigned to treatment. Rosenbaum and Rubin demonstrate that if the propensity score is balanced between treatment and control groups, then the distribution of observed covariates between treatment and control is also balanced [@Rosenbaum.1981; @Rosenbaum.1984; @Rosenbaum.2022]. Therefore, theoretically, two students with similar propensity scores should have a similar underlying distribution of observed covariates.
 
 Researchers can condition on the propensity score using a variety of techniques, including matching [@ho2007matching], which pairs treated students with control students based on the proximity of their propensity score; stratification, which groups students into unique strata based on their propensity score [@Rosenbaum.2010]; and weighting [@Lee.2010], which reweighs students in the sample so that the distribution of the propensity score of the control group is similar to that of the treated group. All these methods have a similar aim of using the propensity score to adjust for the imbalance in the covariate distribution between treated and control units to approximate true randomization conditions. Therefore, by conditioning on the propensity score through matching, stratification, or weighting, we can eliminate bias in our treatment effect due to observed confounding and approximate the true causal effect [@Pan.2018qcl]. However, for this to be true, certain assumptions must hold.
 
@@ -94,7 +94,7 @@ Several assumptions must be met to estimate an unbiased treatment effect using p
 
 The first assumption, the stable unit treatment value assumption (SUTVA), states that 1) their is only one version of the treatment condtion, and 2) the potential outcome of an individual is unaffected by the treatment assignment of any other individual [@Rosenbaum.2022]. In other words, the outcome of a student is independent of whether another student is assigned to the treatment or control group.
 
-The strong ignorability assumption states that the potential outcome of an individual is conditionally independent of treatment assignment if we successfully conditioned on all covariates related to treatment, $Y_1, Y_0 \perp Z|X$. In experimental studies, this assumption is satisfied by the act of randomization, since randomization ensures that treatment assignment is independent of an individual's outcome [@rubin2005causal; @Rosenbaum.2022]. However, in observational studies, this assumption holds if *all* covariates related to treatment assignment are included in the propensity score model [@Rosenbaum.1981; @Rosenbaum.1984]. In practice, this is unlikely and therefore sensity analysis have been proporsed as necesarry to asses the influence of unmeasured confounding (CITE).
+The strong ignorability assumption states that the potential outcome of an individual is conditionally independent of treatment assignment if we successfully conditioned on all covariates related to treatment, $Y_1, Y_0 \perp Z|\boldsymbol{X}$. In experimental studies, this assumption is satisfied by the act of randomization, since randomization ensures that treatment assignment is independent of an individual's outcome [@rubin2005causal; @Rosenbaum.2022]. However, in observational studies, this assumption holds if *all* covariates related to treatment assignment are included in the propensity score model [@Rosenbaum.1981; @Rosenbaum.1984]. In practice, this is unlikely and therefore sensity analysis have been proporsed as necesarry to asses the influence of unmeasured confounding (CITE).
 
 Finally, the third assumption is the region of common support. This assumption states that there must be sufficient overlap in the estimated propensity score distribution between the treatment and control groups [@Rosenbaum.2022]. With sufficient overlap, we can ensure that we can find suitable matches for treated students. We can asses if we have adequate support by plotting the distribution of the propensity scores in the treatment group and control group overlayed and aassesing if the distributions succifiend overlap (CITE).
 
@@ -110,17 +110,17 @@ To better capture the relationship among covariates, the literature suggests ite
 
 ### Estimating Propensity Scores
 
-The most critical step in propensity score analysis is estimating the propensity score ($e$), since a misspecified propensity score model will yield propensity scores that are not well suited to correctly balanced observed characteristics. Any parametric or non-parametric model can generate propensity scores as long if it outputs a bounded probability between 0 and 1. Logistic regression is the most common parametric model used for estimating the propensity score, especially in applied educational research [@Stuart.2010; @ho2007matching; @Lee.2010; @Collier.2021lp; @Keller.2015q8].
+The most critical step in propensity score analysis is estimating the propensity score ($e(x)$), since a misspecified propensity score model will yield propensity scores that are not well suited to correctly balanced observed characteristics. Any parametric or non-parametric model can generate propensity scores as long if it outputs a bounded probability between 0 and 1. Logistic regression is the most common parametric model used for estimating the propensity score, especially in applied educational research [@Stuart.2010; @ho2007matching; @Lee.2010; @Collier.2021lp; @Keller.2015q8].
 
 #### Logistic Regression
 
 Logistic regression is the most common model used to generate propensity scores in the social science literature due to its ease of interpretation and familiarity with many applied researchers and its ability to accommodate both continuous and categorical covariates[@Keller.2015q8]. The logistic model is defined as follows:
 
 $$
-logit(Z = 1|X)=log\left( \frac{Pr(Z=1|X)}{1-Pr(Z=1|X)} \right) = \beta_o + \beta_1X_1 + \cdots + \beta_pX_p
+logit(Z = 1|\boldsymbol{X})=log\left( \frac{Pr(Z=1|\boldsymbol{X})}{1-Pr(Z=1|\boldsymbol{X})} \right) = \beta_o + \beta_1X_1 + \cdots + \beta_pX_p
 $$ {#eq-log}
 
-Where $Z$, a binary indicator equal to 1 if a student is in the treatment group and 0 otherwise, regressed on $X$ a vector of observed covariates. The output of the logistic regression is predicted probabilities that are continuous and bounded between 0 and 1 (i.e., propensity scores).
+Where $Z$, a binary indicator equal to 1 if a student is in the treatment group and 0 otherwise, regressed on $\boldsymbol{X}$ a vector of observed covariates. The output of the logistic regression is predicted probabilities that are continuous and bounded between 0 and 1 (i.e., propensity scores).
 
 Although logistic regression is the most widely used model for estimating propensity scores, it may not be the most valid for inference. Various simulation studies suggest that using logistic regression for modeling propensity scores is inadequate and leads to biased treatment effects when incorrectly specified, given that parametric models require assumptions regarding the functional form and variable distributions [@Lee.2010; @Pan.2018qcl; @Setoguchi.2008; @Westreich.2010]. This is especially true when estimating propensity scores with hundreds of covariates [@Hill.2011soh]. The logistic model tends to degrade and estimate a propensity score that falls outside the desired 0 to 1 bound in a high-dimensional context [@Hill.2011soh; @Collier.2021lp; @Keller.2015q8]. With the ever-increasing amounts of "big" administrative data at the disposal of applied behavioral and social science research, the degradation of logistic regression is worrisome. However, outside social science, research has suggested alternatives to logistic regression in estimating the propensity score that use non-parametric machine learning algorithms [@Stuart.2010; @ho2007matching; @Lee.2010; @Setoguchi.2008; @Watkins.2013; @Westreich.2010; @Cannas.2019].
 
@@ -150,7 +150,7 @@ The building block for artificial neural networks was initially developed by psy
 
 ![Structure of a perceptron - artificial neuron](figures/perceptron.png){#fig-perceptron fig-align="center" width="437"}
 
-An artificial neuron mimics the function of a biological neuron. The artificial neuron takes in a set of inputs of $p$ variables, $X=(X_1, X_2, \dots, X_p)$ that have corresponding weights $w=(w_1, w_2, \dots ,w_p)$ that represent the different input strength of each variable. Each variable is then multiplied by its corresponding weight. These weighted variables are then summed together, and a bias term is added ($\beta_0$) to create a linear transformation of the input variables. Weight and bias terms are analogous to the slope and intercept of linear regression. The linear transformation is then passed to an activation function $g(z)$. The activation function takes in the linear transformation and performs a computation that generates an output ($\hat{y}$), which outputs either a 1 or 0. This activation function can also be set to be a linear function, such as the sigmoid function, which outputs values between 0 and 1.
+An artificial neuron mimics the function of a biological neuron. The artificial neuron takes in a set of inputs of $p$ variables, $X_i=(X_1, X_2, \dots, X_p)$ that have corresponding weights $w_i=(w_1, w_2, \dots ,w_p)$ that represent the different input strength of each variable. Each variable is then multiplied by its corresponding weight. These weighted variables are then summed together, and a bias term is added ($\beta_0$) to create a linear transformation of the input variables. Weight and bias terms are analogous to the slope and intercept of linear regression. The linear transformation is then passed to an activation function $g(z)$. The activation function takes in the linear transformation and performs a computation that generates an output ($\hat{y}$), which outputs either a 1 or 0. This activation function can also be set to be a linear function, such as the sigmoid function, which outputs values between 0 and 1.
 
 We can express this artificial neuron generally as:
 
@@ -172,23 +172,23 @@ Following the development of the artificial neuron, work began to model more com
 
 \newpage
 
-The NN comprises a series of artificial neurons organized into three layers[@james2013introduction]. The first layer is the input layer of $p$ variables, $X=(X_1, X_2, \dots, X_p)$, our observed covariates. Those input variables are fully connected to the second layer - a hidden layer - made up of $K$ hidden neurons, $A = (A_1, A_2, \dots, A_k)$, which are identical to the artificial neurons mentioned previously, except that the activation function is swapped out to a non-linear function. Each hidden neuron calculates its own prediction based on its unique non-linear combination of variable inputs and associated weight and bias parameters. The last layer is the output layer, which pools the non-linear outputs of the hidden neurons and passes them as inputs to a non-linear output function, $f(x)$, which generates a final prediction ($\hat{y}$). The interconnected neurons allow NN to learn more complex associations between covariates and treatment assignment than a single artificial neuron [@james2013introduction; @Schmidhuber.2015; @hernandez2019systematic].
+The NN comprises a series of artificial neurons organized into three layers[@james2013introduction]. The first layer is the input layer of $p$ variables, $X_i=(X_1, X_2, \dots, X_p)$, our observed covariates. Those input variables are fully connected to the second layer - a hidden layer - made up of $K$ hidden neurons, $A = (A_1, A_2, \dots, A_k)$, which are identical to the artificial neurons mentioned previously, except that the activation function is swapped out to a non-linear function. Each hidden neuron calculates its own prediction based on its unique non-linear combination of variable inputs and associated weight and bias parameters. The last layer is the output layer, which pools the non-linear outputs of the hidden neurons and passes them as inputs to a non-linear output function, $f(x)$, which generates a final prediction ($\hat{y}$). The interconnected neurons allow NN to learn more complex associations between covariates and treatment assignment than a single artificial neuron [@james2013introduction; @Schmidhuber.2015; @hernandez2019systematic].
 
 We can express a NN generally as[^02-propensity_over-1]:
 
 [^02-propensity_over-1]: This notation was adapted from James, Witten, Hastie and Tibshirani, 2021
 
 $$
-\hat{y} = f(x) = B_0 + \sum_{k=1}^{K}B_kh_k(X) = B_0 + \sum_{k=1}^{K}B_kg(w_{k0}+\sum_{j=1}^{p}w_{kj}X_j)
+\hat{y} = f(x) = B_0 + \sum_{k=1}^{K}B_kh_k(X) = B_0 + \sum_{k=1}^{K}B_kg(w_{k0}+\sum_{i=1}^{p}w_{ki}X_i)
 $$ {#eq-nn_gen}
 
 Where each hidden unit $A_k, k =1,\dots,K$ is created from a weighted linear combination of input variables, $X_1,X_2, \dots,X_p$ that are applied to an activation function $g(z)$ resulting in an "activation" for each hidden neuron, $A_k$:
 
 $$
-A_k = h_k(X) = g(w_{k0}+\sum_{j=1}^{p}w_{kj}X_j)
+A_k = h_k(X) = g(w_{k0}+\sum_{i=1}^{p}w_{ki}X_i)
 $$ {#eq-nn_activation}
 
-$w_{k0}$ and $w_{kj}$ are the bias and corresponding weights for each $A_k$ hidden neuron. We can regard these activations as individual predictions of each hidden neuron. These predictions are then pooled and passed to the output function ($f(x)$), which has its bias term, $B_0$, and produces a final prediction ($\hat{y}$).
+$w_{k0}$ and $w_{ki}$ are the bias and corresponding weights for each $A_k$ hidden neuron. We can regard these activations as individual predictions of each hidden neuron. These predictions are then pooled and passed to the output function ($f(x)$), which has its bias term, $B_0$, and produces a final prediction ($\hat{y}$).
 
 The NN learning process works in a similar way to a single neuron, but instead of learning only one set of weights and bias terms, it learns multiple simultaneously. Similarly, the ultimate goal of the NN is to learn the correct weights and bias parameters so that the loss function is minimized. In contrast to a single artificial neuron, NN can learn complex non-linear relationships in a computationally efficient manner[@james2013introduction]. Few studies have looked at the overall performance of NN in estimating propensity scores [@Setoguchi.2008; @Cannas.2019; @Westreich.2010; @Keller.2015q8; @Collier.2021lp]. These studies find that the NN are suitable for estimating the propensity score and generally outperform logistic regression in bias reduction and covariate balance [@Setoguchi.2008; @Cannas.2019; @Westreich.2010; @Keller.2015q8; @Collier.2021lp].
 
@@ -203,7 +203,7 @@ The DNN distinguishing feature is the multiple hidden layers that allow it to ca
 The first hidden layer functions exactly as the middle layer of a NN @eq-nn_activation. The first layer of this DNN is represented as:
 
 $$
-A_k^{(1)}=h_k^{(1)}(X) = g(w_{k0}^{(1)}+\sum_{j=1}^{p}w_{kj}^{(1)}X_j)
+A_k^{(1)}=h_k^{(1)}(X) = g(w_{k0}^{(1)}+\sum_{i=1}^{p}w_{ki}^{(1)}X_i)
 $$ {#eq-dnn-1}
 
 Where each hidden unit in the first layer $A_k^{(1)}, k =1,\dots,K$ is created from a weighted linear combination of input variables, $X_1,X_2, \dots,X_p$ that are applied to a non-linear activation function $g(z)$ that results in an output for each hidden neuron in the first layer, $A_k^{(1)}$.
@@ -244,7 +244,7 @@ The data generation mechanism was informed by the evaluation I conducted as part
 
 I took a programmatic approach to generate correlated covariates, $(X_1,X_2,X_3,\dots,X_p$ . Specifically, I simulated three covariate conditions that varied in the number of covaraites generated ($p = 20, 100, 200$). The 20 covariate condition was considerd given that its the average amount of covariates used in the typical propensity score analysis in educational research (Ansong, Wu, & Chowa, 2015; Cho et al., 2012; Monlezun et al., 2015;Morgan et al., 2015; Sullivan & Field, 2013). The remaining two condtions (p = 100, 200) were chosen because they are representative of the high-dimensional datasets in education (CITE HILL).
 
-Much of the literature on propensity score simulation generates uncorrelated covariates [@Setoguchi.2008; @Stuart.2010; @ho2007matching; @Lee.2010]. However, this is not representative of the correlated data typically found in administrative data.All covaraites were generated from random pulls from a multivariate normal distribution with $\mu=0$ and $\sigma=1$, with a specified correlation matrix with correlations set between -0.3 and 0.3 using the *mvrnorm* function from the *MASS* package in *R* (CITE).
+Much of the literature on propensity score simulation generates uncorrelated covariates [@Setoguchi.2008; @Stuart.2010; @ho2007matching; @Lee.2010]. However, this is not representative of the correlated data typically found in administrative data.All covaraites were generated from random pulls from a multivariate normal distribution with $\mu=0$ and $\sigma=1$, with a specified correlation matrix with correlations set between -0.3 and 0.3 using the *mvrnorm* function from the *MASS* package in *R* (CITE). This was based on the correlations found in the common app.
 
 In order to keep the correlation structure intact I used the inverse CDF (cumulative distribution function) approach to convert the initial random pull of covariates from the multivariate normal distribution to three distributions; a normal distribution with a mean of 0 and SD of 1, a uniform distribution with a range of 0 to 1, and a Bernoulli distribution with a probability of success set at 0.5. This approach attempts to keep the same correlatios structure used however, some correlations are slighly supressed, but should be equal on average across the simulation (CITE). Covariates were constructed so that half of the covariates affected both treatment and outcome (i.e., confounders), a quarter affected only treatment and the remaining quarter affected the outcome only.
 
@@ -257,17 +257,17 @@ I used a fixed sample size of 10,000 for all simulation conditions. Note that mo
 I generated the population treatment assignment models using standard logistic regression. These population treatment assignment models can also be referred to as population propensity score models since they generate the "true" probability of being assigned to treatment. The following logistic regression model represents the general structure of these models.
 
 $$
-Pr(Z = 1) = (1 + exp(-(\beta_0 + \sum_{i=1}^{p} \beta_X)))^{-1}
+Pr(Z = 1) = (1 + exp(-(\beta_0 + \sum_{i=1}^{p} \beta_i X_i)))^{-1}
 $$ {#eq-popps}
 
-$X_i$ represents $p$ covariates and their associated coefficients ($\beta$). The output, $Pr(Z = 1)$ is the probability of assignment to the treatment condition (i.e., the propensity score). The values for the $(\beta_X)$ coeffecients for the population treamtnet models were based on the evalution of the common application such that the intercept $0.25$, and the remaining $\beta_X$ coefecients were given a random value between -0.4 and 0.4.
+$X_i$ represents $p$ covariates and their associated coefficients ($\beta_i$). The output, $Pr(Z = 1)$ is the probability of assignment to the treatment condition (i.e., the propensity score, $e(x)$). The values for each intercept $\beta_0$ for the population treamtnet models were based on the evalution of the common application such that the intercept $0.25$, and the remaining $\beta_i$ coefecients were given a random value between -0.4 and 0.4.
 
 I generated two types of population treatment assignment models (Base(T) and Complex(T)) in which I added levels of complexity to the model in the form of interactions (i.e., non-additivity) and higher order terms (i.e., non-linearity) to the covariates related to treatment and overall confounders.
 
 **Base(T)** includes only main effects, which assumes a linear relationship between covariates and treatment assignment. I consider this the base model, which is expressed using the following formula:
 
 $$
-PS^{A}(X) = (1 + exp(-(\beta_0 + \sum_{i=1}^{p} \beta_X)))^{-1}
+PS^{Base}(X) = (1 + exp(-(\beta_0 + \sum_{i=1}^{p} \beta_iX_i)))^{-1}
 $$ {#eq-psA}
 
 $X$ represents $p$ covariates and their associated coefficients $\beta$. The output, $Pr(Z = 1)$ is the probability of assignment to the treatment condition (i.e., propensity score).
@@ -275,7 +275,7 @@ $X$ represents $p$ covariates and their associated coefficients $\beta$. The out
 **Complex(T)** describes the most complex population treatment assignment model. In which I include quadratic terms for a random sample of half of the covariates related to treatment and overall confounders, and interactions with another random sample of half of covariates related to outcome and overall confounders:
 
 $$
-PS^{D} = PS^{A}(X) + \beta_iX_i^2 + \beta_iX_iX_{i+1}
+PS^{Complex}(X) = PS^{Base}(X) + \beta_iX_i^2 + \beta_iX_iX_{i+1}
 $$ {#eq-psD}
 
 Using the propensity scores generated from these population treatment models I generated a binary treatment assignment variable by comparing an individual's true propensity score to a random draw from a uniform distribution between 0 and 1. (CITE) If the propensity score of an individual was higher than the random draw of the uniform distribution, the individual was assigned to treatment such that $Z = 1$, otherwise $Z = 0$. This approach should approximate a probability of assignment to treatment of 0.5, which is the probability of assignment to a randomized experiment with binary treatment.
@@ -297,7 +297,7 @@ $X_i$ represents $p$ covariates with their associated coefficients ($\pi_i$). Th
 **Base(Y)** - the base model - includes only main effects, which assumes a linear relationship between covariates and potential outcomes. I consider this the base model, which is expressed using the following formula:
 
 $$
-Y^{a}(Z) = \alpha_0^{a,Z} + \sum_{i=1}^{p} \alpha_i^{a,Z}X_i = \alpha_0^{a,Z} + g^a(X); Z = 0,1
+Y^{Base}(Z) = \alpha_0^{a,Z} + \sum_{i=1}^{p} \alpha_i^{a,Z}X_i; Z = 0,1
 $$ {#eq-outcome_a}
 
 Where $X_i$ represents $p$ covariates and their associated coefficients ($\alpha_i^{\alpha,Z}$) which depend on treatment assignment, $Z$. The output, $Y^{a}(Z)$ is set to $Y^{a}(1)$ for the outcome related to treatment and $Y^{a}(0)$ for the control.
@@ -305,7 +305,7 @@ Where $X_i$ represents $p$ covariates and their associated coefficients ($\alpha
 **Complex(Y)** describes the complex model which includes both non-linearities and non-additivities which were generated in an identical way to how they were generated in the population treatment outcome models:
 
 $$
-Y^{d}(Z) =  \alpha_0^{a,Z} + g^a(X) + \alpha_iX_i^2 + \alpha_iX_iX_{i+1}; Z = 0,1
+Y^{Complex}(Z) =  Y^{Base}(Z) + \alpha_iX_i^2 + \alpha_iX_iX_{i+1}; Z = 0,1
 $$ {#eq-outcome_d}
 
 #### Propensity Score Estimation Methods
