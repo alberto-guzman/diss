@@ -2,12 +2,12 @@
 packages <- c(
   "tidyverse",
   "gt",
-  "RColorBrewer"
+  "ggthemes"
 )
 
 lapply(packages, library, character.only = TRUE)
 
-
+source("~/Projects/inProgress/dissertation/ggplot_theme_pub.R")
 # append simulation for rep=100
 df1 <- readRDS("~/Projects/inProgress/2018_propensity_neuralnet_paper/data/sim_results_n10000_r1000_NP.rds")
 df2 <- readRDS("~/Projects/inProgress/2018_propensity_neuralnet_paper/data/sim_results_n10000_r1000_P.rds")
@@ -442,14 +442,20 @@ My primary goal with this simulation was to evalute which methods produced the m
 #| label: fig-abs-bias
 #| fig-cap: "Absolute Bias (%) by methods and covariates"
 
+
 over_df %>%
   ggplot(aes(x = method, y = Abs_Per_Bias, fill = as.factor(p))) +
   ylab("Abs_Per_Bias") +
   geom_bar(position = "dodge", stat = "identity") +
   scale_fill_discrete(name = "# Covars") +
   theme(legend.position = "top") +
-  theme_minimal() +
-  coord_cartesian(ylim=c(0,10))
+  scale_fill_Publication() +
+  theme_Publication() +
+  coord_cartesian(ylim=c(0,8), clip = "off") 
+
+  
+  
+  #coord_cartesian(ylim=c(0,10))
 
 
 ```
