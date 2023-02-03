@@ -442,22 +442,12 @@ My primary goal with this simulation was to evalute which methods produced the m
 #| label: fig-abs-bias
 #| fig-cap: "Absolute Bias (%) by methods and covariates"
 
-
 over_df %>%
   ggplot(aes(x = method, y = Abs_Per_Bias, fill = as.factor(p))) +
   ylab("Abs_Per_Bias") +
   geom_bar(position = "dodge", stat = "identity") +
-  scale_fill_discrete(name = "# Covars") +
-  theme(legend.position = "top") +
-  scale_fill_Publication() +
-  theme_Publication() +
-  coord_cartesian(ylim=c(0,8), clip = "off") 
-
-  
-  
-  #coord_cartesian(ylim=c(0,10))
-
-
+  scale_fill_discrete(name = "Covariates") +
+  coord_cartesian(ylim=c(0,7)) 
 ```
 
 #### Treatment and Outcome Models are Correctly Specified
@@ -474,12 +464,9 @@ res_sum_df %>%
   ggplot(aes(x = method, y = Abs_Per_Bias, fill = as.factor(p))) +
   ylab("Abs_Per_Bias") +
   geom_bar(position = "dodge", stat = "identity") +
+  scale_fill_discrete(name = "Covariates") +
   facet_grid(scenarioT ~ scenarioY, scales = "fixed") +
-  scale_fill_brewer(palette = "PuBu", name = "# Covars") +
-  theme(legend.position = "top") +
-  theme_minimal() +
-  coord_cartesian(ylim=c(0,10))
-
+  coord_cartesian(ylim=c(0,7))
 ```
 
 #### Treatment and Outcome Models are Incorrectly Specified
@@ -503,33 +490,26 @@ Although the ATE point estimates are crucial metrics, it is also important to co
 #|   - "95% CI Coverage"
 #| layout-ncol: 2
 
-
 over_df %>%
   ggplot(aes(x = method, y = ATE_se, fill = as.factor(p))) +
   ylab("ATE SE") +
   geom_bar(position = "dodge", stat = "identity") +
-  scale_fill_discrete(name = "# Covars") +
-  theme(legend.position = "top") +
-  theme_minimal() +
-  coord_cartesian(ylim=c(0,10))
+  scale_fill_discrete(name = "Covariates") +
+  coord_cartesian(ylim=c(0,1.5))
 
 over_df %>%
   ggplot(aes(x = method, y = MSE, fill = as.factor(p))) +
   ylab("MSE") +
   geom_bar(position = "dodge", stat = "identity") +
-  scale_fill_discrete(name = "# Covars") +
-  theme(legend.position = "top") +
-  theme_minimal() +
-  coord_cartesian(ylim=c(0,10))
+  scale_fill_discrete(name = "Covariates") +
+  coord_cartesian(ylim=c(0,5))
 
 over_df %>%
   ggplot(aes(x = method, y = coverage_95, fill = as.factor(p))) +
   ylab("95% CI Coverage") +
   geom_bar(position = "dodge", stat = "identity") +
-  scale_fill_discrete(name = "# Covars") +
-  theme(legend.position = "top") +
-  theme_minimal() +
-  coord_cartesian(ylim=c(0,10))
+  scale_fill_discrete(name = "Covariates") +
+  coord_cartesian(ylim=c(0,1))
 
 ```
 
@@ -538,6 +518,41 @@ The mean squared error (MSE) is an important metric that helps to evaluate both 
 In the context of simulation studies, the coverage rate of the 95% confidence interval is a crucial metric to consider. It reflects the precision of the estimated ATE and the likelihood of capturing the true ATE within the interval. A low coverage rate implies a wide confidence interval, which means the estimated ATE is imprecise and uncertain. On the other hand, a high coverage rate indicates a narrow confidence interval, which means the estimated ATE is more precise. Evaluating the coverage rate of the 95% confidence interval provides valuable insights into the consistency and reliability of the estimation methods used. @fig-ate-var-3 In the low-dimensional setting, logistic regression yields a better coverage rate compared to other methods. However, with high numbers of covariates, bagging has the best coverage rate, followed by logistic regression and the neural network approaches. On the other hand, both CART and random forest have a relatively low coverage rate.
 
 #### Deviations from the Treatment and Outcome Models
+
+```{r}
+#| label: fig-ate-var-cond
+#| fig-cap: ATE Variability by Data Generating Models
+#| fig-subcap: 
+#|   - "Standard Error (SE)"
+#|   - "Mean Squared Error (MSE)"
+#|   - "95% CI Coverage"
+#| layout-ncol: 2
+
+res_sum_df %>%
+  ggplot(aes(x = method, y = ATE_se, fill = as.factor(p))) +
+  ylab("ATE SE") +
+  geom_bar(position = "dodge", stat = "identity") +
+  scale_fill_discrete(name = "Covariates") +
+  facet_grid(scenarioT ~ scenarioY, scales = "fixed") +
+  coord_cartesian(ylim=c(0,1.5))
+
+res_sum_df %>%
+  ggplot(aes(x = method, y = MSE, fill = as.factor(p))) +
+  ylab("MSE") +
+  geom_bar(position = "dodge", stat = "identity") +
+  scale_fill_discrete(name = "Covariates") +
+  facet_grid(scenarioT ~ scenarioY, scales = "fixed") +
+  coord_cartesian(ylim=c(0,5))
+
+res_sum_df %>%
+  ggplot(aes(x = method, y = coverage_95, fill = as.factor(p))) +
+  ylab("95% CI Coverage") +
+  geom_bar(position = "dodge", stat = "identity") +
+  scale_fill_discrete(name = "Covariates") +
+  facet_grid(scenarioT ~ scenarioY, scales = "fixed") +
+  coord_cartesian(ylim=c(0,1))
+
+```
 
 #### Treatment and Outcome Models are Incorrectly Specified
 
@@ -557,13 +572,24 @@ over_df %>%
   ggplot(aes(x = method, y = ASAM, fill = as.factor(p))) +
   ylab("ASAM") +
   geom_bar(position = "dodge", stat = "identity") +
-  scale_fill_discrete(name = "# Covars") +
-  theme(legend.position = "top") +
-  theme_minimal() +
-  coord_cartesian(ylim=c(0,10))
+  scale_fill_discrete(name = "Covariates") +
+  coord_cartesian(ylim=c(0,.5))
 ```
 
 #### Treatment and Outcome Models are Incorrectly Specified
+
+```{r}
+#| label: fig-asam-cond
+#| fig-cap: "Average Standardized Absolute Mean Difference (ASAM)"
+
+res_sum_df %>%
+  ggplot(aes(x = method, y = ASAM, fill = as.factor(p))) +
+  ylab("ASAM") +
+  geom_bar(position = "dodge", stat = "identity") +
+  scale_fill_discrete(name = "Covariates") +
+  facet_grid(scenarioT ~ scenarioY, scales = "fixed") +
+  coord_cartesian(ylim=c(0,.5))
+```
 
 #### Deviations from the Treatment and Outcome Models
 
@@ -581,10 +607,21 @@ over_df %>%
   ggplot(aes(x = method, y = PS_Weights, fill = as.factor(p))) +
   ylab("IPTW Weights") +
   geom_bar(position = "dodge", stat = "identity") +
-  scale_fill_discrete(name = "# Covars") +
-  theme(legend.position = "top") +
-  theme_minimal() +
-  coord_cartesian(ylim=c(0,10))
+  scale_fill_discrete(name = "Covariates") +
+  coord_cartesian(ylim=c(0,5))
+```
+
+```{r}
+#| label: fig-weights-cond
+#| fig-cap: "IPTW Weights"
+
+res_sum_df %>%
+  ggplot(aes(x = method, y = PS_Weights, fill = as.factor(p))) +
+  ylab("IPTW Weights") +
+  geom_bar(position = "dodge", stat = "identity") +
+  scale_fill_discrete(name = "Covariates") +
+  facet_grid(scenarioT ~ scenarioY, scales = "fixed") +
+  coord_cartesian(ylim=c(0,5))
 ```
 
 ### Power
@@ -601,10 +638,18 @@ over_df %>%
   ggplot(aes(x = method, y = Power, fill = as.factor(p))) +
   ylab("Power") +
   geom_bar(position = "dodge", stat = "identity") +
-  scale_fill_discrete(name = "# Covars") +
-  theme(legend.position = "top") +
-  theme_minimal() +
-  coord_cartesian(ylim=c(0,10))
+  scale_fill_discrete(name = "Covariates") +
+  coord_cartesian(ylim=c(0,1))
+```
+
+```{r}
+res_sum_df %>%
+  ggplot(aes(x = method, y = Power, fill = as.factor(p))) +
+  ylab("Power") +
+  geom_bar(position = "dodge", stat = "identity") +
+  scale_fill_discrete(name = "Covariates") +
+  facet_grid(scenarioT ~ scenarioY, scales = "fixed") +
+  coord_cartesian(ylim=c(0,1))
 ```
 
 ### Summary of Results
@@ -614,3 +659,51 @@ over_df %>%
 -complexities in outcome effect bias more. simulaiton should take this into account
 
 ## Tables and Figures
+
+```{r}
+# generate overall table
+over_tab <- res |> 
+  dplyr::select(p, scenarioT, scenarioY, method, Bias, Abs_Per_Bias, Abs_Per_Rel_Bias, ATE_se, MSE, Power, coverage_95, ASAM)  
+
+gt(over_tab) |>
+  tab_spanner(
+    label = "Condition",
+    columns = c(p, scenarioT, scenarioY)
+  ) |>
+  tab_spanner(
+    label = "Performance Measure",
+    columns = c(Bias, Abs_Per_Bias, Abs_Per_Rel_Bias, ATE_se, MSE, Power, coverage_95, ASAM)
+  ) |>
+  fmt_number(columns = c(Bias, Abs_Per_Bias, Abs_Per_Rel_Bias, ATE_se, MSE, Power, coverage_95, ASAM), decimals = 3) |>
+  cols_align_decimal() 
+```
+
+```{r}
+# table for standardized initial bias and probability of treatment
+init_df <-
+  res %>%
+  group_by(scenarioT, scenarioY) %>%
+  summarise(
+    Std_In_Bias = mean(Std_In_Bias),
+    Prob_Treat = mean(Prob_Treat),
+    .groups = "rowwise"
+  ) |>
+  ungroup()
+
+
+gt(init_df) |>
+  tab_spanner(
+    label = "Condition",
+    columns = c(scenarioT, scenarioY)
+  ) |>
+  fmt_number(columns = c(Std_In_Bias, Prob_Treat), decimals = 3) |>
+  cols_label(
+    scenarioT = md("Treatment<br />Model"),
+    scenarioY = md("Outcome<br />Model"),
+    Std_In_Bias = md("Standardized<br />Initial Bias"),
+    Prob_Treat = "P(Z=1)"
+  ) |>
+  cols_align_decimal()
+
+
+```
