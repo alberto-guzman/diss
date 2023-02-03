@@ -1,3 +1,55 @@
+```{r}
+packages <- c(
+  "tidyverse",
+  "gt",
+  "RColorBrewer"
+)
+
+lapply(packages, library, character.only = TRUE)
+
+
+# append simulation for rep=100
+df1 <- readRDS("~/Projects/inProgress/2018_propensity_neuralnet_paper/data/sim_results_n10000_r1000_NP.rds")
+df2 <- readRDS("~/Projects/inProgress/2018_propensity_neuralnet_paper/data/sim_results_n10000_r1000_P.rds")
+res <- bind_rows(df1, df2)
+
+
+over_df <-
+  res %>%
+  group_by(p, method) %>%
+  summarise(
+    Bias = mean(Bias),
+    Abs_Per_Bias = mean(Abs_Per_Bias),
+    Abs_Per_Rel_Bias = mean(Abs_Per_Rel_Bias),
+    ATE_se = mean(ATE_se),
+    MSE = mean(MSE),
+    Power = mean(Power),
+    PS_Weights = mean(mean_ps_weights),
+    ASAM = mean(ASAM),
+    coverage_95 = mean(coverage_95),
+    .groups = "rowwise"
+  ) %>%
+  ungroup()
+
+
+res_sum_df <-
+  res %>%
+  group_by(p, method, scenarioT, scenarioY) %>%
+  summarise(
+    Bias = mean(Bias),
+    Abs_Per_Bias = mean(Abs_Per_Bias),
+    Abs_Per_Rel_Bias = mean(Abs_Per_Rel_Bias),
+    ATE_se = mean(ATE_se),
+    MSE = mean(MSE),
+    Power = mean(Power),
+    PS_Weights = mean(mean_ps_weights),
+    ASAM = mean(ASAM),
+    coverage_95 = mean(coverage_95),
+    .groups = "rowwise"
+  ) %>%
+  ungroup()
+```
+
 # Paper 1: Evaluating modern propensity score estimation methods with high-dimensional data
 
 ## Introduction
@@ -384,11 +436,43 @@ This section presents the results of the simulation study in three main parts. F
 
 ### Bias of ATE Estimation
 
-My primary goal with this simulation was to evalute which methods produced the most unbiased estimate in terms of the ATE in high dimensional setting. Given that the main goal with any type of quasi-experimental method is to recover the "true" population treatment effect. To begig I summarize the simulation results across all condtiions (Base(T),Complex(T),Base(Y), Complex(Y)) in order to get a sense of overall performance across condtions. I focus on comparing performance of each method across covariate dimensionalities. Figure X, I present the absolute percent bias by method and across covariate conditoins. Overall, I find that in the low-dimensional case, 20 covarites, logistice regresison produces the least amount of bias, although the DNN and NN approaches are fairly in line and all other approaches all produceing less that 5% bias (CITE). One expection is bagged cart produces a large a moutn of bias with 20 covariates. As I increase the number of covariates from 20 to 100 and 200 logistic regression starts to produce signifncalty worse than all other methods. With 100 covaraites I find that all non-paramatric methods perform realtively well with all having bias well below 5%. IN the 100 covariate sense the lowest bias estimates are produced by my DNN approach specifically DNN-2. With 200 covariates all machine learnign approach perfrom well although I do see an increase in bias across all methods. Forest produces the least biased estimates followed by bagged cart, nn-2 and dnn-3. Overall, these findings suggest that in the low dimensional setting logistic regresison produces the least biased estimated, while as dimenstionally increase logistic regression produces widely biased estimates compared to all other machine learning approaches. Of the machine learnig approaches my dnn approaches produce lower bias in 100 covariates while random forest performs better in the 200 covaraite case. Somethis about logist bias x times more than even blah blah.
+My primary goal with this simulation was to evalute which methods produced the most unbiased estimate in terms of the ATE in high dimensional setting. Given that the main goal with any type of quasi-experimental method is to recover the "true" population treatment effect. To begig I summarize the simulation results across all condtiions (Base(T),Complex(T),Base(Y), Complex(Y)) in order to get a sense of overall performance across condtions. I focus on comparing performance of each method across covariate dimensionalities. @fig-abs-bias, I present the absolute percent bias by method and across covariate conditoins. Overall, I find that in the low-dimensional case, 20 covarites, logistice regresison produces the least amount of bias, although the DNN and NN approaches are fairly in line and all other approaches all produceing less that 5% bias (CITE). One expection is bagged cart produces a large a moutn of bias with 20 covariates. As I increase the number of covariates from 20 to 100 and 200 logistic regression starts to produce signifncalty worse than all other methods. With 100 covaraites I find that all non-paramatric methods perform realtively well with all having bias well below 5%. IN the 100 covariate sense the lowest bias estimates are produced by my DNN approach specifically DNN-2. With 200 covariates all machine learnign approach perfrom well although I do see an increase in bias across all methods. Forest produces the least biased estimates followed by bagged cart, nn-2 and dnn-3. Overall, these findings suggest that in the low dimensional setting logistic regresison produces the least biased estimated, while as dimenstionally increase logistic regression produces widely biased estimates compared to all other machine learning approaches. Of the machine learnig approaches my dnn approaches produce lower bias in 100 covariates while random forest performs better in the 200 covaraite case. Somethis about logist bias x times more than even blah blah.
+
+```{r}
+#| label: fig-abs-bias
+#| fig-cap: "Absolute Bias (%) by methods and covariates"
+
+over_df %>%
+  ggplot(aes(x = method, y = Abs_Per_Bias, fill = as.factor(p))) +
+  ylab("Abs_Per_Bias") +
+  geom_bar(position = "dodge", stat = "identity") +
+  scale_fill_discrete(name = "# Covars") +
+  theme(legend.position = "top") +
+  theme_minimal() +
+  coord_cartesian(ylim=c(0,10))
+
+
+```
 
 #### Treatment and Outcome Models are Correctly Specified
 
-Next I look bias performance of each method based on complexities in the treatment and outcome model. Figure X presents a paneled graph where the upper left panel indicates the condition in which both the treatment and outcome model where correclty specifice, meaning only main effects where included in the data generation process, and where then being estimated by main effects with each method. Overall I find that all methods across conditions performed well with bias being less than 5%, with the exception of bagged cart which produced extremely biased results with 20 covariates. Not suprising in the the 20 covariate case logistic regression produces the least biased estimates, however the neural network approaches are within the same area. As the number of covariates increase I find that all methods perform exceptionally well, with logistic and the neural network approaches bproducing the least biased estimates.
+Next I look bias performance of each method based on complexities in the treatment and outcome model. @fig-abs-bias-cond presents a paneled graph where the upper left panel indicates the condition in which both the treatment and outcome model where correclty specifice, meaning only main effects where included in the data generation process, and where then being estimated by main effects with each method. Overall I find that all methods across conditions performed well with bias being less than 5%, with the exception of bagged cart which produced extremely biased results with 20 covariates. Not suprising in the the 20 covariate case logistic regression produces the least biased estimates, however the neural network approaches are within the same area. As the number of covariates increase I find that all methods perform exceptionally well, with logistic and the neural network approaches bproducing the least biased estimates.
+
+```{r}
+#| label: fig-abs-bias-cond
+#| fig-cap: "Absolute Bias (%) by methods and covariates and treatment and outcome model"
+
+res_sum_df %>%
+  ggplot(aes(x = method, y = Abs_Per_Bias, fill = as.factor(p))) +
+  ylab("Abs_Per_Bias") +
+  geom_bar(position = "dodge", stat = "identity") +
+  facet_grid(scenarioT ~ scenarioY, scales = "fixed") +
+  scale_fill_brewer(palette = "PuBu", name = "# Covars") +
+  theme(legend.position = "top") +
+  theme_minimal() +
+  coord_cartesian(ylim=c(0,10))
+
+```
 
 #### Treatment and Outcome Models are Incorrectly Specified
 
@@ -408,11 +492,9 @@ In the context of simulation studies, the coverage rate of the 95% confidence in
 
 #### Deviations from the Treatment and Outcome Models
 
-
 #### Treatment and Outcome Models are Incorrectly Specified
 
 #### Deviations from the Treatment and Outcome Models
-
 
 ### Covariate Balance
 
@@ -424,25 +506,19 @@ The results of the ASAM evaluation can be seen in Figure X, panel X. Across all 
 
 #### Deviations from the Treatment and Outcome Models
 
-
 ### Weights Assessment
 
 Assessing the mean of the inverse propensity score weights (IPTW) is important in simulation studies that examine propensity score weighting. This is because the mean of the IPTW is a measure of the overall balance achieved by the propensity score weighting method. If the mean of the IPTW is far from 1, it may indicate that the treatment and control groups still have unbalanced covariate distributions, potentially leading to biased treatment effect estimates.
 
-Figure x showe the results for weights, note that by contructions all weights will have a value above 1. All machine learnig methods lead to acceptable weights below 2.5. However, in the high dimensional cases logisti regression is producing extreme weights. 
+Figure x showe the results for weights, note that by contructions all weights will have a value above 1. All machine learnig methods lead to acceptable weights below 2.5. However, in the high dimensional cases logisti regression is producing extreme weights.
 
 ### Power
 
 In the context of simulation studies, it is important to analyze statistical power. Power refers to the proportion of times that the estimated ATE is found to be significant at the .05 level. Low power indicates that the study has a high rate of type II errors, meaning that the study is unlikely to detect true differences in treatment effects. Conversely, high power means that the study has a low rate of type II errors and is more likely to detect true differences in treatment effects. It is important to strive for high power in simulation studies to increase the accuracy and reliability of the results.
 
-Figure X show the results for power. In the low dimesnion case lgoistic regression has high power, correclty finding a statsitically significant treatment effect 100% of the time. As we introduce more covarite the logistic models power reduces. In the high dimensional settting particualry fores t and cart. 
+Figure X show the results for power. In the low dimesnion case lgoistic regression has high power, correclty finding a statsitically significant treatment effect 100% of the time. As we introduce more covarite the logistic models power reduces. In the high dimensional settting particualry fores t and cart.
 
 ### Summary of Results
-
-
-
-
-
 
 ## Discussion and Conclusion
 

@@ -1,6 +1,9 @@
 project:
   type: book
   execute-dir: project
+
+execute:
+  echo: false
   
 book:
   title: "**Deep Learning for Investigating Causal Effects with High-Dimensional Data: Analytic Tools and Applications to Educational Interventions**"
