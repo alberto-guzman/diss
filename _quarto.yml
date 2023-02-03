@@ -25,7 +25,11 @@ bibliography: m3m4.bib
 csl: apa.csl
 link-citations: yes
 
-
+include-in-header: 
+  text: |
+    \usepackage{fvextra}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
+    
 format: 
   titlepage-pdf:
     documentclass: report
