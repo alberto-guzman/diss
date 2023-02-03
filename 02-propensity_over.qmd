@@ -2,7 +2,8 @@
 packages <- c(
   "tidyverse",
   "gt",
-  "ggthemes"
+  "ggthemes",
+  "gtsummary"
 )
 
 lapply(packages, library, character.only = TRUE)
@@ -675,7 +676,8 @@ gt(over_tab) |>
     columns = c(Bias, Abs_Per_Bias, Abs_Per_Rel_Bias, ATE_se, MSE, Power, coverage_95, ASAM)
   ) |>
   fmt_number(columns = c(Bias, Abs_Per_Bias, Abs_Per_Rel_Bias, ATE_se, MSE, Power, coverage_95, ASAM), decimals = 3) |>
-  cols_align_decimal() 
+  cols_align_decimal() |> 
+  as_latex()
 ```
 
 ```{r}
@@ -703,7 +705,7 @@ gt(init_df) |>
     Std_In_Bias = md("Standardized<br />Initial Bias"),
     Prob_Treat = "P(Z=1)"
   ) |>
-  cols_align_decimal()
-
+  cols_align_decimal() |> 
+  as_latex()
 
 ```
