@@ -9,11 +9,9 @@ packages <- c(
 lapply(packages, library, character.only = TRUE)
 
 source("~/Projects/inProgress/dissertation/ggplot_theme_pub.R")
-# append simulation for rep=100
-df1 <- readRDS("~/Projects/inProgress/2018_propensity_neuralnet_paper/data/sim_results_n10000_r1000_NP.rds")
-df2 <- readRDS("~/Projects/inProgress/2018_propensity_neuralnet_paper/data/sim_results_n10000_r1000_P.rds")
+df1 <- readRDS("~/Projects/inProgress/2018_propensity_neuralnet_paper/data/sim_results_n10000_r100_NP_e.rds")
+df2 <- readRDS("~/Projects/inProgress/2018_propensity_neuralnet_paper/data/sim_results_n10000_r1000_P_e.rds")
 res <- bind_rows(df1, df2)
-
 
 over_df <-
   res %>%
@@ -49,6 +47,7 @@ res_sum_df <-
     .groups = "rowwise"
   ) %>%
   ungroup()
+
 ```
 
 # Paper 1: Evaluating modern propensity score estimation methods with high-dimensional data
@@ -447,7 +446,9 @@ over_df %>%
   ggplot(aes(x = method, y = Abs_Per_Bias, fill = as.factor(p))) +
   ylab("Abs_Per_Bias") +
   geom_bar(position = "dodge", stat = "identity") +
-  scale_fill_discrete(name = "Covariates") +
+  scale_fill_discrete(name = "Covariates") 
+
++
   coord_cartesian(ylim=c(0,7)) 
 ```
 
@@ -467,7 +468,7 @@ res_sum_df %>%
   geom_bar(position = "dodge", stat = "identity") +
   scale_fill_discrete(name = "Covariates") +
   facet_grid(scenarioT ~ scenarioY, scales = "fixed") +
-  coord_cartesian(ylim=c(0,7))
+  coord_cartesian(ylim=c(0,20))
 ```
 
 #### Treatment and Outcome Models are Incorrectly Specified
@@ -676,8 +677,7 @@ gt(over_tab) |>
     columns = c(Bias, Abs_Per_Bias, Abs_Per_Rel_Bias, ATE_se, MSE, Power, coverage_95, ASAM)
   ) |>
   fmt_number(columns = c(Bias, Abs_Per_Bias, Abs_Per_Rel_Bias, ATE_se, MSE, Power, coverage_95, ASAM), decimals = 3) |>
-  cols_align_decimal() |> 
-  as_latex()
+  cols_align_decimal() 
 ```
 
 ```{r}
@@ -705,7 +705,6 @@ gt(init_df) |>
     Std_In_Bias = md("Standardized<br />Initial Bias"),
     Prob_Treat = "P(Z=1)"
   ) |>
-  cols_align_decimal() |> 
-  as_latex()
+  cols_align_decimal() 
 
 ```
