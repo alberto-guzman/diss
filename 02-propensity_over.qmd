@@ -9,7 +9,7 @@ packages <- c(
 lapply(packages, library, character.only = TRUE)
 
 source("~/Projects/inProgress/dissertation/ggplot_theme_pub.R")
-df1 <- readRDS("~/Projects/inProgress/2018_propensity_neuralnet_paper/data/sim_results_n10000_r100_NP_e.rds")
+df1 <- readRDS("~/Projects/inProgress/2018_propensity_neuralnet_paper/data/sim_results_n10000_r1000_NP.rds")
 df2 <- readRDS("~/Projects/inProgress/2018_propensity_neuralnet_paper/data/sim_results_n10000_r1000_P_e.rds")
 res <- bind_rows(df1, df2)
 
@@ -440,16 +440,18 @@ My primary goal with this simulation was to evalute which methods produced the m
 
 ```{r}
 #| label: fig-abs-bias
-#| fig-cap: "Absolute Bias (%) by methods and covariates"
+#| fig-cap: "Absolute bias (%) of the ATE"
 
 over_df %>%
   ggplot(aes(x = method, y = Abs_Per_Bias, fill = as.factor(p))) +
-  ylab("Abs_Per_Bias") +
+  ylab("Absolute Bias (%)") +
   geom_bar(position = "dodge", stat = "identity") +
-  scale_fill_discrete(name = "Covariates") 
-
-+
-  coord_cartesian(ylim=c(0,7)) 
+  labs(fill='Covariates') +
+  coord_cartesian(ylim=c(0,10)) +
+  theme_Publication() +
+  scale_fill_Publication() +
+  geom_hline(yintercept = 10, color = "white", size = 2)
+  
 ```
 
 #### Treatment and Outcome Models are Correctly Specified
@@ -458,17 +460,21 @@ Next I look bias performance of each method based on complexities in the treatme
 
 ```{r}
 #| label: fig-abs-bias-cond
-#| fig-cap: "Absolute Bias (%) by methods and covariates and treatment and outcome model"
-#| fig-width: 20
-#| fig-height: 20
+#| fig-cap: "Absolute bias (%) of the ATE by data generation mechanisms"
+#| fig-width: 7.5
+#| fig-height: 5
 
 res_sum_df %>%
   ggplot(aes(x = method, y = Abs_Per_Bias, fill = as.factor(p))) +
-  ylab("Abs_Per_Bias") +
+  ylab("Absolute Bias (%)") +
   geom_bar(position = "dodge", stat = "identity") +
-  scale_fill_discrete(name = "Covariates") +
+  labs(fill='Covariates') +
   facet_grid(scenarioT ~ scenarioY, scales = "fixed") +
-  coord_cartesian(ylim=c(0,20))
+  coord_cartesian(ylim=c(0,10)) +
+  theme_Publication() +
+  scale_fill_Publication() +
+  theme(panel.spacing = unit(.5, "cm")) +
+  geom_hline(yintercept = 10, color = "white", size = 2)
 ```
 
 #### Treatment and Outcome Models are Incorrectly Specified
@@ -485,7 +491,7 @@ Although the ATE point estimates are crucial metrics, it is also important to co
 
 ```{r}
 #| label: fig-ate-var
-#| fig-cap: ATE Variability
+#| fig-cap: Variability in ATE
 #| fig-subcap: 
 #|   - "Standard Error (SE)"
 #|   - "Mean Squared Error (MSE)"
@@ -494,24 +500,33 @@ Although the ATE point estimates are crucial metrics, it is also important to co
 
 over_df %>%
   ggplot(aes(x = method, y = ATE_se, fill = as.factor(p))) +
-  ylab("ATE SE") +
+  ylab("Standard Error (SE)") +
   geom_bar(position = "dodge", stat = "identity") +
-  scale_fill_discrete(name = "Covariates") +
-  coord_cartesian(ylim=c(0,1.5))
+  labs(fill='Covariates') +
+  coord_cartesian(ylim=c(0,1)) +
+  theme_Publication() +
+  scale_fill_Publication() +
+  geom_hline(yintercept = 1, color = "white", size = 2)
 
 over_df %>%
   ggplot(aes(x = method, y = MSE, fill = as.factor(p))) +
-  ylab("MSE") +
+  ylab("Mean Squared Error (MSE)") +
   geom_bar(position = "dodge", stat = "identity") +
-  scale_fill_discrete(name = "Covariates") +
-  coord_cartesian(ylim=c(0,5))
+  labs(fill='Covariates') +
+  coord_cartesian(ylim=c(0,4)) +
+  theme_Publication() +
+  scale_fill_Publication() +
+  geom_hline(yintercept = 4, color = "white", size = 2)
+
 
 over_df %>%
   ggplot(aes(x = method, y = coverage_95, fill = as.factor(p))) +
-  ylab("95% CI Coverage") +
+  ylab("95% C.I. Coverage") +
   geom_bar(position = "dodge", stat = "identity") +
-  scale_fill_discrete(name = "Covariates") +
-  coord_cartesian(ylim=c(0,1))
+  labs(fill='Covariates') +
+  coord_cartesian(ylim=c(0,1)) +
+  theme_Publication() +
+  scale_fill_Publication() 
 
 ```
 
@@ -523,7 +538,7 @@ In the context of simulation studies, the coverage rate of the 95% confidence in
 
 ```{r}
 #| label: fig-ate-var-cond
-#| fig-cap: ATE Variability by Data Generating Models
+#| fig-cap: Variability in ATE by data generating mechanisms
 #| fig-subcap: 
 #|   - "Standard Error (SE)"
 #|   - "Mean Squared Error (MSE)"
@@ -534,26 +549,36 @@ res_sum_df %>%
   ggplot(aes(x = method, y = ATE_se, fill = as.factor(p))) +
   ylab("ATE SE") +
   geom_bar(position = "dodge", stat = "identity") +
-  scale_fill_discrete(name = "Covariates") +
+  labs(fill='Covariates') +
   facet_grid(scenarioT ~ scenarioY, scales = "fixed") +
-  coord_cartesian(ylim=c(0,1.5))
+  coord_cartesian(ylim=c(0,1)) +
+  theme_Publication() +
+  scale_fill_Publication() +
+  theme(panel.spacing = unit(.5, "cm")) +
+  geom_hline(yintercept = 1, color = "white", size = 2)
 
 res_sum_df %>%
   ggplot(aes(x = method, y = MSE, fill = as.factor(p))) +
   ylab("MSE") +
   geom_bar(position = "dodge", stat = "identity") +
-  scale_fill_discrete(name = "Covariates") +
+  labs(fill='Covariates') +
   facet_grid(scenarioT ~ scenarioY, scales = "fixed") +
-  coord_cartesian(ylim=c(0,5))
+  coord_cartesian(ylim=c(0,4)) +
+  theme_Publication() +
+  scale_fill_Publication() +
+  theme(panel.spacing = unit(.5, "cm")) +
+  geom_hline(yintercept = 4, color = "white", size = 2)
 
 res_sum_df %>%
   ggplot(aes(x = method, y = coverage_95, fill = as.factor(p))) +
   ylab("95% CI Coverage") +
   geom_bar(position = "dodge", stat = "identity") +
-  scale_fill_discrete(name = "Covariates") +
+  labs(fill='Covariates') +
   facet_grid(scenarioT ~ scenarioY, scales = "fixed") +
-  coord_cartesian(ylim=c(0,1))
-
+  coord_cartesian(ylim=c(0,1)) +
+  theme_Publication() +
+  scale_fill_Publication() +
+  theme(panel.spacing = unit(.5, "cm")) 
 ```
 
 #### Treatment and Outcome Models are Incorrectly Specified
@@ -574,23 +599,36 @@ over_df %>%
   ggplot(aes(x = method, y = ASAM, fill = as.factor(p))) +
   ylab("ASAM") +
   geom_bar(position = "dodge", stat = "identity") +
-  scale_fill_discrete(name = "Covariates") +
-  coord_cartesian(ylim=c(0,.5))
+  labs(fill='Covariates') +
+  coord_cartesian(ylim=c(0,.5)) +
+  theme_Publication() +
+  scale_fill_Publication() +
+  geom_hline(yintercept = .5, color = "white", size = 2) +
+  geom_hline(yintercept = .1, linetype = 2, color = "black", size = .25) +
+  geom_hline(yintercept = .2, linetype = 2, color = "black", size = .5) 
 ```
 
 #### Treatment and Outcome Models are Incorrectly Specified
 
 ```{r}
 #| label: fig-asam-cond
-#| fig-cap: "Average Standardized Absolute Mean Difference (ASAM)"
+#| fig-cap: "Average Standardized Absolute Mean Difference (ASAM) by data generating mechanisms"
+#| fig-width: 7.5
+#| fig-height: 5
 
 res_sum_df %>%
   ggplot(aes(x = method, y = ASAM, fill = as.factor(p))) +
   ylab("ASAM") +
   geom_bar(position = "dodge", stat = "identity") +
-  scale_fill_discrete(name = "Covariates") +
+  labs(fill='Covariates') +
   facet_grid(scenarioT ~ scenarioY, scales = "fixed") +
-  coord_cartesian(ylim=c(0,.5))
+  coord_cartesian(ylim=c(0,.5)) +
+  theme(panel.spacing = unit(.5, "cm")) +
+  theme_Publication() +
+  scale_fill_Publication() +
+  geom_hline(yintercept = .5, color = "white", size = 2) +
+  geom_hline(yintercept = .1, linetype = 2, color = "black", size = .25) +
+  geom_hline(yintercept = .2, linetype = 2, color = "black", size = .5) 
 ```
 
 #### Deviations from the Treatment and Outcome Models
@@ -603,27 +641,38 @@ Assessing the mean of the inverse propensity score weights (IPTW) is important i
 
 ```{r}
 #| label: fig-weights
-#| fig-cap: "IPTW Weights"
+#| fig-cap: "Mean IPTW weights"
 
 over_df %>%
   ggplot(aes(x = method, y = PS_Weights, fill = as.factor(p))) +
   ylab("IPTW Weights") +
   geom_bar(position = "dodge", stat = "identity") +
-  scale_fill_discrete(name = "Covariates") +
-  coord_cartesian(ylim=c(0,5))
+  labs(fill='Covariates') +
+  coord_cartesian(ylim=c(0,5)) +
+  theme_Publication() +
+  scale_fill_Publication() +
+  geom_hline(yintercept = 5, color = "white", size = 2) 
+
 ```
 
 ```{r}
 #| label: fig-weights-cond
-#| fig-cap: "IPTW Weights"
+#| fig-cap: "IPTW Weights by data generating mechanisms"
+#| fig-width: 7.5
+#| fig-height: 5
 
 res_sum_df %>%
   ggplot(aes(x = method, y = PS_Weights, fill = as.factor(p))) +
   ylab("IPTW Weights") +
   geom_bar(position = "dodge", stat = "identity") +
-  scale_fill_discrete(name = "Covariates") +
+  labs(fill='Covariates') +
   facet_grid(scenarioT ~ scenarioY, scales = "fixed") +
-  coord_cartesian(ylim=c(0,5))
+  coord_cartesian(ylim=c(0,5)) +
+  theme_Publication() +
+  scale_fill_Publication() +
+  geom_hline(yintercept = 5, color = "white", size = 2) +
+  theme(panel.spacing = unit(.5, "cm")) 
+
 ```
 
 ### Power
@@ -640,18 +689,29 @@ over_df %>%
   ggplot(aes(x = method, y = Power, fill = as.factor(p))) +
   ylab("Power") +
   geom_bar(position = "dodge", stat = "identity") +
-  scale_fill_discrete(name = "Covariates") +
-  coord_cartesian(ylim=c(0,1))
+  labs(fill='Covariates') +
+  coord_cartesian(ylim=c(0,1)) +
+  theme_Publication() +
+  scale_fill_Publication() 
 ```
 
 ```{r}
+#| label: fig-power-cond
+#| fig-cap: "Power by data generating mechanisms"
+#| fig-width: 7.5
+#| fig-height: 5
+
 res_sum_df %>%
   ggplot(aes(x = method, y = Power, fill = as.factor(p))) +
   ylab("Power") +
   geom_bar(position = "dodge", stat = "identity") +
-  scale_fill_discrete(name = "Covariates") +
+  labs(fill='Covariates') +
   facet_grid(scenarioT ~ scenarioY, scales = "fixed") +
-  coord_cartesian(ylim=c(0,1))
+  coord_cartesian(ylim=c(0,1)) +
+  theme_Publication() +
+  scale_fill_Publication() +
+  theme(panel.spacing = unit(.5, "cm")) 
+
 ```
 
 ### Summary of Results
@@ -680,31 +740,4 @@ gt(over_tab) |>
   cols_align_decimal() 
 ```
 
-```{r}
-# table for standardized initial bias and probability of treatment
-init_df <-
-  res %>%
-  group_by(scenarioT, scenarioY) %>%
-  summarise(
-    Std_In_Bias = mean(Std_In_Bias),
-    Prob_Treat = mean(Prob_Treat),
-    .groups = "rowwise"
-  ) |>
-  ungroup()
-
-
-gt(init_df) |>
-  tab_spanner(
-    label = "Condition",
-    columns = c(scenarioT, scenarioY)
-  ) |>
-  fmt_number(columns = c(Std_In_Bias, Prob_Treat), decimals = 3) |>
-  cols_label(
-    scenarioT = md("Treatment<br />Model"),
-    scenarioY = md("Outcome<br />Model"),
-    Std_In_Bias = md("Standardized<br />Initial Bias"),
-    Prob_Treat = "P(Z=1)"
-  ) |>
-  cols_align_decimal() 
-
-```
+![](tab_1.png){width="2000"}
