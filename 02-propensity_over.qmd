@@ -776,41 +776,67 @@ In summary, my simulation study suggests that in low-dimensional settings with n
 
 ## Discussion and Conclusion
 
--complexities in outcome effect bias more. simulaiton should take this into account
+In the absence of randomization, educational researchers often turn to quasi-experimental methods to reduce bias in their estimated treatment effects. The prevalence of high-dimensional data may make it challenging to correctly estimate unbiased treatment effects, as traditional parametric approaches are not equipped to model high-dimensional data. However, advancements in machine learning have led to a range of algorithms that are capable of modeling complex high-dimensional data. This simulation study aimed to evaluate the performance of logistic regression against commonly used machine learning techniques in propensity score estimation using propensity score weighting. The study also extends the literature by developing and testing a deep neural network-based approach to estimate propensity scores, and by evaluating the performance of these methods under different covariate conditions ranging from 20 covariates, the standard number used in applied propensity score analysis, to 200 covariates, scenarios that are becoming more common in education research.
 
-I. Introduction
+Towards this end, I conducted an exhaustive Monte Carlo simulation study covering various dimensionalities and complexities in both the treatment and outcome model, which are representative of high-dimensional administrative data. My proposed DNN-based approach demonstrates superior bias reduction in estimating the ATE in a high-dimensional case not just against the traditional logistic regression but also other commonly used propensity score-based methods in the literature. In addition, my DNN approach leads to better covariate balance and MSE. This extends the literature by providing a novel method for propensity score estimation.
 
--   Brief overview of the purpose and main findings of the study
+However, my findings suggest that the right tool needs to be chosen based on the context, and the more computationally expensive methods may not always be the ideal choice. When dealing with a low number of covariates, logistic regression produced good balance on covariates and unbiased ATE estimates, and its simplicity in terms of ease of implementation, interpretability, and lower computational cost make it a preferred choice.
 
-II\. Summary of Main Results
+On the other hand, when dealing with high-dimensional datasets, machine learning methods, particularly ensemble learning methods like bagged cart and my proposed DNN approach, should be used. These methods lead to less bias and better covariate balance compared to traditional logistic regression, which produces extreme weights and leads to inaccurate ATE estimates in high-dimensional settings.
 
--   Summary of results for the ATE bias, standard error, mean squared error, and 95% confidence interval coverage
+### Summary of Main Results
 
--   Comparison of the performance of each method across different covariate conditions and treatment and outcome complexities
+The results of the ATE bias evaluation showed that the standard logistic regression approach was not always the best method for estimating unbiased treatment effects. The inclusion of complexities in both the treatment and outcome model led to an increase in bias, with logistic regression being particularly sensitive to the number of covariates. The deep neural network (DNN) based approach developed in this study, as well as bagging and some other machine learning methods, produced lower ATE bias and were more robust to the number of covariates.
 
--   Discussion of the results of the covariate balance evaluation using the ASAM metric
+In terms of standard error (SE) and mean squared error (MSE), the results were consistent with the findings for ATE bias. The DNN based approach and bagging produced the lowest SE and MSE across all covariate conditions, including in the highest dimensional case with 200 covariates. The logistic regression approach was found to be less robust to the number of covariates, producing the largest SE and MSE in the highest dimensional case. For 95% confidence interval coverage, the results were similar with the logistic regression approach and the neural network based method nn-1 being sensitive to the number of covariates, while the other machine learning methods, including the DNN based approach, were more robust.
 
-III\. Implications and Contributions of the Study
+The results of the covariate balance evaluation using the ASAM metric showed that all methods using the common 0.2 threshold produced acceptable results, with the exception of CART, Random Forest, and Logistic Regression, which had the largest ASAM values. However, when using the more stringent 0.1 threshold, the bagging method, the DNN-based approaches, and logistic regression produced optimal balance. In the highest covariate case, logistic regression produced extreme imbalance (ASAM = 74.9), while all other machine learning approaches produced good covariate balance with ASAM values below 0.15. The DNN-2 approach produced the best balance with an ASAM value of 0.06.
 
--   Discussion of the implications of the results for practice and future research
+These results suggest that the use of the ASAM metric is important in assessing covariate balance in simulation studies that use propensity score weighting. The results also show that the machine learning approaches, particularly the bagging method and the DNN-based approaches, perform better than logistic regression in terms of achieving good covariate balance. This highlights the importance of considering alternative methods to logistic regression in educational research studies that utilize high-dimensional data.
+
+### Implications and Contributions of the Study
+
+The results of this study have important implications for both practice and future research. In terms of practice, the findings suggest that machine learning methods should be considered when dealing with high-dimensional data in educational research. The superior performance of machine learning methods in terms of reducing bias and improving covariate balance over traditional logistic regression should be taken into consideration by researchers when choosing a method for propensity score estimation. In particular, the proposed DNN approach provides a novel and effective solution for high-dimensional data, and researchers should consider this method as a viable option.
+
+In terms of future research, the results of this study suggest that there is room for further exploration of machine learning methods in propensity score estimation. While this study focused on a comprehensive evaluation of commonly used methods, there may be other machine learning algorithms that could perform even better. Additionally, this study only examined the performance of these methods under a limited set of conditions, and further research should aim to evaluate their performance under different assumptions, such as non-linear relationships between treatment and covariates. Another area for future research could be the exploration of alternative metrics for evaluating covariate balance, as the ASAM metric is still contested in the literature. Overall, the results of this study highlight the need for continued research in this area to improve our understanding of the best methods for estimating treatment effects in the presence of high-dimensional data.
 
 -   Comparison of the results with previous studies in the field
 
+-   In terms of comparison with previous studies in the field, it is important to note the advancements in machine learning techniques that have been made since previous studies were conducted. While previous studies have shown that traditional methods like logistic regression can perform well in low dimensional settings, they have not been able to address the challenges posed by high dimensional data. Our study extends the literature by showing that machine learning techniques, particularly the proposed DNN approach, can effectively address these challenges and provide better covariate balance and unbiased ATE estimates in high dimensional settings.
+
+    Additionally, our study provides a more comprehensive evaluation of various machine learning techniques by considering different levels of covariate complexity and varying numbers of covariates. This allows us to provide a more nuanced understanding of the strengths and weaknesses of each technique, and the specific contexts in which they may be most useful. Our results suggest that the appropriate method for propensity score estimation will depend on the specifics of the dataset and the research question being addressed, and highlights the importance of considering both the computational cost and the quality of results when selecting a method.
+
 -   Explanation of how the results contribute to the advancement of knowledge in the area of propensity score weighting and treatment effect estimation
 
-IV\. Limitations and Future Research Directions
+-   The results of this study contribute to the advancement of knowledge in the area of propensity score weighting and treatment effect estimation in several important ways. Firstly, the evaluation of logistic regression against commonly used machine learning techniques, as well as the development and testing of a deep neural network-based approach to estimate propensity scores, provides a comprehensive analysis of the performance of these methods. This is particularly relevant in the context of high-dimensional data, which is becoming increasingly common in educational research. Secondly, the examination of the performance of these methods across different covariate conditions, including 20, 100, and 200 covariates, provides valuable insights into the robustness of these methods and the conditions under which they are most effective.
 
--   Discussion of the limitations of the study and potential sources of bias or confounding
+    Additionally, the examination of the implications of covariate balance using the ASAM metric highlights the importance of considering balance in the context of propensity score weighting. The results of this study demonstrate that some methods, such as logistic regression, are more sensitive to covariate balance than others, such as the proposed DNN-based approach. This highlights the importance of considering balance when choosing a method for propensity score estimation, and suggests that the proposed DNN-based approach may be a valuable addition to the existing literature in this area. Overall, the results of this study contribute to the advancement of knowledge by providing a comprehensive evaluation of the performance of different methods for propensity score weighting and treatment effect estimation.
+
+This study highlights the importance of testing various complexities in both the outcome and treatment models in simulation studies focused on propensity score estimation. The results showed that some methods, such as logistic regression and nn-1, are sensitive to the number of covariates and complexities in the models, leading to large standard error and mean squared error values, as well as low coverage rates. In contrast, other methods, such as bagged and dnn approaches, were fairly robust to these variations and produced better results. Thus, it is crucial to consider the complexities in the models and the number of covariates when selecting a method for propensity score estimation in practice.
+
+### Limitations and Future Research Directions
+
+-   The current simulation study is subject to several limitations that may affect the validity of the results. One limitation of Monte Carlo simulations is that they are only as good as the underlying assumptions and models used to generate the data. In this study, the assumptions and models used to generate the data may not accurately reflect real-world educational data. Additionally, the sample size used in the simulation study may not be large enough to fully capture the variability in the data, which could affect the validity of the results.
+
+    Another limitation of the study is that it only considers a limited set of methods for propensity score weighting and treatment effect estimation. Other methods, such as doubly robust estimation or inverse probability weighting, may perform differently in high-dimensional data scenarios and should be considered in future research. Additionally, the study only considers the performance of the methods in terms of bias reduction and covariate balance, but does not consider other important aspects such as implementation time or computational cost.
 
 -   Explanation of how future research can build on the results and address limitations
 
-V. Conclusion
+Another limitation of the study is that we did not test super learners, which is an ensemble machine learning method that combines several models to obtain better performance. This is an important avenue for future research as super learners have been shown to improve the performance of treatment effect estimation in other studies. By incorporating super learners, we can evaluate if this method provides an even more robust solution for propensity score weighting in high-dimensional data compared to the methods tested in this simulation. Additionally, future research can also explore the performance of super learners with different covariate conditions, complexity levels, and sample sizes to gain a more comprehensive understanding of this method.
+
+-   Future research can build on the results of this study by addressing the limitations and improving upon the methodology. One potential avenue for improvement is to incorporate more realistic scenarios and data structures in the simulation study. This can include the use of real-world datasets, or simulations that better reflect the complexities and nuances of real-world data. Additionally, future research can explore alternative methods for evaluating treatment effect estimation, such as cross-validation or other performance metrics that better capture the accuracy and robustness of the methods being evaluated. Furthermore, future research can examine the generalizability of the findings to different types of datasets, or to different application domains. Finally, future research can consider incorporating additional machine learning techniques, or exploring the use of hybrid approaches that combine elements of traditional methods and machine learning algorithms to further improve the accuracy and efficiency of treatment effect estimation
+
+### Conclusions
 
 -   Summary of the main findings and contributions of the study
 
 -   Discussion of the implications of the results and future research directions
 
--   Final thoughts and recommendations for practitioners and researchers in the field.Tables and Figures
+-   It is recommended that practitioners carefully consider the limitations and assumptions of the methods they choose for propensity score estimation and carefully evaluate the covariate balance achieved in their study. Researchers should continue to build on the results of this study by exploring new methods for propensity score estimation and testing their performance under various conditions. Additionally, simulation studies should consider a wider range of complexities in the treatment and outcome models and test various metrics for evaluating covariate balance. This will further advance the field of propensity score weighting and treatment effect estimation, leading to more accurate and unbiased estimates of treatment effects.
+
+-   
+
+    Tables and Figures
 
 ```{r}
 # generate overall table
@@ -829,5 +855,3 @@ gt(over_tab) |>
   fmt_number(columns = c(Bias, Abs_Per_Bias, Abs_Per_Rel_Bias, ATE_se, MSE, Power, coverage_95, ASAM), decimals = 3) |>
   cols_align_decimal() 
 ```
-
-![](tab_1.png){width="2000"}
