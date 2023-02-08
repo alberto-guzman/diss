@@ -4,7 +4,8 @@ project:
 
 execute:
   echo: false
-  
+  warning: false
+
 book:
   title: "**Deep Learning for Investigating Causal Effects with High-Dimensional Data: Analytic Tools and Applications to Educational Interventions**"
   author: "**Alberto Guzman-Alvarez**"
@@ -18,7 +19,6 @@ book:
     - 03-commonapp_over.qmd
     - references.qmd
   appendices: 
-    - appendix_a.qmd
     - appendix_b.qmd
     
 bibliography: m3m4.bib
