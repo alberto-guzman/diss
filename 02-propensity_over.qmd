@@ -539,9 +539,9 @@ My findings suggest variability in the bias of the estimated ATE across methods 
 
 ### ATE Estimation: SE, MSE, and 95% CI Coverage
 
-Although bias in the average treatment effect (ATE) is an important metric to evaluate the performance of the methods, it is equally important to consider the sampling variability of the estimated ATE. The optimal method should have low bias in the estimated ATE and exhibit minimal variability through tight standard errors (SE) and mean squared errors (MSE) and high 95% confidence interval coverage. These properties enhance the precision of the estimated ATE. In this section, I summarize the findings of the estimated ATE in terms of standard error (SE), mean squared error (MSE), and 95% confidence interval coverage rate. 
+Although bias in the average treatment effect (ATE) is an important metric to evaluate the performance of the methods, it is equally important to consider the sampling variability of the estimated ATE. The optimal method should have low bias in the estimated ATE and exhibit minimal variability through tight standard errors (SE) and mean squared errors (MSE) and high 95% confidence interval coverage. These properties enhance the precision of the estimated ATE. In this section, I summarize the findings of the estimated ATE in terms of standard error (SE), mean squared error (MSE), and 95% confidence interval coverage rate.
 
-@fig-ate-var is a multi-panel figure that compares the performance of each method in terms of SE and MSE of the ATE and 95% confidence interval coverage rate across population models. 
+@fig-ate-var is a multi-panel figure that compares the performance of each method in terms of SE and MSE of the ATE and 95% confidence interval coverage rate across population models.
 
 ```{r}
 #| label: fig-ate-var
@@ -645,7 +645,7 @@ res_sum_df %>%
 
 ###### Base - Population Outcome and Treatment Models
 
-The upper-left panels in @fig-ate-var-cond-1 and @fig-ate-var-cond-2 show the results for the SE and MSE of the ATE, when only main effects are included in the population treatment and outcome models. When only main effects are included all methods, regarless of covariate condition, perform well producing low SE and MSE values. 
+The upper-left panels in @fig-ate-var-cond-1 and @fig-ate-var-cond-2 show the results for the SE and MSE of the ATE, when only main effects are included in the population treatment and outcome models. When only main effects are included all methods, regarless of covariate condition, perform well producing low SE and MSE values.
 
 ###### Complex - Population Outcome and Treatment Models
 
@@ -653,7 +653,7 @@ However, when both the treatment and outcome models include quadratic and intera
 
 ###### Deviations - Population Outcome and Treatment Models
 
-As with the ATE bias evaluation results, both SE and MSE appear sensitive to complexities in the outcome model, more so than when complexities are only included in the treatment model. When complexities are only included in the outcome model, bagging, DNN-2, DNN-3, and logistic regression are robust to covariate conditions, with MSE values below 1. In contrast, nn-1 has the highest MSE, followed by bagged cart and random forest. 
+As with the ATE bias evaluation results, both SE and MSE appear sensitive to complexities in the outcome model, more so than when complexities are only included in the treatment model. When complexities are only included in the outcome model, bagging, DNN-2, DNN-3, and logistic regression are robust to covariate conditions, with MSE values below 1. In contrast, nn-1 has the highest MSE, followed by bagged cart and random forest.
 
 #### 95% Confidence Interval Coverage
 
@@ -661,7 +661,7 @@ Finally, in the third panel (@fig-ate-var-3), I present the results for the 95% 
 
 ##### Complexities in the Population Outcome and Treatment Models
 
-The third panel of @fig-ate-var-cond shows the 95% CI coverage rate results by model complexities. Overall, coverage rates appear particularly sensitive to complexities in the population treatment model, with all methods displaying lower coverage rates than when only main effects are included in the population treatment model. In addition, we observe a fairly consistent pattern that the neural network-based approach (nn-1, dnn-2, dnn-3) and logistic regression produce lower coverage rates as covariates increase. 
+The third panel of @fig-ate-var-cond shows the 95% CI coverage rate results by model complexities. Overall, coverage rates appear particularly sensitive to complexities in the population treatment model, with all methods displaying lower coverage rates than when only main effects are included in the population treatment model. In addition, we observe a fairly consistent pattern that the neural network-based approach (nn-1, dnn-2, dnn-3) and logistic regression produce lower coverage rates as covariates increase.
 
 ##### Summary
 
