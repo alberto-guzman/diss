@@ -19,7 +19,7 @@ book:
     - 03-commonapp_over.qmd
     - references.qmd
   appendices: 
-    - appendix_b.qmd
+    - simulation_code.qmd
     
 bibliography: m3m4.bib
 csl: apa.csl
