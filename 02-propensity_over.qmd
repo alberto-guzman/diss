@@ -669,9 +669,9 @@ All methods produced ATE with low SE and MSE values in the low-dimensional condi
 
 ### Covariate Balance
 
-Covariate balance is a critical aspect to consider in simulation studies that use propensity score weighting. The average standardized absolute mean difference (ASAM) between the treatment and control groups is a metric used to assess balance. The ASAM reflects the degree of similarity in the covariate distributions between the two groups, which can significantly impact the simulation results. Maintaining covariate balance reduces the risk of bias in the estimated treatment effects and leads to more accurate results. An ASAM of 0 indicates balance between treated and untreated units, on average across all covariates. ASAM is also important because in practice, covariate balance is the only aspect that can be observed and used to make decisions on which method to use for propensity score estimation. However, whether ASAM is the right metric to assess balance is contested, with some researchers suggesting that other moments besides the mean should be considered. For my simulation I exclusively focus on accessing balance through the mean.
+Up to this point, I have considered performance metrics that are not directly observable in practice. For example, a researcher cannot assess the degree of bias introduced by each propensity score estimation method within their observational dataset. A commonly used and directly observable metric for deciding which method to use is covariate balance. Covariate balance is typically assessed using the average standardized absolute mean difference (ASAM) between treated and untreated units. Maintaining covariate balance reduces the risk of bias in the estimated treatment effect and leads to more accurate results. However, the use of average standardized absolute mean difference as the metric for assessing balance is contested, with some researchers suggesting that other moments besides the mean should be considered. In my simulation, I focused exclusively on assessing balance through ASAM. For simplicity, I took the average ASAM for all covariates in the propensity score estimation model, but in practice, each covariate should be assessed separately. A mean ASAM value of 0 indicates balance in the mean between treated and untreated units across all covariates. I consider two commonly used thresholds for deciding whether adequate covariate balance has been achieved: the more typical 0.2 threshold proposed by (CITE), and the more stringent threshold of 0.1.
 
-The results of the covariate balance evaluation can be seen in @fig-asam. Across all covariate levels, the ASAM values were acceptable for all methods using the common 0.2 threshold (CITE), except for CART, Random Forest, and Logistic Regression, which had the largest ASAM values. Using the more stringent 0.1 threshold proposed by CITE, bagging, DNN-2, and DNN-3 performed better. In the highest covariate case, logistic regression produced extreme imbalance (ASAM = 74.9), while all other machine learning approaches produced good covariate balance with ASAM values below 0.15. The DNN-2 approach produced the best balance with an ASAM value of 0.06.
+The results of the ASAM evaluation averaged across all population outcome models can be seen in Figure @fig-asam, where the thicker dashed line indicates an ASAM value of 0.2, and the thinner dashed line indicates an ASAM value of 0.1. Overall, all methods achieved adequate covariate balance in the low-dimensional condition with ASAM values below 0.2. However, using the more stringent cutoff of 0.1, both CART and random forest failed to achieve covariate balance. The lowest ASAM value achieved in the 20 covariate condition was by logistic regression with an ASAM value of XXX. As the covariate dimensionality increased, logistic regression produced extreme imbalance (ASAM = 74.9), while all other machine learning approaches maintained good covariate balance with ASAM values at or below the most stringent cutoff of 0.1. The lowest levels of covariate balance were achieved by bagged CART and my DNN approaches, with the DNN-2 approach producing the best balance with an ASAM value of 0.06.
 
 ```{r}
 #| label: fig-asam
@@ -690,9 +690,9 @@ over_df %>%
   geom_hline(yintercept = .2, linetype = 2, color = "black", size = .5) 
 ```
 
-#### Base Treatment and Outcome Population Models
+###### Base - Population Outcome and Treatment Models
 
-When both the outcome and treatment models included only main effects, all methods produced good covariate balance using the 0.2 threshold across all covariate conditions (see Figure x). With the more stringent 0.1 threshold, bagging, the neural network-based approaches, and logistic regression produced optimal balance.
+When the outcome and treatment models included only main effects, all methods produced good covariate balance using the 0.2 thresholds across all covariate conditions (as shown in the upper-left facet of @fig-asam-cond). With the more stringent 0.1 thresholds, bagging, the neural network-based approaches, and logistic regression produced optimal balance. In the base condition, the machine learning approaches appear insensitive to the number of covariates, while logistic regression and nn-1 seem sensitive to dimensionality.
 
 ```{r}
 #| label: fig-asam-cond
@@ -715,21 +715,23 @@ res_sum_df %>%
   geom_hline(yintercept = .2, linetype = 2, color = "black", size = .5) 
 ```
 
-#### Complex Treatment and Outcome Population Models
+###### Complex - Population Outcome and Treatment Models
 
-I evaluated covariate balance when I introduced complexities to the treatment and outcome model. In line with the overall ASAM results, logistic regression and nn-1 produced extreme imbalances among covariates in the higher covariate condition. For example, with 200 covariates, logistic regression produced extreme imbalances (ASAM = 74.94). In comparison, my DNN-2 approach achieved good covariate balance (ASAM = 0.061). These results suggest that when complexities are included in the outcome and treatment model, my DNN approach will lead to the best covariate balance among all other methods, especially in high-dimensional cases.
+When complexities are introduced into the treatment and outcome models, a slight increase in imbalance is observed, but nothing significant. In the low-covariate condition, all methods perform well with ASAM values below 0.2. With the more stringent threshold, CART and random forest fail to achieve covariate balance. In line with the overall ASAM results, logistic regression and nn-1 produced extreme imbalances among covariates in the higher covariate condition. For example, with 200 covariates, logistic regression produced extreme imbalances (ASAM = 74.94). In comparison, my DNN-2 approach achieved adequate covariate balance (ASAM = 0.061), and using the most stringent threshold, the DNN-2 and DNN-3 approaches were the only methods to achieve covariate balance.
 
 #### Deviations from the Treatment and Outcome Models
 
-I found that covariate balance is fairly robust to different specifications of covariate conditions and complexities in the outcome and treatment models. However, when dealing with higher covariates, specifically 100 and 200, I observed that logistic and nn-1 are sensitive to complexities in the treatment models.
+Covariate balance is relatively robust to different specifications of covariate conditions and complexities in the outcome and treatment models. However, when dealing with higher covariates, specifically 100 and 200, logistic regression and nn-1 are sensitive to complexities in the treatment models, producing more imbalance in this context.
 
-I evaluated covariate balance in simulation studies that use propensity score weighting. The average standardized absolute mean difference (ASAM) between the treatment and control groups was used as the metric to assess balance. The results showed that across all covariate levels, most methods produced acceptable balance using a 0.2 threshold, except for CART, Random Forest, and Logistic Regression. With a more stringent 0.1 threshold, bagging, DNN-2, and DNN-3 performed better. In the highest covariate case, logistic regression produced extreme imbalance, while the DNN-2 approach produced the best balance with an ASAM value of 0.06. The results also showed that when both the outcome and treatment models included complexities, the DNN-2 approach led to the best covariate balance among all other methods, especially in high-dimensional cases. However, logistic and nn-1 were sensitive to complexities in the treatment models in high-dimensional settings. This highlights the importance of considering complexities in the treatment models when evaluating covariate balance.
+##### Summary
+
+Most methods produced acceptable balance using a 0.2 threshold across all covariate levels, except for CART, Random Forest, and Logistic Regression. With the more stringent 0.1 thresholds, bagging, DNN-2, and DNN-3 performed better. In the highest covariate case, logistic regression produced extreme imbalance, while DNN-2 had the best balance with an ASAM value of 0.06. When considering complexities in both the outcome and treatment models, DNN-2 led to the best covariate balance among all methods, especially in high-dimensional cases, while logistic and nn-1 were sensitive to complexities in the treatment models. These results suggest that DNN-2 will lead to the best covariate balance in high-dimensional cases, especially when complexities are present.
 
 ### Weights Assessment
 
-In my simulation study, I estimated the average treatment effect (ATE) using inverse propensity score weighting (IPTW). I found that assessing the mean of the IPTW is important in evaluating the balance achieved by the propensity score weighting method. The mean of the IPTW is a measure of the overall balance between the treatment and control groups, and a value far from 1 may indicate unbalanced covariate distributions, leading to biased treatment effect estimates. It is important to ensure that the mean of the IPTW is close to 1 to reduce the risk of bias in the estimated ATE.
+I estimated the average treatment effect (ATE) using inverse propensity score weighting (IPTW). To ensure unbiased treatment effects, it is important to avoid extreme IPTW weights, as large weights can result in bias (CITE). To evaluate this, I calculated the mean IPTW weight for each method, with a considerable departure from 1, indicating the presence of extreme weights.
 
-@fig-weights showe the results for mean IPTW weights across both treated and untreated units. Note that by contructions all weights will have a value above 1. All machine learnig methods lead to acceptable weights below 2.5. However, in the high dimensional cases logisti regression and nn-1 is producing extreme weights. In the 200 covariate case logistic regression produces extreme weights (IPTW = 2.258688e+08), as does nn-1 (IPTW = 1.304062e+05)
+@fig-weights shows the mean IPTW weights across treated and untreated units. All machine learning approaches resulted in acceptable weights below 2.5. All methods performed adequately well in the low-dimensional case with mean weights below 2. However, in the high-dimensional cases, logistic regression and nn-1 produced extreme weights. In the 200 covariate case, logistic regression produced extreme weights (IPTW = 225,868,800), as did nn-1 (IPTW = 130,406).
 
 ```{r}
 #| label: fig-weights
@@ -747,9 +749,9 @@ over_df %>%
 
 ```
 
-#### Base Treatment and Outcome Population Models
+##### Complexities in the Population Outcome and Treatment Models
 
-When only main effects were present in the outcome and treatment model, I found that all methods produced acceptable inverse propensity score weights (IPTW) with mean values below 2. The mean values of the IPTW were consistent across all covariate conditions, indicating that the balance between the treatment and control groups was not affected by the presence of covariates. This suggests that all methods were able to produce balanced treatment and control groups, leading to less biased treatment effect estimates.
+When assesing the IPTW weight by the various complexities in the population treatment and outcome model, we find that all methods regardless of condition produce adequate weights below 2 (@fig-weights-cond). The mean values of the IPTW were consistent across all covariate conditions, indicating that the balance between the treatment and control groups was not affected by the presence of covariates. The only deviation from this result is logistic and nn-1, where they produce extreme weights whever complexities are introduced into the population treatment model, we don't see this affect when the base treatment model only includes main effects. 
 
 ```{r}
 #| label: fig-weights-cond
@@ -771,21 +773,15 @@ res_sum_df %>%
 
 ```
 
-#### Complex Treatment and Outcome Population Models
+##### Summary
 
-I found that when I introduced complexities in both the treatment and outcome models, the results were similar to the overall results. All machine learning methods produced acceptable IPTW weights below 2.5, except for logistic regression and nn-1 in high-dimensional cases, which produced extreme weights.
-
-#### Deviations from the Treatment and Outcome Models
-
-I find that inverse propensity score weights (IPTW) were fairly robust to complexities in the treatment and outcome model. However, in the higher covariate conditions, logistic and nn-1 produced extreme IPTW weights. This indicates that these methods may not be suitable for high-dimensional settings where the treatment and outcome models have complex relationships. It is important to consider the complexities in the treatment and outcome models when selecting a method for IPTW weighting to ensure that the weights are not extreme and produce accurate treatment effect estimates.
-
-The results showed that, in general, all machine learning methods produced acceptable IPTW weights below 2.5, except for logistic regression and nn-1 in high-dimensional cases with complex treatment and outcome models. When only main effects were present, all methods produced acceptable IPTW weights with mean values below 2. The robustness of IPTW weights to complexities in the treatment and outcome model highlights the importance of considering these complexities when selecting a method for IPTW weighting to ensure accurate treatment effect estimates.
+Overall, all methods produced acceptable IPTW weights across covariate conditions, especially when complexities were not included in the population treatment or outcome model. However, with added complexities and a higher number of covariates, logistic regression, and nn-1 produced extreme weights, which could result in biased treatment effects. These results indicate that most machine learning approaches, particularly the DNN approach and Random Forest, would be good options for generating IPTW weights in high-dimensional covariate conditions. The sensitivity of the IPTW weights to complexities in the treatment and outcome models underscores the importance of considering these complexities when selecting a method for IPTW weighting to ensure accurate treatment effect estimates and minimize the risk of extreme weights.
 
 ### Power
 
-Statistical power refers to the probability of correctly detecting a true difference in treatment effects at a specified significance level, usually .05. Low power means that the study is more likely to have a high rate of type II errors, meaning that it may fail to detect real differences in treatment effects. On the other hand, high power indicates a low rate of type II errors, which increases the accuracy and reliability of the results. However, it's important to keep in mind that statistical power can be influenced by factors such as sample size and effect size, and may not always be the best metric to analyze in simulation studies. Particularly in this simulation where sample size was fixed to 10,000 and the treatment effect was relatively small. In what follows I present a brief summary of my results.
+Finally, I evaluated the statistical power of the methods. Statistical power refers to the probability of detecting a statistically significant effect at a specific alpha level, typically .05. Low power means that the method has a high rate of committing type II error and may miss detecting real differences in the treatment effect estimation. High power, on the other hand, indicates a low rate of type II error. However, it is important to note that factors such as sample size and the magnitude of the effect can impact statistical power. In this simulation, the sample size was fixed at 10,000, and the treatment effect was relatively small. Statistical power may not be the most relevant benchmark for this simulation and should not be generalized outside my specific assessment of an ATE = 0.3. The following is a brief summary of the results.
 
-The results of the statistical power evaluation can be seen in @fig-power. The standard alpha level of 0.5 was used to assess statistical significance. With 20 covariates, all methods were able to correctly identify a statistically significant treatment effect 100% of the time. However, as the number of covariates increased, a decrease in power was observed.
+@fig-power shows the results of the statistical power evaluation, averaged across the population treatment and outcome models. The standard alpha level of 0.05 was used to assess statistical significance. We observe a consistent pattern across methods, wherein in the low-dimensional condition, all methods can correctly identify a significant treatment effect, while as the number of covariates increases, we see a decrease in power. However, this decrease in power is more pronounced for both logistic regression and nn-1, while the other machine learning methods have a less steep drop.
 
 ```{r}
 #| label: fig-power
@@ -801,15 +797,18 @@ over_df %>%
   scale_fill_Publication() 
 ```
 
+\newpage
+
+## Discussion and Conclusion
+
+
 ### Summary of Results
 
 Overall, these findings suggest that in the low-dimensional setting, logistic regression produces the least biased estimate, while as the dimensionality increases, logistic regression produces widely biased estimates compared to all other machine learning approaches, with the exception of nn-1. Of the machine learning approaches, my DNN-2 approach and bagged CART produced the least biased estimates. To put this into perspective, in the 200 covariate condition, logistic regression produced ATE estimates that were nearly four times more biased than my DNN-2 approach.
 
 In summary, my simulation study suggests that in low-dimensional settings with non-complex outcome and treatment models, logistic regression may be the best choice for estimating the average treatment effect (ATE). However, as the number of covariates and complexities increase, the results indicate that my DNN-2 approach is a more robust and suitable method, offering low bias, better covariate balance, and lower mean squared error (MSE). In high-dimensional covariate settings with complexities in the outcome model, the DNN-2 approach and bagging are both strong contenders for estimating the ATE. It's important to consider both the bias and variability of the estimated ATE, as well as complexities in the treatment models, when choosing the optimal estimation method and evaluating covariate balance and selecting a method for inverse propensity score weighting.
 
-\newpage
 
-## Discussion and Conclusion
 
 In the absence of randomization, educational researchers often turn to quasi-experimental methods to reduce bias in their estimated treatment effects. The prevalence of high-dimensional data may make it challenging to correctly estimate unbiased treatment effects, as traditional parametric approaches are not equipped to model high-dimensional data. However, advancements in machine learning have led to a range of algorithms that are capable of modeling complex high-dimensional data. This simulation study aimed to evaluate the performance of logistic regression against commonly used machine learning techniques in propensity score estimation using propensity score weighting. The study also extends the literature by developing and testing a deep neural network-based approach to estimate propensity scores, and by evaluating the performance of these methods under different covariate conditions ranging from 20 covariates, the standard number used in applied propensity score analysis, to 200 covariates, scenarios that are becoming more common in education research.
 
