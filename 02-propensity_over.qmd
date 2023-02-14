@@ -4,37 +4,38 @@ packages <- c(
   "tidyverse",
   "gt",
   "ggthemes",
-  "gtsummary"
+  "gtsummary",
+  "simhelpers"
 )
 
 lapply(packages, library, character.only = TRUE)
 
 source("~/Projects/inProgress/dissertation/ggplot_theme_pub.R")
 
+df1 <- readRDS("~/Projects/inProgress/2018_propensity_neuralnet_paper/data/sim_results_n10000_r1000_P_e.rds")
 
-df1 <- readRDS("~/Projects/inProgress/2018_propensity_neuralnet_paper/data/sim_results_n10000_r1000_NP_e.rds")
-
-
-
-df2 <- readRDS("~/Projects/inProgress/2018_propensity_neuralnet_paper/data/sim_results_n10000_r1000_P_e.rds")
-
-
+df2 <- readRDS("~/Projects/inProgress/2018_propensity_neuralnet_paper/data/sim_results_n10000_r1000_NP_e.rds")
 
 res <- bind_rows(df1, df2)
+
+
+
+res_all <- readRDS("~/Projects/inProgress/2018_propensity_neuralnet_paper/data/res_all.rds")
+
 
 over_df <-
   res %>%
   group_by(p, method) %>%
   summarise(
     Bias = mean(Bias),
-    Abs_Per_Bias = mean(Abs_Per_Bias),
-    Abs_Per_Rel_Bias = mean(Abs_Per_Rel_Bias),
+    Rel_Bias = mean(Rel_Bias),
+    Per_Rel_Bias = mean(Per_Rel_Bias),
     ATE_se = mean(ATE_se),
     MSE = mean(MSE),
     Power = mean(Power),
     PS_Weights = mean(mean_ps_weights),
     ASAM = mean(ASAM),
-    coverage_95 = mean(coverage_95),
+    coverage_95 = mean(ci_95),
     .groups = "rowwise"
   ) %>%
   ungroup()
@@ -45,17 +46,50 @@ res_sum_df <-
   group_by(p, method, scenarioT, scenarioY) %>%
   summarise(
     Bias = mean(Bias),
-    Abs_Per_Bias = mean(Abs_Per_Bias),
-    Abs_Per_Rel_Bias = mean(Abs_Per_Rel_Bias),
+    Rel_Bias = mean(Rel_Bias),
+    Per_Rel_Bias = mean(Per_Rel_Bias),
     ATE_se = mean(ATE_se),
     MSE = mean(MSE),
     Power = mean(Power),
     PS_Weights = mean(mean_ps_weights),
     ASAM = mean(ASAM),
-    coverage_95 = mean(coverage_95),
+    coverage_95 = mean(ci_95),
     .groups = "rowwise"
   ) %>%
   ungroup()
+
+```
+
+```{r}
+
+
+df <- res_all |> 
+  mutate(true_ATE = 0.3) |> 
+  group_by(method, p) |> 
+  do(calc_absolute(., estimates = ATE, true_param = true_ATE))  
+
+df |> 
+  ggplot(aes(x = method, y = bias, fill = as.factor(p))) +
+  ylab("Bias") +
+  geom_bar(position = "dodge", stat = "identity") +
+  labs(fill='Covariates') +
+  theme_Publication() +
+  scale_fill_Publication() +
+  geom_pointrange(aes(ymin=bias-bias_mcse, ymax=bias+bias_mcse, y = bias))
+
+
+
+
+df |> 
+  ggplot(aes(x = method, y = bias, colour = as.factor(p))) +
+  geom_hline(yintercept = 0, linetype = 'solid', size = .2) +
+  geom_segment(aes(yend = 0, xend = method), color = 'grey') +
+  geom_point() +
+  geom_point(aes(y = bias-bias_mcse), shape = 95, size = 3) +
+  geom_point(aes(y = bias+bias_mcse), shape = 95, size = 3) +
+  theme_Publication() +
+  facet_wrap(~as.factor(p))
+
 
 ```
 
@@ -147,53 +181,53 @@ Several assumptions must be met in order to estimate an unbiased treatment effec
 
 The first assumption, the stable unit treatment value assumption (SUTVA), states that there is only one version of the treatment condition and that the potential outcome of an individual is not influenced by the treatment assignment of any other individual [@Rosenbaum.2022]. This means that the outcome of a student is independent of whether another student is assigned to the treatment or control group.
 
-The strong ignorability assumption states that the potential outcome of an individual is conditionally independent of treatment assignment if we successfully conditioned on all covariates related to treatment, $Y_1, Y_0 \perp Z|\boldsymbol{X}$. In experimental studies, this assumption is satisfied by the act of randomization, since randomization ensures that treatment assignment is independent of an individual's outcome [@rubin2005causal; @Rosenbaum.2022].However, in observational studies, this assumption holds only if all covariates related to treatment assignment are included in the propensity score model [@Rosenbaum.1981; @Rosenbaum.1984]. In practice, this is unlikely and therefore sensitivity analysis is necessary to assess the influence of unmeasured confounding (CITE).
+The strong ignorability assumption states that the potential outcome of an individual is conditionally independent of treatment assignment if we successfully conditioned on all covariates related to treatment, $Y_1, Y_0 \perp Z|\boldsymbol{X}$. This assumption is satisfied in experimental studies through randomization, which ensures that treatment assignment is independent of an individual's outcome [@rubin2005causal; @Rosenbaum.2022]. However, this assumption holds true in observational studies only if *all* covariates related to treatment assignment are included in the propensity score model [@Rosenbaum.1981; @Rosenbaum.1984]. In practice, it is unlikely that all such covariates are included, and sensitivity analysis is, therefore, necessary to assess the influence of unmeasured confounding \[CITE\].
 
-Finally, the region of common support assumption states that there must be sufficient overlap in the estimated propensity score distribution between the treatment and control groups [@Rosenbaum.2022]. This is important to ensure that we can find suitable matches for treated students. Adequacy of the common support can be assessed by plotting the distribution of the propensity scores in both the treatment and control groups and assessing if the distributions have sufficient overlap. This can be done by visually examining the distribution plots for treatment and control groups and determining if there is enough overlap between the two groups [@Rosenbaum.2022].
+Finally, the region of common support assumption states that there must be sufficient overlap in the estimated propensity score distribution between the treatment and control groups [@Rosenbaum.2022]. This is crucial to ensure that suitable matches can be found for treated individuals. The adequacy of the common support can be assessed by plotting the distribution of the propensity scores in both the treatment and control groups and evaluating if there is sufficient overlap between the two distributions.
 
-If these assumptions are met, it is possible to estimate the causal effects from observational data. However, many of these assumptions are untestable [@Stuart.2010; @ho2007matching; @Lee.2010]. For instance, in observational data, the underlying treatment assignment mechanism is usually unknown, making it difficult to determine if all covariates related to treatment assignment are included in the propensity score model [@Stuart.2010]. As a result, propensity score analysis should be considered as a method to reduce, but not eliminate, the bias between treatment and outcome in observational studies. It is essential to carefully consider which covariates are included in the propensity score model and to perform sensitivity analysis to assess the impact of unmeasured confounding (CITE).
+If these assumptions are satisfied, it is possible to estimate causal effects from observational data. However, many of these assumptions are untestable [@Stuart.2010; @ho2007matching; @Lee.2010]. For instance, in observational data, the underlying mechanism of treatment assignment is usually unknown, making it difficult to determine if all covariates related to treatment assignment have been included in the propensity score model [@Stuart.2010]. As a result, propensity score analysis should be viewed as a method to reduce, but not eliminate, the bias between treatment and outcome in observational studies. It is crucial to carefully consider which covariates are included in the propensity score model and to conduct sensitivity analysis to assess the impact of unmeasured confounding (CITE).
 
 #### Covariate Selection
 
-A reasonable approach to selecting covariates in propensity score analysis is to choose those that are theoretically sound and related to treatment assignment and the outcome, also known as confounders [@Stuart.2010; @Bai.2011; @Pan.2018qcl]. However, there is a debate in the literature as to which covariates should be included \[Austin, 2011\]. Some simulation studies have found that including confounders or covariates that only affect the outcome leads to more precise treatment effect estimates [@Austin.2007]. Additionally, other research has shown that only including covariates that affect treatment assignment results in increased variance in the estimated treatment effect with no reduction in bias [@Brookhard.2006].
+The selection of covariates in propensity score analysis should be based on those that are theoretically sound, related to treatment assignment, and related to the outcome, also known as confounders [@Stuart.2010; @Bai.2011; @Pan.2018qcl]. However, there is a debate in the literature as to which covariates should be included \[Austin, 2011\]. Some simulation studies have found that including confounders or covariates that only affect the outcome leads to more precise estimates of treatment effects [@Austin.2007]. On the other hand, other research has shown that including only covariates that affect treatment assignment leads to increased variance in the estimated treatment effect with no reduction in bias [@Brookhard.2006].
 
-In practice, it can be challenging to determine which covariates are confounders or related to just the treatment or the outcome. To guard against the penalties of excluding potential confounders, the literature suggests using a "kitchen sink" approach to variable selection [@Pirracchio.2015; @Shortreed.2017lu8]. Additionally, it is vital to ensure that the propensity score model captures the correct functional form of the covariates, including all relevant interactions and non-linear terms [@Rosenbaum.2010; @Pan.2018qcl]. If the propensity score model is misspecified, it can result in biased treatment effect estimates [@Rosenbaum.1984; @Rosenbaum.1981; @Guo.2009].
+In practice, determining which covariates are confounders or related to just the treatment or the outcome can be challenging. To reduce the risk of excluding potential confounders, the literature suggests using a "kitchen sink" approach to variable selection, where all available covariates are included in the estimation of the propensity scores [@Pirracchio.2015; @Shortreed.2017lu8]. Additionally, it is important to ensure that the propensity score model captures the correct functional form of the covariates, including all relevant interactions and non-linear terms [@Rosenbaum.2010; @Pan.2018qcl]. If the propensity score model is misspecified, it will result in biased treatment effect estimates [@Rosenbaum.1984; @Rosenbaum.1981; @Guo.2009].
 
-In order to achieve a balance among observed characteristics between treated and untreated students, iterating through various model specifications that add interactions or non-linear terms is recommended [@murnane2010methods; @Rosenbaum.2010]. However, this iterative process can become increasingly complex and time-consuming as the number of available covariates increases.
+To balance the observed characteristics between treated and untreated students, iterating through various model specifications that include interactions and non-linear terms among the covariates is recommended [@murnane2010methods; @Rosenbaum.2010]. However, this iterative process can become challenging and time-consuming as the number of available covariates increases, especially when conducting propensity score analysis with high-dimensional administrative data.
 
 \newpage
 
 ### Estimating Propensity Scores
 
-The most critical step in propensity score analysis is estimating the propensity score ($e(x)$), since a misspecified propensity score model will yield propensity scores that are not well suited to correctly balanced observed characteristics. Any parametric or non-parametric model can generate propensity scores as long if it outputs a bounded probability between 0 and 1. Logistic regression is the most common parametric model used for estimating the propensity score, especially in applied educational research [@Stuart.2010; @ho2007matching; @Lee.2010; @Collier.2021lp; @Keller.2015q8].
+Estimating the propensity score ($e(x)$) is a crucial step in propensity score analysis, as a misspecified propensity score model can result in propensity scores with little variability or extreme scores that lead to biased treatment effect estimates \[CITE\]. Propensity scores can be estimated using either parametric or non-parametric models, as long as the model outputs a probability that is bounded between 0 and 1. Logistic regression is a commonly used parametric model for estimating propensity scores, particularly in applied educational research [@Stuart.2010; @ho2007matching; @Lee.2010; @Collier.2021lp; @Keller.2015q8].
 
 #### Logistic Regression
 
-Logistic regression is the most common model used to generate propensity scores in the social science literature due to its ease of interpretation and familiarity with many applied researchers and its ability to accommodate both continuous and categorical covariates[@Keller.2015q8]. The logistic model is defined as follows:
+Logistic regression is the most common parametric model used to estimate propensity scores in the social science literature due to its ease of interpretation and familiarity with many applied researchers and its ability to accommodate both continuous and categorical covariates[@Keller.2015q8]. The logistic model is defined as follows:
 
 $$
 logit(Z = 1|\boldsymbol{X})=log\left( \frac{Pr(Z=1|\boldsymbol{X})}{1-Pr(Z=1|\boldsymbol{X})} \right) = \beta_o + \beta_1X_1 + \cdots + \beta_pX_p
 $$ {#eq-log}
 
-Where $Z$, a binary indicator equal to 1 if a student is in the treatment group and 0 otherwise, regressed on $\boldsymbol{X}$ a vector of observed covariates. The output of the logistic regression is predicted probabilities that are continuous and bounded between 0 and 1 (i.e., propensity scores).
+where $Z$, is a binary indicator equal to 1 if a student is in the treatment group and 0 otherwise, regressed on $\boldsymbol{X}$ a vector of observed covariates. The output of the logistic regression is predicted probabilities that are continuous and bounded between 0 and 1 (i.e., propensity scores).
 
-Although logistic regression is the most widely used model for estimating propensity scores, it may not be the most valid for inference. Various simulation studies suggest that using logistic regression for modeling propensity scores is inadequate and leads to biased treatment effects when incorrectly specified, given that parametric models require assumptions regarding the functional form and variable distributions [@Lee.2010; @Pan.2018qcl; @Setoguchi.2008; @Westreich.2010]. This is especially true when estimating propensity scores with hundreds of covariates [@Hill.2011soh]. The logistic model tends to degrade and estimate a propensity score that falls outside the desired 0 to 1 bound in a high-dimensional context [@Hill.2011soh; @Collier.2021lp; @Keller.2015q8]. With the ever-increasing amounts of "big" administrative data at the disposal of applied behavioral and social science research, the degradation of logistic regression is worrisome. However, outside social science, research has suggested alternatives to logistic regression in estimating the propensity score that use non-parametric machine learning algorithms [@Stuart.2010; @ho2007matching; @Lee.2010; @Setoguchi.2008; @Watkins.2013; @Westreich.2010; @Cannas.2019].
+Although logistic regression is the most commonly used method for estimating propensity scores, it may not always be the best option for inference. Several simulation studies have found that using logistic regression for propensity score modeling can result in biased treatment effects when the model is misspecified, especially in complex data where non-linear and non-additive terms are not included in the propensity score model [@Lee.2010; @Pan.2018qcl; @Setoguchi.2008; @Westreich.2010]. This is because parametric models, such as logistic regression, require assumptions about the functional form and distribution of covariates (CITE). This problem can be particularly pronounced when estimating propensity scores with many covariates [@Hill.2011soh]. In high-dimensional settings, the logistic model may produce propensity scores that are outside the desired range of 0 to 1 [@Hill.2011soh; @Collier.2021lp; @Keller.2015q8]. However, non-parametric machine learning algorithms have been proposed as alternatives for estimating the propensity score [@Stuart.2010; @ho2007matching; @Lee.2010; @Setoguchi.2008; @Watkins.2013; @Westreich.2010; @Cannas.2019].
 
 #### Machine Learning Approaches
 
-Machine learning algorithms have recently gained popularity in the causal inference and propensity score literature due to these algorithms being highly flexible and able to model complex functional forms iteratively without explicit manipulation from the research [@pearl2019seven; @grimmer2015we; @athey2015machine; @cui2020causal]. With a simple modification, these algorithms can output bounded probabilities that can be used as propensity scores. Given the success of machine learning methods for prediction tasks, it is reasonable to think they are worthy candidates for the propensity score estimation problem, which I view as a prediction problem. Broadly, machine learning algorithms used in propensity score estimation can be classified into tree-based, ensemble methods, and -- the focus of this dissertation -- neural network-based approaches.
+Machine learning algorithms have recently gained popularity in the causal inference and propensity score literature due to these algorithms being highly flexible and able to model complex functional forms iteratively without explicit manipulation from the research [@pearl2019seven; @grimmer2015we; @athey2015machine; @cui2020causal]. With a simple modification, these algorithms can output bounded probabilities that can be used as propensity scores. Given the success of machine learning algorithms for prediction tasks, it is reasonable to think they are worthy candidates for the propensity score estimation problem, which is a prediction problem. Broadly, machine learning algorithms used in propensity score estimation can be classified into tree-based, ensemble methods, and -- the focus of this dissertation -- neural network-based approaches.
 
 #### Tree Based Methods
 
-One popular machine learning approach to estimating propensity score is classification and regression trees (CART) [@li1984classification]. This algorithm recursively divides data into subsets based on individual covariates to predict the probability of membership assignment of a given individual. To generate propensity scores, the outcome is set to a binary indicator of treatment assignment ($Z$). This algorithm splits covariates by level of importance, with the first split being the covariate that can produce the most distinctive split. For example, if a student above 15 years of age is related to treatment assignment, the first split would split the data into students with $age > 15$ and $age < 15$. The algorithm continues by splitting the data by the next most influential covariate split, creating a tree-like structure, see @fig-decision_tree. Splitting stops when the data are binned into unique "branches," which minimizes the prediction error in which an additional split would not improve the prediction of treatment assignment. The final "branches" of the model represent the individual grouping of students with similar propensity scores [@Stuart.2010]. The output of CART is the predicted probabilities which are then used as propensity scores. Like logistic regression, the CART algorithm can handle continuous and categorical covariates . However, unlike logistic regression, CART is insensitive to outliers and can automatically model interactions and higher-order terms [@Lee.2010]. Through a simulation, Lee et al. (2009) found that CART outperformed logistic regression in bias reduction and covariate balance when the data had complex associations.
+One popular machine learning approach to estimating propensity score is classification and regression trees (CART) [@li1984classification]. This algorithm recursively divides data into subsets based on individual covariates to predict the probability of membership assignment of a given individual. To generate propensity scores, the outcome is set to a binary indicator of treatment assignment ($Z$). This algorithm splits covariates by level of importance, with the first split being the covariate that can produce the most distinctive split. For example, if a student's age is related to treatment assignment, the first split would divide the data into students with $age > 15$ and $age < 15$. The algorithm continues by splitting the data by the next most influential covariate, creating a tree-like structure (see Figure @fig-decision_tree). Splitting stops when the data are binned into unique "branches," which minimizes the prediction error such that an additional split would not improve the prediction of treatment assignment. The final "branches" of the model represent the individual groups of students with similar propensity scores [@Stuart.2010]. The output of CART is the predicted probabilities, which are then used as propensity scores. Like logistic regression, the CART algorithm can handle both continuous and categorical covariates. However, unlike logistic regression, CART is insensitive to outliers and can automatically model interactions and higher-order terms [@Lee.2010]. Through a simulation study, Lee et al. (2009) found that CART outperformed logistic regression in terms of reducing bias and balancing covariates when the data had complex associations.
 
 [![Simple decision tree predicting students GPA based on gender and homework grade](figures/decision_tree.jpg){#fig-decision_tree fig-align="center" width="436"}](https://www.apa.org/science/about/psa/2018/04/classification-regression-trees)
 
-However, a well-documented issue with CART is that the single tree may likely overfit the data [@Stuart.2010; @ho2007matching]. Therefore, a modified version of CART was developed that "prunes" back branches that do not lead to a reduction in prediction error, referred to as pruned-CART [@gelfand1989iterative], which generates a tree that is less likely to overfit the data. Although pruning can alleviate some of the changes in overfitting of the data, a significant drawback of CART is that it relies on a single tree, which may be weak in predicting the propensity score.
+However, a well-known issue with CART is its tendency to overfit the data [@Stuart.2010; @ho2007matching]. To address this issue, a modified version of CART was developed that prunes back branches that do not contribute to reducing prediction error, referred to as pruned-CART [@gelfand1989iterative]. Although pruning can alleviate some of the changes in overfitting, a significant drawback of CART is its reliance on a single tree, which may be weak in predicting the propensity score.
 
 #### Ensemble Methods
 
-Ensemble methods are a family of algorithms that generate multiple trees predicting treatment assignment [@Keller.2019; @Stuart.2010; @ho2007matching; @Lee.2010]. Exploiting differences among each tree ensemble method can significantly improve prediction, given that many weak trees together can create better prediction than any single tree [@Lee.2010]. A popular ensemble method is bootstrapped aggregated CART, referred to as Bagged CART. Bagged CART involves fitting multiple CARTs (i.e., trees) on bootstrapped data samples [@Lee.2010]. By "growing" trees on bootstrapped samples, we can reduce the chances of overfitting our data. Each tree will generate a probability that an individual will be assigned to treatment, with a final probability of membership based on aggregating the probability of assignment across all trees. A more robust ensemble method is random forest [@biau2016random]. Compared to CART and Bagging, the random forest algorithm grows trees by randomly selecting covariates and individuals to grow individual trees. With each new tree, the algorithm "learns" the best combination of covariates to generate a final probabilistic prediction based on the "forest" it has created. These random forest techniques have shown significant promise in predicting propensity scores in the presence of complex data associations [@Cannas.2019; @Lee.2010]. However, with the recent advances in computing power, non-tree-based methods, such as neural networks, have increased in popularity [@Collier.2021lp; @Setoguchi.2008; @Keller.2015q8].
+Ensemble methods are a family of algorithms that generate multiple trees to predict treatment assignment [@Keller.2019; @Stuart.2010; @ho2007matching; @Lee.2010]. By combining the predictions from multiple trees, ensemble methods can improve the accuracy of predictions since many weak trees together can create a better prediction than any single tree [@Lee.2010]. A popular ensemble method is bootstrapped aggregated CART, referred to as Bagged CART, which fits multiple CARTs on bootstrapped data samples [@Lee.2010]. Growing trees on bootstrapped samples reduce the chances of overfitting the data. Each tree will generate a probability that an individual will be assigned to treatment. The final probability of membership is based on aggregating the probabilities of assignment across all trees (i.e., forest). A more robust ensemble method is random forest [@biau2016random]. Compared to CART and Bagging, the random forest algorithm grows trees by randomly selecting covariates and individuals to grow individual trees. With each new tree, the algorithm "learns" the best combination of covariates to generate a final probabilistic prediction based on the "forest" it has created. These random forest techniques have shown significant promise in predicting propensity scores in complex data associations [@Cannas.2019; @Lee.2010]. However, with the recent advances in computing power, non-tree-based methods, such as neural networks, have increased in popularity [@Collier.2021lp; @Setoguchi.2008; @Keller.2015q8].
 
 \newpage
 
@@ -205,31 +239,31 @@ The building block for artificial neural networks was initially developed by psy
 
 ![Structure of a perceptron - artificial neuron](figures/perceptron.png){#fig-perceptron fig-align="center" width="437"}
 
-An artificial neuron mimics the function of a biological neuron. The artificial neuron takes in a set of inputs of $p$ variables, $X_i=(X_1, X_2, \dots, X_p)$ that have corresponding weights $w_i=(w_1, w_2, \dots ,w_p)$ that represent the different input strength of each variable. Each variable is then multiplied by its corresponding weight. These weighted variables are then summed together, and a bias term is added ($\beta_0$) to create a linear transformation of the input variables. Weight and bias terms are analogous to the slope and intercept of linear regression. The linear transformation is then passed to an activation function $g(z)$. The activation function takes in the linear transformation and performs a computation that generates an output ($\hat{y}$), which outputs either a 1 or 0. This activation function can also be set to be a linear function, such as the sigmoid function, which outputs values between 0 and 1.
+The artificial neuron receives a set of inputs $X_i = (X_1, X_2, \dots, X_p)$ with corresponding weights $w_i = (w_1, w_2, \dots ,w_p)$ that represent the strength of each input variable. The inputs are multiplied by their corresponding weights and then summed together with a bias term $\beta_0$ to create a linear transformation of the inputs. The weight and bias terms are similar to the slope and intercept in linear regression. The linear transformation is then passed through an activation function $g(z)$ to generate an output ($\hat{y}$) that is either a 1 or 0, or a value between 0 and 1 if the activation function is set to be linear, such as the sigmoid function.
 
-We can express this artificial neuron generally as:
+The artificial neuron in equation ({#eq-nn}) can be used to solve a binary classification problem. In our case, we are interested in classifying each student in our sample as belonging to the treatment or control condition based on observed covariates. If the activation function $g(z)$ is set to a sigmoid function, it will guarantee an output value between 0 and 1, which is the desired propensity score. For the neuron to make accurate predictions for each student, it must "learn" the correct weight and bias parameter specifications, similar to finding the correct slope and intercept in bivariate data.
 
 $$
 \hat{y} = g(z) = g(\beta_0 + \sum_{i=1}^{p}X_iw_i)
 $$ {#eq-nn}
 
-This simple neuron can be used to solve a binary classification problem. In our case, we are interested in classifying each student in our sample as belonging to the treatment or control condition conditional on observed covariates. If we set the activation function $g(z)$ to a sigmoid function, we are guaranteed an output value between 0 and 1 (i.e., propensity score). For the neuron to make accurate predictions for each student, it must "learn" the correct weight and bias parameter specifications. This is analogous to finding the right slope and intercept, which produce a line of best fit for bivariate data.
+This learning process starts by feeding each observation in the sample into the neuron. The first pass has initialized weights and bias set to random numbers. The outcome variable is set to the binary indicator of treatment assignment, so a predicted probability of treatment assignment is calculated for each student. However, the initial pass of the data is likely to generate incorrect predictions as the weights and bias terms are initialized to random numbers. In other words, the prediction of treatment assignment ($\hat{y}$) will be far from the actual treatment assignment ($y$), leading to a high associated loss.
 
-This learning process works by taking each observation in our sample and feeding it into the neuron. In which the first pass has initialized weights and bias set to a random number. The outcome variable is set to the binary indicator of treatment assignment, so we obtain a predicted probability of treatment assignment for each student. Our initial pass of the data will likely generate wrong predictions since the weights and bias terms are initialized to random numbers. In other words, our prediction of treatment assignment ($\hat{y}$) will be far from the actual treatment assignment ($y$), with an associated loss.
+It's important to note that this learning process is an optimization problem that can be solved through various optimization algorithms such as gradient descent or stochastic gradient descent [@Goodfellow.2016]. The choice of optimization algorithm will impact the speed and accuracy of the learning process.
 
-The goal of the neuron and most machine learning algorithms is to correctly learn the values of the weights and bias parameters that minimize a loss function, for example, the mean squared error (MSE) [@james2013introduction; @Pang.2019]. The neuron will update the bias and weight parameters iteratively for each subsequent data pass to minimize this loss function. This update is commonly done using a process known as backpropagation [@schmidhuber2015deep]. After a user-defined number of iterations, the neuron will be optimized with bias and weight terms that best predict treatment assignment. A single neuron may be appropriate for simple classification problems with linear covariate associations. As the complexities of associations between covariates increase, more neurons are needed to learn complex functional forms.
+The goal of the artificial neuron and many machine learning algorithms is to correctly learn the values of the weights and bias parameters that minimize a loss function, such as the mean squared error (MSE) [@james2013introduction; @Pang.2019]. The neuron will update the bias and weight parameters iteratively for each subsequent data pass to minimize the loss function. This update is typically done using a process known as backpropagation [@schmidhuber2015deep]. After a user-defined number of iterations, the neuron will be optimized with bias and weight terms that best predict treatment assignment. A single neuron may be appropriate for simple classification problems with linear covariate associations, but as the complexities of covariate associations increase, more neurons may be needed to learn complex functional forms.
 
 #### Single-Layer Neural Network
 
-Following the development of the artificial neuron, work began to model more complex processing units composed of interconnected artificial neurons organized in layers, culminating with the creation of the single-layer feed-forward neural network (NN) (@fig-nn)\[@Schmidhuber.2015; @Collier.2022; @Keller.2015q8\]. NN are referred to as single-layer because of the single middle layer of interconnection artificial neurons. These NN can learn very complex data representations by generating various non-linear representations of the data through multiple artificial neurons [@james2013introduction]. These non-linear outputs are passed into a final layer which pools the outputs of the individual neurons into a non-linear function, $f(x)$, which generates a prediction ($\hat{y}$). By having multiple artificial neurons calculating predictions on various non-linear combinations of the input variables, these networks can learn complex non-linear and non-additive associations between covariates.
+Following the development of the artificial neuron, researchers began to model more complex processing units composed of interconnected artificial neurons organized in layers. This work culminated in the creation of the single-layer feed-forward neural network (NN), as shown in Figure [@fig-nn; @Schmidhuber.2015; @Collier.2022; @Keller.2015q8]. NNs are referred to as single-layer because they have a single middle layer of interconnected artificial neurons. These NNs can learn very complex data representations by generating various non-linear representations of the data through multiple artificial neurons [@james2013introduction]. These non-linear outputs are passed into a final layer that pools the outputs of the individual neurons into a non-linear function, $f(x)$, generating a prediction ($\hat{y}$). By having multiple artificial neurons calculating predictions on various non-linear combinations of the input variables, these networks can learn complex non-linear and non-additive associations between covariates.
 
 ![Structure of single-layer neural network](figures/nn.png){#fig-nn fig-align="center" width="493"}
 
 \newpage
 
-The NN comprises a series of artificial neurons organized into three layers[@james2013introduction]. The first layer is the input layer of $p$ variables, $X_i=(X_1, X_2, \dots, X_p)$, our observed covariates. Those input variables are fully connected to the second layer - a hidden layer - made up of $K$ hidden neurons, $A = (A_1, A_2, \dots, A_k)$, which are identical to the artificial neurons mentioned previously, except that the activation function is swapped out to a non-linear function. Each hidden neuron calculates its own prediction based on its unique non-linear combination of variable inputs and associated weight and bias parameters. The last layer is the output layer, which pools the non-linear outputs of the hidden neurons and passes them as inputs to a non-linear output function, $f(x)$, which generates a final prediction ($\hat{y}$). The interconnected neurons allow NN to learn more complex associations between covariates and treatment assignment than a single artificial neuron [@james2013introduction; @Schmidhuber.2015; @hernandez2019systematic].
+The single-layer neural network (NN) comprises a series of artificial neurons organized into three layers [@james2013introduction]. The first layer is the input layer of $p$ variables, $X_i=(X_1, X_2, \dots, X_p)$, our observed covariates. These input variables are fully connected to the second layer - a hidden layer - which is made up of $K$ hidden neurons, $A = (A_1, A_2, \dots, A_k)$. The hidden neurons are identical to the artificial neurons mentioned previously, but the activation function is swapped out for a non-linear function. Each hidden neuron calculates its own prediction based on its unique non-linear combination of variable inputs and associated weight and bias parameters. The last layer is the output layer, which pools the non-linear outputs of the hidden neurons and passes them as inputs to a non-linear output function, $f(x)$, which generates the final prediction ($\hat{y}$). The interconnected neurons in NN allow it to learn more complex associations between covariates and treatment assignment than a single artificial neuron [@james2013introduction; @Schmidhuber.2015; @hernandez2019systematic].
 
-We can express a NN generally as[^02-propensity_over-1]:
+We can express a NN generally as [^02-propensity_over-1]:
 
 [^02-propensity_over-1]: This notation was adapted from James, Witten, Hastie and Tibshirani, 2021
 
@@ -245,23 +279,23 @@ $$ {#eq-nn_activation}
 
 $w_{k0}$ and $w_{ki}$ are the bias and corresponding weights for each $A_k$ hidden neuron. We can regard these activations as individual predictions of each hidden neuron. These predictions are then pooled and passed to the output function ($f(x)$), which has its bias term, $B_0$, and produces a final prediction ($\hat{y}$).
 
-The NN learning process works in a similar way to a single neuron, but instead of learning only one set of weights and bias terms, it learns multiple simultaneously. Similarly, the ultimate goal of the NN is to learn the correct weights and bias parameters so that the loss function is minimized. In contrast to a single artificial neuron, NN can learn complex non-linear relationships in a computationally efficient manner[@james2013introduction]. Few studies have looked at the overall performance of NN in estimating propensity scores [@Setoguchi.2008; @Cannas.2019; @Westreich.2010; @Keller.2015q8; @Collier.2021lp]. These studies find that the NN are suitable for estimating the propensity score and generally outperform logistic regression in bias reduction and covariate balance [@Setoguchi.2008; @Cannas.2019; @Westreich.2010; @Keller.2015q8; @Collier.2021lp].
+The learning process of a NN works similarly to that of a single neuron, but instead of learning only one set of weights and bias terms, it learns multiple sets simultaneously. The ultimate goal of the NN is to minimize the loss function by learning the correct weights and bias parameters. Unlike a single artificial neuron, NN can efficiently learn complex non-linear relationships between covariates and treatment assignment [@james2013introduction]. A handful of studies have evaluated the performance of NN in estimating propensity scores in a low-dimensional setting [@Setoguchi.2008; @Cannas.2019; @Westreich.2010; @Keller.2015q8; @Collier.2021lp]. These studies suggest that NN is a suitable method for estimating the propensity score and generally outperforms logistic regression in reducing bias and balancing covariates [@Setoguchi.2008; @Cannas.2019; @Westreich.2010; @Keller.2015q8; @Collier.2021lp].
 
-Modern approaches use NN with more than one hidden layer and a varying number of hidden neurons. This NN architecture is referred to as deep neural networks (DNN) or multilayer neural network [@LeCun.2015].
+The development of NN has led to the creation of more complex NN architectures, such as deep neural networks (DNN) or multilayer neural networks [@LeCun.2015]. These networks consist of multiple hidden layers and varying numbers of hidden neurons.
 
 #### Deep Neural Networks
 
-The DNN distinguishing feature is the multiple hidden layers that allow it to capture even greater complex relationships among covariates [@Pang.2019; @hernandez2019systematic]. These multiple hidden layers make this neural network architecture "deep." @fig-nn shows a diagram of a DNN with two hidden layers ($L_1, L_2$).
+The DNN architecture allows for the capturing of even more complex relationships among covariates compared to a single-layer NN [@Pang.2019; @hernandez2019systematic]. This is due to the multiple hidden layers in the network, making it "deep." The diagram in @fig-nn shows a DNN with two hidden layers ($L_1, L_2$).
 
 ![Structure of deep neural network with two hidden layers](figures/dnn.png){#fig-dnn fig-align="center"}
 
-The first hidden layer functions exactly as the middle layer of a NN @eq-nn_activation. The first layer of this DNN is represented as:
+The first hidden layer functions in the same way as the middle layer in a NN (as described in Equation @eq-nn_activation). The first layer in a DNN can be represented as:
 
 $$
 A_k^{(1)}=h_k^{(1)}(X) = g(w_{k0}^{(1)}+\sum_{i=1}^{p}w_{ki}^{(1)}X_i)
 $$ {#eq-dnn-1}
 
-Where each hidden unit in the first layer $A_k^{(1)}, k =1,\dots,K$ is created from a weighted linear combination of input variables, $X_1,X_2, \dots,X_p$ that are applied to a non-linear activation function $g(z)$ that results in an output for each hidden neuron in the first layer, $A_k^{(1)}$.
+Here, each hidden unit in the first layer, $A_k^{(1)}, k =1,\dots,K$ is created from a weighted linear combination of the input variables, $X_1,X_2, \dots,X_p$. The weighted linear combination is then applied to a non-linear activation function $g(z)$, resulting in an output for each hidden neuron in the first layer, $A_k^{(1)}$.
 
 The second hidden layer $L_2$ takes as inputs the outputs of $A_k^{(1)}$ of the first hidden layer and computes a new non-linear transformation, $A_k^{(2)}$. The new activations of the second layer are calculated as follows:
 
@@ -269,170 +303,167 @@ $$
 A_l^{(2)}=h_k^{(2)}(X) = g(w_{l0}^{(2)}+\sum_{k=1}^{K_1}w_{lk}^{(2)}A_k^{(1)})
 $$ {#eq-dnn-2}
 
-Where each hidden unit in the second layer $A_l^{(2)}, l =1,\dots,K$ is a function of the output of the weighted non-linear combinations of $A_k^{(1)}$, this process can be extended to additional hidden layers. As data move from layer to layer, DNN can approximate increasingly complex functional forms [@LeCun.2015; @schmidhuber2015deep; @james2013introduction]. The final layer of the DNN aggregates the outputs of the second layer and feeds them into an output function that generates a prediction. Although any number of hidden layers can be chosen, it comes with computational costs as the number of hidden layers increases [@LeCun.2015]. Outside of image and speech recognition, only a few hidden layers are needed to capture almost any functional form, with three hidden layers being the "goldilocks" number [@james2013introduction].
+Where each hidden unit in the second layer $A_l^{(2)}, l =1,\dots,K$ is a function of the output of the weighted non-linear combinations of $A_k^{(1)}$, this process can be extended to additional hidden layers. As data move from layer to layer, DNN can approximate increasingly complex functional forms [@LeCun.2015; @schmidhuber2015deep; @james2013introduction]. The choice of the number of hidden layers in a DNN should be informed by the complexity of the problem and computational resources available [@LeCun.2015]. While more hidden layers can allow the network to capture increasingly complex functional forms, they also come with a higher computational cost [@LeCun.2015]. In general, three hidden layers are considered sufficient for capturing almost any functional form in problems outside of image and speech recognition [@james2013introduction].
 
 #### Deep Neural in Causal Inference
 
-DNN can uncover complex relationships in high-dimensional data with better precision than traditional statistical and machine learning methods, which were novel just a decade ago [@hernandez2019systematic; @LeCun.2015; @Schmidhuber.2015]. A DNN capability to uncovere these intricate relationships within large-volume, high-dimensional data makes these algorithms applicable to causal methods, such as propensity score analysis.
+The popularity of using DNN in causal inference has increased in recent years due to its ability to uncover complex relationships in high-dimensional data with improved precision compared to traditional statistical and machine learning methods [@hernandez2019systematic; @LeCun.2015; @Schmidhuber.2015]. This capability to capture intricate relationships in large-volume data makes DNN a suitable algorithm for applications in propensity score analysis and other causal inference methods. DNN has garnered substantial attention in both industry and academic research, making substantial advancements in image recognition and natural language processing [@LeCun.2015; @james2013introduction]. The recent investment by Google in software development has made it easier to develop DNN models using high-level API's such as Keras [@Pang.2019].
 
-DNN have gained significant attention in industry and academic research, making considerable advances in image recognition and natural language processing [@LeCun.2015; @james2013introduction]. Recent investments by Google in software development now make it easy to develop DNN models using user-friendly programming languages [@Pang.2019].
+To date, DNN have received limited attention in the broader literature on causal inference, with most research focused on medical or genomic applications [@Kale.2015; @Iglesias.2021; @LeCun.2015]. DNN has not yet been widely adopted in social science, likely due to a limited understanding of how to implement these algorithms [@Farrell.2021]. As high-dimensional datasets become more prevalent in social science research, it is expected that the use of DNN will become more widespread and become a promising area of investigation in the future. Despite its potential, there has been limited research that incorporates DNN into propensity score analysis.
 
-To date, DNN has not been sufficiently evaluated in the broader literature on causal inference, with most research residing within medical or genomic research [@Kale.2015; @Iglesias.2021; @LeCun.2015]. DNN have been relatively unexplored in social science due to the lack of knowledge on how to run DNN and assess to high-dimensional data [@Farrell.2021]. With the increasing availability of high-dimensional datasets in social science research, DNN will undoubtedly become more popular and develop into an exciting line of research in the coming years. However, relatively little work has incorporated DNN into propensity score analysis.
+Only two medical peer-reviewed studies have applied DNN for propensity score estimation [@Whata.2022; @Weberpals.2021]. @Weberpals.2021 used data from around 130,000 cancer patients to construct a simulated dataset with 31 baseline covariates, where the treatment was a fictional cancer drug, and the outcome was a binary survival indicator. They employed a specific DNN architecture known as an "autoencoder" with three hidden layers and found that DNN reduced confounding bias in treatment effect compared to the traditional logistic model with manual variable selection. On the other hand, @Whata.2022 compared the performance of logistic regression to DNN with four hidden layers through a simulation (with 15 covariates) and a real-world application. In their simulation, they varied the level of complexity in the population treatment model but not the outcome model. The results showed that DNN outperformed logistic regression regarding covariate balance, classification accuracy, and absolute relative bias.
 
-Only two medical peer-reviewed studies have attempted to use DNN for propensity score estimation [@Whata.2022; @Weberpals.2021]. @Weberpals.2021 use data from around 130,000 cancer patients to construct a simulated data set with 31 baseline covariates in which treatment receives a fictional cancer drug, and the outcome is a binary survival indicator. Using a specific DNN architecture called an "autoencoder" with three hidden layers, they find that DNN reduces confounding bias in treatment effect over the traditional logistic model with manual variable selection. In contrast, @Whata.2022 examine the performance of logistics regression compared to DNN with four hidden layers using a simulation (with 15 covariates) and a real-world application. In their simulation, they varied the level of complexity in the population treatment model but not the outcome model. They found that DNN outperformed logistic regression in terms of covariate balance, classification accuracy, and absolute relative bias.
-
-Both studies speak to the increase in interest in using DNN for causal inference and shed light on the possibilities that DNN are a valid approach to estimating the propensity score. My dissertation builds on these studies by comparing DNN with traditional logistic regression and several machine learning approaches well established in the propensity score simulation literature. In addition, my simulation test complexities in both the outcome *and* treatment models. This study will be the first to test DNN for propensity score estimation outside medical research and with high-dimensional data that mimic high-dimensional administrative datasets encountered by educational researchers.
+Both studies demonstrate the growing interest in using DNN for causal inference and suggest that DNN may be a valid approach for estimating the propensity score. My dissertation builds upon these studies by comparing DNN to traditional logistic regression and established machine learning methods in the propensity score simulation literature. Additionally, my study will test the complexity of both the outcome and treatment models, making it the first to examine the use of DNN for propensity score estimation outside of medical research and with high-dimensional data that resembles high-dimensional administrative datasets encountered in educational research.
 
 \newpage
 
 ## Method
 
-The focus of my second dissertation study is to evaluate the performance of various modern machine learning techniques, including classification and regression tree (CART), bagged CART, random forest, and a single-layer neural network, against the traditional logistic regression and my proposed DNN-based approach using high-dimensional data. Specifically, I will evaluate the impacts of various degrees of data dimensionality (i.e., low vs high-dimensional context) and misspecifications in both the population treatment and outcome models on the estimate of the treatment effect and covariate balance.
+The focus of my first dissertation study is a statistical simulation aimed at evaluating the performance of several modern machine learning techniques, including classification and regression tree (CART), bagged CART, random forest, and a single-layer neural network. These techniques will be compared to the traditional logistic regression and my proposed deep neural network (DNN) based approach in estimating the propensity score for the recovery of the average treatment effect (ATE) using propensity score weighting. I will specifically examine the impact of different levels of data dimensionality (i.e., low vs. high-dimensional context) and misspecifications in both the population treatment and outcome models on the estimate of the ATE and covariate balance.
 
-To achieve this, I will use a Monte Carlo simulation design informed by previous propensity score estimation studies conducted by Setoguchi et al. (2008), Lee et al. (2009), and Cannas and Arpino (2019). My simulation code will begin with Cannas and Arpino's publicly available code from their 2019 manuscript and will be guided by best practices in statistical simulation outlined by Morris et al. (2018). In the remainder of this section, I will describe the simulation design for this study, including the data generation mechanisms, estimands of interest, specific specifications of methods evaluated, and performance measures.
+My study will use a Monte Carlo simulation design informed by previous propensity score estimation studies conducted by Setoguchi et al. (2008), Lee et al. (2009), and Cannas and Arpino (2019). My simulation code will be built upon Cannas and Arpino's publicly available code from their 2019 publication and will follow best practices in statistical simulation as outlined by Morris et al. (2018). In the following sections, I will detail the simulation design for this study, including the data generation process, estimands of interest, specific method specifications, and performance measures. Appendix X includes CODE.
 
 ### Data-Generation Mechanisms
 
-The data generation mechanism was informed by the evaluation I conducted as part of my first dissertaton study
+The data generation mechanism for my simulation was informed by the evaluation I conducted as part of my second dissertation study, which involved a large-scale evaluation of an AI chatbot intervention using high-dimensional administrative data. I based the coefficient values of the covariates and error variances on that data. By basing my simulation on real-world data, I aim to address the limitations of statistical simulations that may not generalize well to actual datasets (CITE).
 
 #### Covariates
 
-I took a programmatic approach to generate correlated covariates, $(X_1,X_2,X_3,\dots,X_p$ . Specifically, I simulated three covariate conditions that varied in the number of covaraites generated ($p = 20, 100, 200$). The 20 covariate condition was considerd given that its the average amount of covariates used in the typical propensity score analysis in educational research (Ansong, Wu, & Chowa, 2015; Cho et al., 2012; Monlezun et al., 2015;Morgan et al., 2015; Sullivan & Field, 2013). The remaining two condtions (p = 100, 200) were chosen because they are representative of the high-dimensional datasets in education (CITE HILL).
+I took a programmatic approach to generate correlated covariates, $(X_1,X_2,X_3,\dots,X_p)$. Specifically, I simulated three covariate conditions with varying numbers of covariates generated, with $p = 20, 100, 200$. The 20 covariate condition was considered representative of the average number of covariates used in typical propensity score analyses in educational research (Ansong, Wu, & Chowa, 2015; Cho et al., 2012; Monlezun et al., 2015; Morgan et al., 2015; Sullivan & Field, 2013). The remaining two conditions, with $p = 100$ and $p = 200$, were chosen as they represent high-dimensional datasets commonly encountered in education research (CITE HILL).
 
-Much of the literature on propensity score simulation generates uncorrelated covariates [@Setoguchi.2008; @Stuart.2010; @ho2007matching; @Lee.2010]. However, this is not representative of the correlated data typically found in administrative data.All covaraites were generated from random pulls from a multivariate normal distribution with $\mu=0$ and $\sigma=1$, with a specified correlation matrix with correlations set between -0.3 and 0.3 using the *mvrnorm* function from the *MASS* package in *R* (CITE). This was based on the correlations found in the common app.
+Much of the literature on propensity score simulation generates uncorrelated covariates [@Setoguchi.2008; @Stuart.2010; @ho2007matching; @Lee.2010]. However, this is not representative of the correlated data typically found in administrative data. To address this, all covariates were generated from random draws from a multivariate normal distribution with $\mu=0$ and $\sigma=1$, with a specified correlation matrix with correlations ranging from -0.3 to 0.3, using the mvrnorm function from the MASS package in R (CITE). This approach was based on the correlations found in the Common App data.
 
-In order to keep the correlation structure intact I used the inverse CDF (cumulative distribution function) approach to convert the initial random pull of covariates from the multivariate normal distribution to three distributions; a normal distribution with a mean of 0 and SD of 1, a uniform distribution with a range of 0 to 1, and a Bernoulli distribution with a probability of success set at 0.5. This approach attempts to keep the same correlatios structure used however, some correlations are slighly supressed, but should be equal on average across the simulation (CITE). Covariates were constructed so that half of the covariates affected both treatment and outcome (i.e., confounders), a quarter affected only treatment and the remaining quarter affected the outcome only.
+In order to preserve the correlation structure, I used the inverse cumulative distribution function (CDF) approach to convert the initial random pull of covariates from the multivariate normal distribution to three distributions: a normal distribution with a mean of 0 and standard deviation of 1, a uniform distribution with a range of 0 to 1, and a Bernoulli distribution with a probability of success set at 0.5. This approach aims to maintain the same correlation structure, although some correlations may be slightly suppressed, but should be equal on average across the simulation. The covariates were constructed such that half affected both treatment and outcome (i.e., confounders), a quarter affected treatment only, and the remaining quarter affected the outcome only.
 
 #### Sample Size
 
-I used a fixed sample size of 10,000 for all simulation conditions. Note that most of the current propensity score simulation studies generate much smaller sample sizes[@Setoguchi.2008; @Stuart.2010; @ho2007matching; @Lee.2010]. Given that I am trying to mimic the real-world application of high-dimensional administrative data, this sample size is appropriate.
+I used a fixed sample size of 10,000 for all conditions. This sample size is larger than what is typically used in many propensity score simulation studies (n = 500; 2,000) [@Setoguchi.2008; @Stuart.2010; @ho2007matching; @Lee.2010]. The choice of this sample size is motivated by my goal to mimic real-world high-dimensional administrative data.
 
 #### Population Treatment Assignment Models
 
-I generated the population treatment assignment models using standard logistic regression. These population treatment assignment models can also be referred to as population propensity score models since they generate the "true" probability of being assigned to treatment. The following logistic regression model represents the general structure of these models.
+I generated the population treatment assignment models using standard logistic regression. These models can also be referred to as population propensity score models, as they generate the true probability of being assigned to treatment. The following logistic regression model represents the general structure of these models.
 
 $$
 Pr(Z = 1) = (1 + exp(-(\beta_0 + \sum_{i=1}^{p} \beta_i X_i)))^{-1}
 $$ {#eq-popps}
 
-$X_i$ represents $p$ covariates and their associated coefficients ($\beta_i$). The output, $Pr(Z = 1)$ is the probability of assignment to the treatment condition (i.e., the propensity score, $e(x)$). The values for each intercept $\beta_0$ for the population treamtnet models were based on the evalution of the common application such that the intercept $0.25$, and the remaining $\beta_i$ coefecients were given a random value between -0.4 and 0.4.
+$X_i$ represents $p$ covariates and their associated coefficients ($\beta_i$). The output, $Pr(Z = 1)$ is the probability of assignment to the treatment condition (i.e., the propensity score, $e(x)$). The intercept, $\beta_0$, was set to 0.25, and the remaining coefficients, $\beta_i$, were randomly assigned values between -0.4 and 0.4.
 
-I generated two types of population treatment assignment models (Base(T) and Complex(T)) in which I added levels of complexity to the model in the form of interactions (i.e., non-additivity) and higher order terms (i.e., non-linearity) to the covariates related to treatment and overall confounders.
+I generated two types of population treatment assignment models, Base(T) and Complex(T). To add complexity to these models, I included interactions (non-additivity) and higher-order terms (non-linearity) for the confounders and covariates related to treatment.
 
-**Base(T)** includes only main effects, which assumes a linear relationship between covariates and treatment assignment. I consider this the base model, which is expressed using the following formula:
+**Base(T)** - includes only main effects, which assumes a linear relationship between covariates and treatment assignment. I consider this the base model, which is expressed using the following formula:
 
 $$
-PS^{Base}(X) = (1 + exp(-(\beta_0 + \sum_{i=1}^{p} \beta_iX_i)))^{-1}
+PS^{Base} = (1 + exp(-(\beta_0 + \sum_{i=1}^{p} \beta_iX_i)))^{-1}
 $$ {#eq-psA}
 
-$X$ represents $p$ covariates and their associated coefficients $\beta$. The output, $Pr(Z = 1)$ is the probability of assignment to the treatment condition (i.e., propensity score).
+$X$ represents $p$ covariates and their associated coefficients $\beta$. The output is the probability of assignment to the treatment condition (i.e., propensity score).
 
-**Complex(T)** describes the most complex population treatment assignment model. In which I include quadratic terms for a random sample of half of the covariates related to treatment and overall confounders, and interactions with another random sample of half of covariates related to outcome and overall confounders:
+**Complex(T)** - is the most complex population treatment assignment model in my simulation. To construct it, I incorporated quadratic terms for half of the covariates that are both confounders and related to treatment, as well as interactions with another half of the same group of covariates. The aim of this design is to account for complex relationships between covariates and treatment assignment.
 
 $$
-PS^{Complex}(X) = PS^{Base}(X) + \beta_iX_i^2 + \beta_iX_iX_{i+1}
+PS^{Complex} = PS^{Base} + \beta_iX_i^2 + \beta_iX_iX_{i+1}
 $$ {#eq-psD}
 
 Using the propensity scores generated from these population treatment models I generated a binary treatment assignment variable by comparing an individual's true propensity score to a random draw from a uniform distribution between 0 and 1. (CITE) If the propensity score of an individual was higher than the random draw of the uniform distribution, the individual was assigned to treatment such that $Z = 1$, otherwise $Z = 0$. This approach should approximate a probability of assignment to treatment of 0.5, which is the probability of assignment to a randomized experiment with binary treatment.
 
 #### Population Outcome Models
 
-In addition to the population treatment assignment models, I generated a two population outcome models in which I also varied the level of complexities between covariates and potential outcomes by including interactions and higher-order terms on covariates related to outcome and overall confounders. Adding these complexities to the outcome model is relatively novel in the propensity score literature, although it is much more representative of the complex associations found in datasets in educational research @Cannas.2019.
+In addition to the population treatment assignment models, I also generated two population outcome models. To vary the level of complexity between the covariates and the outcome, I included interactions and higher-order terms on covariates related to outcome and overall confounders. This approach of adding complexities to the outcome model is relatively novel in the propensity score literature, but it is more representative of the complex associations found in datasets in educational research.
 
-Continuous potential outcomes were generated through regression models. Where similar to the population treatment models the values of $\alpha$ were based on the Common App evalution such that the intercet $\alpha_0$ equaled -0.18 and the remaining $\alpha$ coefecient received a random valued between -0.2 and 0.3.
+The continuous outcome, $Y$, was generated through regression models. The values of $\alpha$ were based on the Common App evaluation, such that the intercept $\alpha_0$ equaled -0.18 and the remaining $\alpha$ coefficients received a random value between -0.2 and 0.3. $X_i$ represents $p$ covariates and their associated coefficients ($\alpha_i$). The error term $\epsilon$ was set to have a mean of 0 and variance of 0.17. The binary treatment variable $Z$ is multiplied by $\gamma$, which represents the population treatment effect and was set to 0.3. This treatment effect is consistent with the small treatment effects typically observed in education research, where the average effect size is equal to 0.28 SD @richardson2011eta.
 
 The general structure of the population outcome models is defined as follows:
 
 $$
-Y(Z) = \alpha^Z + \sum_{i=1}^{p} \pi_iX_i; Z = 0,1
+Y = \alpha_0 + \gamma Z + \sum_{i=1}^{p} \alpha_iX_i + \epsilon
 $$ {#eq-outcome}
 
-$X_i$ represents $p$ covariates with their associated coefficients ($\pi_i$). The output, $Y$ is the continuous outcome. When $Z=1$, the outcome is the potential outcome of treatment, and when $Z = 0$, the potential outcome of control. $\alpha^Z$ represented the coefficient and intercept for $\alpha^0$ and $\alpha^1$, which are set such that the population treatment effect is equal to 0.3. This is in line with the typical small treatment effects that we observe in education research in which the average effect size is equal to 0.28 SD @richardson2011eta.
-
-**Base(Y)** - the base model - includes only main effects, which assumes a linear relationship between covariates and potential outcomes. I consider this the base model, which is expressed using the following formula:
+**Base(Y)** - the base model - includes only main effects, which assumes a linear relationship between covariates and outcomes. I consider this the base model, which is expressed using the following formula:
 
 $$
-Y^{Base}(Z) = \alpha_0^{a,Z} + \sum_{i=1}^{p} \alpha_i^{a,Z}X_i; Z = 0,1
+Y^{Base} = \alpha_0 + \gamma Z + \sum_{i=1}^{p} \alpha_iX_i + \epsilon
 $$ {#eq-outcome_a}
 
-Where $X_i$ represents $p$ covariates and their associated coefficients ($\alpha_i^{\alpha,Z}$) which depend on treatment assignment, $Z$. The output, $Y^{a}(Z)$ is set to $Y^{a}(1)$ for the outcome related to treatment and $Y^{a}(0)$ for the control.
-
-**Complex(Y)** describes the complex model which includes both non-linearities and non-additivities which were generated in an identical way to how they were generated in the population treatment outcome models:
+**Complex(Y)** - describes the complex model which includes both non-linearities and non-additivities which were generated in an identical way to how they were generated in the population treatment outcome models:
 
 $$
-Y^{Complex}(Z) =  Y^{Base}(Z) + \alpha_iX_i^2 + \alpha_iX_iX_{i+1}; Z = 0,1
+Y^{Complex} =  Y^{Base} + \alpha_iX_i^2 + \alpha_iX_iX_{i+1}
 $$ {#eq-outcome_d}
 
 #### Propensity Score Estimation Methods
 
-Usin the simulated data, I estimate propensity scores using the standard logistic regresison and popular machine learning techniques used in the propensity score estimation literature, including classification and regression tree (CART), bagged CART, random forest, and single-layer neural network. For all methods the propensity scores are estimated on $p$ covaraites, which includes all confounders. Note that this is a unique scenario where all confounders are included in estimating the propensty score, in practice this is not likely the case but given I am interested in how well these methods recover the true unbiased treatment effect this approach is well suited. Future research should focus on the performance of these methods when confounders are ommited from the propenisty score estimationg model. Stuart says....
+Using the simulated data, I estimate propensity scores using standard logistic regression and popular machine learning techniques commonly used in the propensity score estimation literature. This includes classification and regression tree (CART), bagged CART, random forest, and a single-layer neural network. In all cases, the propensity scores are estimated using all $p$ covariates. This scenario is unique in that all confounders are included in the propensity score estimation, which is not typically the case in practice. However, given my interest in evaluating the ability of these methods to recover the true unbiased treatment effect, this approach is well-suited. Future research should examine the performance of these methods when a subset of confounders is omitted from the propensity score estimation model.
 
--   **Logistic regression**: standard logistic regression with only main effects
+Here I present the specification of each method used to estimate propensity scores:
+
+-   **Logistic regression**: standard logistic regression with only main effects, using the R *glm* command.
 
 -   **Classification and Regression Trees (CART)**: using the R *rpart* package (Therneau & Atkinson, 2018) with default parameters and recursive partitioning.
 
--   **Bagged CART**: bootstrapped aggregated trees with default parameters using the R *ipred* package (Peters, Hothorn, & Lausen, 2002).
+-   **Bagged CART**: bootstrapped aggregated trees using the R *ipred* package (Peters, Hothorn, & Lausen, 2002). I changed the default parameter to use 100 boostrap replicated to align with Lee et. al XXX simulation.
 
 -   **Random Forest**: parallel tree generation on subsamples based on randomly selected covariates using the R *randomForest* package with default parameters (Liaw & Wiener, 2002).
 
--   **Single-Layer Neural Network (NN)**: a simple three layer NN with an input layer, one hidden layer, and an output layer. The input layer was equal to $p$ covariates and the hidden layer was made up of hidden neurons equal to 1/3 of the input covariates, as is standard practice in neural network applications and default parameters. Using the R *keras* package (Chollet et al., 2017) which interfaces with Python.
+-   **Single-Layer Neural Network (NN)**: I used a simple three-layer NN that consisted of an input layer, one hidden layer, and an output layer. The input layer consisted of $p$ covariates, and the hidden layer was made up of hidden neurons equal to 1/3 of the input covariates, which is a common practice in neural network applications (CITE). I used a ReLU activation function in the hidden layer for computational efficiency and a sigmoid activation function in the output layer to obtain probabilities bounded between 0 and 1. The NN was trained and fit using the R keras package (Chollet et al., 2017), which interfaces with Python.
 
--   **Deep Neural Network (DNN-2)**: a four layer DNN with an input layer, two hidden layers, and an output layer. The input layer was equal to $p$ covariates and the hidden layers were made up of hidden neurons equal to 1/3 of the input covariates with default parameters. Using the R *keras* package (Chollet et al., 2017) which interfaces with Python.
+-   **Deep Neural Network (DNN-2)**: I used a four-layer deep neural network with an input layer, **two** hidden layers, and an output layer. The input layer consisted of $p$ covariates and each hidden layer was made up of hidden neurons equal to 1/3 of the input covariates. Similar to the NN, I used the ReLU activation function in the hidden layers, while the output layer consisted of a single neuron with a sigmoid activation function, which provides bounded probabilities between 0 and 1. I trained and fit the DNN-2 using the R keras package (Chollet et al., 2017).
 
--   **Deep Neural Network (DNN-3)**: a five layer DNN with an input layer, three hidden layers, and an output layer. The input layer was equal to $p$ covariates and the hidden layers were made up of hidden neurons equal to 1/3 of the input covariates with default parameters. Using the R *keras* package (Chollet et al., 2017) which interfaces with Python.
+-   **Deep Neural Network (DNN-3)**: The last neural architecture I tested was a five-layer deep neural network with an input layer, **three** hidden layers, and an output layer. The output layer was a single neuron with a sigmoid activation function to produce bounded probabilities between 0 and 1. The DNN-3 was also trained and fit using the R keras package (Chollet et al., 2017), which interfaces with Python.
 
-I used default parameters for all models to mimic the real-world application of these methods by applied researchers.
+#### Training Methodology for Neural Network Approaches (NN-1, DNN-2, DNN-3)
 
-#### Hyperparameters
+A major challenge in using neural network and machine learning algorithms is the need to specify values for hyperparameters. Hyperparameters are parameter values that are not learned from the data, but are set prior to training the model and have a significant impact on the model's performance. Finding the optimal values for these hyperparameters, also known as tuning, are typically found through cross-validation, which involves testing a range of values for the targeted parameters to determine the optimal parameters for the neural network. Choosing incorrect hyperparameters can result in widely varying outcomes.
 
-A common critique around neural network approaches, and widely most machine learning algorithms is the need for the researcher to indicate varies values for parameter. Choosing the wrong parameter may lead to widely different results (CITE). For example, tree based approaches like CART rely on specifying the number of trees to train most researcher using the forest pacakge liely dont change this parameter but defaults values are provided by the package creaters, in this case 100 trees is the default. Common wisdom says you can find the optimal number for these parameters using k-fold cross validation where your sample is split into various training and testing set and various value of the parameter one is trying to tune are tested, to find the optimal number. Although this is well established practice, when these methods are applied may researcher fail to do this appraoch and go back to default parameters (CITE).
+Hyperparameter specification in neural networks is critical to their performance. The hyperparameters include the number of hidden layers, the number of hidden neurons, the learning rate, and weight decay. The learning rate determines the speed at which the weights are updated during training, while weight decay regulates the weights to prevent overfitting. For this simulation, the number of hidden neurons, activation functions, and loss function were selected based on established norms in the field.
 
-Neural networks are no different, for exmple one can control how many hidden layers are include, how many hidden nurons, the learning rate, and weight decay. Various combinations of this would lead to different results. Note that X and X used neural networks to estimate propenisty scores and used a neural network trained on a large dataset to find the optimal parameters and then used those parameters for the simulation. This is a good approach however, it may not generalize outside their specific simulation conditons. A better approach and one that I take is to train within each iteraction to find the optimal learnign rate for the specific data at hand.
+To optimize the performance of the model, various techniques for hyperparameter tuning have been developed, such as k-fold cross-validation and grid search. However, in this simulation, the ADAM optimizer was utilized. This optimizer eliminates the need for hand-tuning the learning rate and is a widely used algorithm that combines the benefits of other algorithms, adapting the learning rates of each parameter based on historical gradient information, making it more efficient. The ADAM optimizer uses multiple training runs of the data to determine the optimal values of the weights and bias terms in the neural network, making it a computationally efficient process without requiring researcher intervention.
 
-In reality this would be incredibly time consuming to use cross validation during each iteration. However, with advances in the deep neural network space with pacakges like Keras they have build in "optimizer" that do the trianing. IN this case its ADAm. Adam is an algorithm optimizer that iteratively lears the proper weight. Somethinga bout in an effecient manner.
+The neural network approaches I tested (NN-1, DNN-2, DNN-3) were trained using a standard 80/20 split, with 80% of the sample used for training and 20% for validation. The ADAM optimizer was employed to automatically find the optimal learning rate that minimizes the binary cross-entropy loss function, which is a standard in binary classification problems and measures the difference between predicted and actual probabilities. Early stopping was used to stop the training process when the loss function values did not change after 5 training runs, and L2 regularization with a value of 0.1 was applied to penalize large weights. This minimized the changes that the neural networks overfit the data. 
 
-Therefore for my simulation I use the keras optimizer to automatically find the otpimal learning rate tha tminimes a loss. To get some gains in computaitons effecienty for the neural network based apporahc i use early stopping techniqey, by which i set the once the delat values of does not change after 5 trainign runs I deem the network trained. Additionally, I use L2 regularization to penalize large weights set to .005. All neural network are trained with hidden layers euqla to 2/3 P and relu activaton fucntions that are computationally effecntio with L2 reularizaito applied to each hidden layer and the output layer. The ouput layer is set to a sigmoid activation fucntion in order to generate bounded probabilities between o and 1. I train on a standard 80/20 split and use 100 epochs, and 32 batch since. The losst function is defineda s the binary crossentropy which is good for binary classificaiton. Table X include the hyperparamters values for each of my neural networks I oncisder.
-
-Additonally I test a 2 hidden layer approach and 3 hidden layer appraoch.
+ReLU activation was used in the hidden layers for computational efficiency, and a sigmoid activation function was used in the output layer to generate probabilities between 0 and 1. The training was conducted over 100 epochs with a batch size of 64. The choice of hyperparameters was consistent across all three methods to ensure a fair comparison of their performance. The use of the ADAM optimizer, early stopping, and L2 regularization all contributed to the efficient training of the neural networks and the optimization of their performance. The hyperparameter values for each of the nn condition, dnn-2, and dnn-3 methods are presented in Table X.
 
 ### Estimating Treatment Effects - Propensity Score Weighting
 
-To recapture the treatment effect using the methods detailed above, I used a propensity score weighting approach, specifically the inverse probability of treatment weighting (IPTW) [@Lee.2010], where covariate balance is achieved between treated and untreated units by reweighting observations based on their estimated propensity score. Such that each treated observation is equal to $1/e_i(x)$, and untreated units receive a weight of $1/(1-e_i(x)$, where $e_i(x)$ is the estimated propensity score for unit $i$ this weighting scheme estimates the ATE.
+To estimate the treatment effect, I used a propensity score weighting approach, specifically the inverse probability of treatment weighting (IPTW) [@Lee.2010]. This method involves reweighting the observations based on their estimated propensity score, so as to achieve covariate balance between the treated and untreated units. The weight for each treated observation was equal to $1/e_i(x)$, and for untreated units, the weight was $1/(1-e_i(x)$. The estimated propensity score, $e_i(x)$, was determined for each unit $i$. This weighting scheme was used to estimate the average treatment effect (ATE).
 
-The ATE was calculated using the R survey package where the outcome variable ($Y$) was predicted by a binary treatment assignment variable, with ATT weights included. Both the ATE point estimate were safed, as well as the standard error and the 95 confidence interval.
+I used the R *survey* package to calculate the Average Treatment Effect (ATE). The outcome variable ($Y$) was predicted using the binary treatment assignment variable, with the ATE weights included. The ATE point estimate, as well as the robust standard error of the ATE, were saved.
+
+#### Estimating Standard Error of the ATE
+
+The proper way to estimate standard errors when using IPTW weights calculated from propensity scores and targeting the Average Treatment Effect (ATE) remains a topic of debate in the literature. While some researchers support the use of simple methods, such as the standard deviation of the weighted outcome (@Rosenbaum.1983), others argue that more advanced methods, such as bootstrapping (Reifeis and Hudges; 2020; Chan, Yam, and Zhang 2016), are necessary to account for the bias introduced by the weighting process.
+
+Studies that have used propensity score weighting to estimate treatment effects have shown that the choice of standard error estimator can have a significant impact on the results. For example, [@Stuart.2010] found that different standard error estimators can lead to vastly different conclusions about the presence of treatment effects, while [@Cattaneo.2015] found that using a bootstrap estimator led to more accurate confidence intervals compared to using the standard deviation of the weighted outcome.
+
+Given these debates, it is important to choose an appropriate standard error estimator based on the specific goals of the analysis and the trade-off between computational feasibility and statistical accuracy. To account for the uncertainty in the estimated propensity score, I used the "robust" standard errors calculated from the R survey package, as recommended by (Robins, Hernán, and Brumback 2000; Hämäläinen, 2012).
 
 ### Performance Metrics
 
 To gauge the performance of each propensity score estimation method, I used the following metrics, which are widely used to access model performance in the propensity score simulation literature [@Setoguchi.2008; @Cannas.2019; @Stuart.2010; @Lee.2010; @McCaffrey.2004]:
 
--   **Bias**: the difference between the estimated treatment effect and the population treatment effect of 0.3. Bias values indicate deviations from the estimated ATE and the population treatment effect. This also lets us see if we over or under estimate bias
+-   **Bias**: The difference between the estimated treatment effect and the true population treatment effect of 0.3. Bias values show how far off the estimated ATE is from the true population treatment effect and allow us to determine if we overestimate or underestimate the true ATE.
 
--   **Absoluate Bias**: the absolute difference between the estimated treatment effect and the population treatment effect of 0.3.
-
--   **Absolute Relative Bias (Bias)**: the absolute difference between the estimated treatment effect and the population treatment effect, divided by the true population treatment effect of 0.3.
-
--   **Average Standardized Absolute Mean Distance (ASAM)**: is a measure of of covariate balance. After calculating the ATT, the absolute value of the standardized difference of means between the treated and untreated group was calculated for each covariate and averaged across all covariates. Lower ASAM values indicate better covariate balance.
+-   **Relative Bias (Bias)**: the difference between the estimated treatment effect and the population treatment effect, divided by the true population treatment effect of 0.3. A low relative bias value indicates that the estimated treatment effect is close to the true population treatment effect, while a high relative bias value indicates that the estimated treatment effect deviates significantly from the true ATE.
 
 -   **ATE Standard Error**: is simply the standard error associated with the estimated ATE.
 
--   **Mean Squared Error (MSE)**: the average squared difference between the estimated treatment effect and the population treatment effect. MSE is a good representation of both bias and variance and a common performance metric in machine learning literature [@athey2015machine; @Mullainathan.2017].
-
--   **Power**: indicator of wether the p-value associated with the estimated ATE is lower than an alpha leve of 0.05.
-
--   **Type I error**: indicator of wether the p-value associated with the estimated ATE is lower than an alpha leve of 0.05, when the population treatment effect is set to 0.
+-   **Mean Squared Error (MSE)**: the average of the squared differences between the estimated treatment effect and the population treatment effect. MSE is a good representation of both bias and variance and a common performance metric in the machine learning literature [@Athey.2015; @Mullainathan.2017].
 
 -   **95% Confidence Interval Coverage**: indicator of wether the population treatment effect of 0.3 is found within the estimate 95% confidence interval.
+
+-   **Average Standardized Absolute Mean Distance (ASAM)**: is a measure of of covariate balance. After calculating the ATE, the absolute value of the standardized difference of means between the treated and untreated group was calculated for each covariate and averaged across all covariates. Lower ASAM values indicate better covariate balance.
+
+-   **Power**: indicator of whether the p-value associated with the estimated ATE is lower than an alpha level of 0.05. This metric helps determine if the estimated ATE is statistically significant and provides evidence of a treatment effect.
 
 -   **Weights**: a known issue with PSW is that extreme weights can result in biased treatment effects. Therefore I examine the distribution of the estimated weights.
 
 ### Simulation Scenarios
 
-In total, I tested three covariates conditions (p = 20, 100, 200), with two treatment models (Base(T),Complex(T)) and two outcome models (Base(Y), Complex(Y)) and seven propensity score estimation methos including logit, cart, bag, forest, nn-1, dnn-2, and dnn-3. Sample sized was fixed at 10,000. Fully crossing all these conditions yielded a total of 84 scenaritos tested. Each scenario was simulated 1,000 times.
+In total, I tested three different covariate conditions (p = 20, 100, 200) with two treatment models (Base(T) and Complex(T)) and two outcome models (Base(Y) and Complex(Y)). I  evaluated seven propensity score estimation methods including logit, CART, BAG, forest, NN-1, DNN-2, and DNN-3. The sample size was fixed at 10,000. By fully crossing all these conditions, I tested a total of 84 scenarios, each of which was simulated 1,000 times.
 
 ### Software
 
-Given the complexity of the methods and the high-dimensional data generated in my simulation, I utilized the University of Pittsburgh Center for Research Computing cluster to perform the simulations on high-memory nodes. To carry out the simulations, I used the latest versions of R (4.1.0) and Python (3.7) along with the popular deep learning libraries, Keras and Tensorflow.
-
+The simulations were performed on the University of Pittsburgh Center for Research Computing cluster, utilizing high-memory CPU and GPU nodes to handle the complexity and high-dimensional data generated. Both R (version 4.1.0) and Python (version 3.7) were used, along with popular deep learning libraries Keras and Tensorflow.
 \newpage
 
 ## Results
@@ -475,15 +506,22 @@ In addition to the raw bias, I also evaluated the absolute percent bias, which i
 #| fig-cap: "Absolute bias (%) of the ATE"
 
 over_df %>%
-  ggplot(aes(x = method, y = Abs_Per_Bias, fill = as.factor(p))) +
-  ylab("Absolute Bias (%)") +
+  ggplot(aes(x = method, y = Rel_Bias, fill = as.factor(p))) +
+  ylab("Relative Bias") +
   geom_bar(position = "dodge", stat = "identity") +
   labs(fill='Covariates') +
   coord_cartesian(ylim=c(0,10)) +
   theme_Publication() +
   scale_fill_Publication() +
   geom_hline(yintercept = 10, color = "white", size = 2)
-  
+
+over_df %>%
+  ggplot(aes(x = method, y = Per_Rel_Bias, fill = as.factor(p))) +
+  ylab("Relative Bias") +
+  geom_bar(position = "dodge", stat = "identity") +
+  labs(fill='Covariates') +
+  theme_Publication() +
+  scale_fill_Publication() 
 ```
 
 In the low-dimensional condition (p = 20), nearly all methods accurately estimate the ATE with little bias. Logistic regression has the least amount of absolute bias, while the DNN and NN approaches are relatively close, and all other approaches produce less than 2% absolute bias. The exception is bagged CART, which has a large amount of bias (absolute bias = 11.3%). As covariates increase from 20 to 100 and 200, logistic regression becomes substantially more biased than all other methods. All machine learning approaches perform well in the 100 covariate condition, with all producing bias below 2.5%. In this scenario, the lowest bias estimates are produced by my DNN approach, specifically DNN-2 and nn-1 (absolute bias = 0.43% and 0.21%, respectively). In the highest dimensional covariate condition (p = 200), all methods have an increase in bias. However, the machine learning approaches perform exceptionally well compared to logistic regression. Bagged CART produces the least biased estimate (absolute bias = 1.02%), followed by my DNN-2 approach (absolute bias = 1.33%), although the difference in magnitude is relatively small. An interesting finding is that the nn-1 approach produces the most biased results, even more so than logistic regression (23.5%, and 5.18%, respectively).
