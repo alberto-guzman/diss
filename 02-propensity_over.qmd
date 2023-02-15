@@ -1,96 +1,27 @@
 ```{r}
 #| include: false
+
+# Load required packages and functions
 packages <- c(
   "tidyverse",
   "gt",
   "ggthemes",
   "gtsummary",
-  "simhelpers"
+  "simhelpers",
+  "rsimsum",
+  "SimDesign"
 )
 
 lapply(packages, library, character.only = TRUE)
 
 source("~/Projects/inProgress/dissertation/ggplot_theme_pub.R")
 
-df1 <- readRDS("~/Projects/inProgress/2018_propensity_neuralnet_paper/data/sim_results_n10000_r1000_P_e.rds")
+# Load sim results
+res <- readRDS("~/Projects/inProgress/2018_propensity_neuralnet_paper/data/res_all.rds")
 
-df2 <- readRDS("~/Projects/inProgress/2018_propensity_neuralnet_paper/data/sim_results_n10000_r1000_NP_e.rds")
-
-res <- bind_rows(df1, df2)
-
-
-
-res_all <- readRDS("~/Projects/inProgress/2018_propensity_neuralnet_paper/data/res_all.rds")
-
-
-over_df <-
-  res %>%
-  group_by(p, method) %>%
-  summarise(
-    Bias = mean(Bias),
-    Rel_Bias = mean(Rel_Bias),
-    Per_Rel_Bias = mean(Per_Rel_Bias),
-    ATE_se = mean(ATE_se),
-    MSE = mean(MSE),
-    Power = mean(Power),
-    PS_Weights = mean(mean_ps_weights),
-    ASAM = mean(ASAM),
-    coverage_95 = mean(ci_95),
-    .groups = "rowwise"
-  ) %>%
-  ungroup()
-
-
-res_sum_df <-
-  res %>%
-  group_by(p, method, scenarioT, scenarioY) %>%
-  summarise(
-    Bias = mean(Bias),
-    Rel_Bias = mean(Rel_Bias),
-    Per_Rel_Bias = mean(Per_Rel_Bias),
-    ATE_se = mean(ATE_se),
-    MSE = mean(MSE),
-    Power = mean(Power),
-    PS_Weights = mean(mean_ps_weights),
-    ASAM = mean(ASAM),
-    coverage_95 = mean(ci_95),
-    .groups = "rowwise"
-  ) %>%
-  ungroup()
-
-```
-
-```{r}
-
-
-df <- res_all |> 
-  mutate(true_ATE = 0.3) |> 
-  group_by(method, p) |> 
-  do(calc_absolute(., estimates = ATE, true_param = true_ATE))  
-
-df |> 
-  ggplot(aes(x = method, y = bias, fill = as.factor(p))) +
-  ylab("Bias") +
-  geom_bar(position = "dodge", stat = "identity") +
-  labs(fill='Covariates') +
-  theme_Publication() +
-  scale_fill_Publication() +
-  geom_pointrange(aes(ymin=bias-bias_mcse, ymax=bias+bias_mcse, y = bias))
-
-
-
-
-df |> 
-  ggplot(aes(x = method, y = bias, colour = as.factor(p))) +
-  geom_hline(yintercept = 0, linetype = 'solid', size = .2) +
-  geom_segment(aes(yend = 0, xend = method), color = 'grey') +
-  geom_point() +
-  geom_point(aes(y = bias-bias_mcse), shape = 95, size = 3) +
-  geom_point(aes(y = bias+bias_mcse), shape = 95, size = 3) +
-  theme_Publication() +
-  facet_wrap(~as.factor(p))
-
-
+# Generate upper and lower CI 95%
+res <- res |> 
+  mutate(lower = ATE - (1.96 * ATE_se), upper = ATE + (1.96 * ATE_se), true_ATE = 0.3)
 ```
 
 # Paper 1: Evaluating modern propensity score estimation methods with high-dimensional data
@@ -419,7 +350,7 @@ Hyperparameter specification in neural networks is critical to their performance
 
 To optimize the performance of the model, various techniques for hyperparameter tuning have been developed, such as k-fold cross-validation and grid search. However, in this simulation, the ADAM optimizer was utilized. This optimizer eliminates the need for hand-tuning the learning rate and is a widely used algorithm that combines the benefits of other algorithms, adapting the learning rates of each parameter based on historical gradient information, making it more efficient. The ADAM optimizer uses multiple training runs of the data to determine the optimal values of the weights and bias terms in the neural network, making it a computationally efficient process without requiring researcher intervention.
 
-The neural network approaches I tested (NN-1, DNN-2, DNN-3) were trained using a standard 80/20 split, with 80% of the sample used for training and 20% for validation. The ADAM optimizer was employed to automatically find the optimal learning rate that minimizes the binary cross-entropy loss function, which is a standard in binary classification problems and measures the difference between predicted and actual probabilities. Early stopping was used to stop the training process when the loss function values did not change after 5 training runs, and L2 regularization with a value of 0.1 was applied to penalize large weights. This minimized the changes that the neural networks overfit the data. 
+The neural network approaches I tested (NN-1, DNN-2, DNN-3) were trained using a standard 80/20 split, with 80% of the sample used for training and 20% for validation. The ADAM optimizer was employed to automatically find the optimal learning rate that minimizes the binary cross-entropy loss function, which is a standard in binary classification problems and measures the difference between predicted and actual probabilities. Early stopping was used to stop the training process when the loss function values did not change after 5 training runs, and L2 regularization with a value of 0.1 was applied to penalize large weights. This minimized the changes that the neural networks overfit the data.
 
 ReLU activation was used in the hidden layers for computational efficiency, and a sigmoid activation function was used in the output layer to generate probabilities between 0 and 1. The training was conducted over 100 epochs with a batch size of 64. The choice of hyperparameters was consistent across all three methods to ensure a fair comparison of their performance. The use of the ADAM optimizer, early stopping, and L2 regularization all contributed to the efficient training of the neural networks and the optimization of their performance. The hyperparameter values for each of the nn condition, dnn-2, and dnn-3 methods are presented in Table X.
 
@@ -459,12 +390,11 @@ To gauge the performance of each propensity score estimation method, I used the 
 
 ### Simulation Scenarios
 
-In total, I tested three different covariate conditions (p = 20, 100, 200) with two treatment models (Base(T) and Complex(T)) and two outcome models (Base(Y) and Complex(Y)). I  evaluated seven propensity score estimation methods including logit, CART, BAG, forest, NN-1, DNN-2, and DNN-3. The sample size was fixed at 10,000. By fully crossing all these conditions, I tested a total of 84 scenarios, each of which was simulated 1,000 times.
+In total, I tested three different covariate conditions (p = 20, 100, 200) with two treatment models (Base(T) and Complex(T)) and two outcome models (Base(Y) and Complex(Y)). I evaluated seven propensity score estimation methods including logit, CART, BAG, forest, NN-1, DNN-2, and DNN-3. The sample size was fixed at 10,000. By fully crossing all these conditions, I tested a total of 84 scenarios, each of which was simulated 1,000 times.
 
 ### Software
 
-The simulations were performed on the University of Pittsburgh Center for Research Computing cluster, utilizing high-memory CPU and GPU nodes to handle the complexity and high-dimensional data generated. Both R (version 4.1.0) and Python (version 3.7) were used, along with popular deep learning libraries Keras and Tensorflow.
-\newpage
+The simulations were performed on the University of Pittsburgh Center for Research Computing cluster, utilizing high-memory CPU and GPU nodes to handle the complexity and high-dimensional data generated. Both R (version 4.1.0) and Python (version 3.7) were used, along with popular deep learning libraries Keras and Tensorflow. \newpage
 
 ## Results
 
@@ -481,6 +411,33 @@ I start by summarizing the bias in the average treatment effect (ATE) across the
 ```{r}
 #| label: fig-bias
 #| fig-cap: "Bias of the ATE"
+
+
+# Calculating relative bias
+res %>%
+  group_by(p, method) %>%
+  do(calc_absolute(., estimates = ATE, true_para = true_ATE)) %>%
+  mutate(method = factor(method, levels = unique(method))) %>%
+  ggplot(aes(x = method, y = bias, fill = as.factor(p))) +
+  ylab("Bias") +
+  geom_bar(position = "dodge", stat = "identity") +
+  labs(fill = 'Covariates') +
+  theme_Publication() +
+  scale_fill_Publication() +
+  geom_pointrange(aes(ymin = bias - bias_mcse, ymax = bias + bias_mcse), 
+                position = position_dodge(0.9), size = 0.1, alpha = 0.5)
+
+df |> 
+  ggplot(aes(x = method, y = bias, colour = as.factor(p))) +
+  geom_hline(yintercept = 0, linetype = 'solid', size = .2) +
+  geom_segment(aes(yend = 0, xend = method), color = 'grey') +
+  geom_point() +
+  geom_point(aes(y = bias-bias_mcse), shape = 95, size = 3) +
+  geom_point(aes(y = bias+bias_mcse), shape = 95, size = 3) +
+  theme_Publication() +
+  facet_wrap(~as.factor(p))
+
+
 
 over_df %>%
   ggplot(aes(x = method, y = Bias, fill = as.factor(p))) +
