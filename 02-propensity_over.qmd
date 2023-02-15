@@ -19,9 +19,8 @@ source("~/Projects/inProgress/dissertation/ggplot_theme_pub.R")
 # Load sim results
 res <- readRDS("~/Projects/inProgress/2018_propensity_neuralnet_paper/data/res_all.rds")
 
-# Generate upper and lower CI 95%
-res <- res |> 
-  mutate(lower = ATE - (1.96 * ATE_se), upper = ATE + (1.96 * ATE_se), true_ATE = 0.3)
+# Generate sim_sum results overall
+simsum_res_all <- simsum(data = res, estvarname = "ATE", true = 0.3, se = "ATE_se", methodvar = "method", by = c("p"), ref = "logit")
 ```
 
 # Paper 1: Evaluating modern propensity score estimation methods with high-dimensional data
@@ -412,11 +411,9 @@ I start by summarizing the bias in the average treatment effect (ATE) across the
 #| label: fig-bias
 #| fig-cap: "Bias of the ATE"
 
-
-# Calculating relative bias
 res %>%
   group_by(p, method) %>%
-  do(calc_absolute(., estimates = ATE, true_para = true_ATE)) %>%
+  do(calc_absolute(., estimates = ATE, true_param = true_ATE)) %>%
   mutate(method = factor(method, levels = unique(method))) %>%
   ggplot(aes(x = method, y = bias, fill = as.factor(p))) +
   ylab("Bias") +
@@ -424,30 +421,10 @@ res %>%
   labs(fill = 'Covariates') +
   theme_Publication() +
   scale_fill_Publication() +
+   coord_cartesian(ylim=c(-.2,.2)) +
   geom_pointrange(aes(ymin = bias - bias_mcse, ymax = bias + bias_mcse), 
-                position = position_dodge(0.9), size = 0.1, alpha = 0.5)
-
-df |> 
-  ggplot(aes(x = method, y = bias, colour = as.factor(p))) +
-  geom_hline(yintercept = 0, linetype = 'solid', size = .2) +
-  geom_segment(aes(yend = 0, xend = method), color = 'grey') +
-  geom_point() +
-  geom_point(aes(y = bias-bias_mcse), shape = 95, size = 3) +
-  geom_point(aes(y = bias+bias_mcse), shape = 95, size = 3) +
-  theme_Publication() +
-  facet_wrap(~as.factor(p))
-
-
-
-over_df %>%
-  ggplot(aes(x = method, y = Bias, fill = as.factor(p))) +
-  ylab("Bias") +
-  geom_bar(position = "dodge", stat = "identity") +
-  labs(fill='Covariates') +
-  coord_cartesian(ylim=c(-.05,.05)) +
-  theme_Publication() +
-  scale_fill_Publication() +
-  geom_hline(yintercept = -.05, color = "white", size = 2)
+                position = position_dodge(0.9), size = 0.1, alpha = 0.3) +
+  geom_hline(yintercept = -.2, color = "white", size = 1) 
 ```
 
 Across methods and covariate conditions, there is much variability in terms of bias. In the low-dimensional condition (p = 20), all methods accurately estimate the true ATE with relatively little bias, except for bagged CART, which substantially underestimates the true ATE. As the number of covariates increases to 100, the magnitude of bias also increases, with logistic regression overestimating the ATE, while all other machine learning approaches estimate the ATE with less bias.
@@ -462,23 +439,27 @@ In addition to the raw bias, I also evaluated the absolute percent bias, which i
 #| label: fig-abs-bias
 #| fig-cap: "Absolute bias (%) of the ATE"
 
-over_df %>%
-  ggplot(aes(x = method, y = Rel_Bias, fill = as.factor(p))) +
+
+
+
+res |> 
+  mutate(rel_bias = (ATE - 0.3)/0.3) |> 
+  group_by(p, method) |> 
+  mutate(rel_bias_mcse = sd(rel_bias)/sqrt(1000)) |> 
+  summarise(rel_bias = mean(rel_bias), rel_bias_mcse = mean(rel_bias_mcse)) |> 
+  mutate(method = factor(method, levels = unique(method))) |> 
+  ggplot(aes(x = method, y = rel_bias, fill = as.factor(p))) +
   ylab("Relative Bias") +
   geom_bar(position = "dodge", stat = "identity") +
-  labs(fill='Covariates') +
-  coord_cartesian(ylim=c(0,10)) +
+  labs(fill = 'Covariates') +
   theme_Publication() +
   scale_fill_Publication() +
-  geom_hline(yintercept = 10, color = "white", size = 2)
+  geom_pointrange(aes(ymin = rel_bias - rel_bias_mcse, ymax = rel_bias + rel_bias_mcse), position = position_dodge(0.9), size = 0.1, alpha = 0.3) 
 
-over_df %>%
-  ggplot(aes(x = method, y = Per_Rel_Bias, fill = as.factor(p))) +
-  ylab("Relative Bias") +
-  geom_bar(position = "dodge", stat = "identity") +
-  labs(fill='Covariates') +
-  theme_Publication() +
-  scale_fill_Publication() 
+
+
+
+
 ```
 
 In the low-dimensional condition (p = 20), nearly all methods accurately estimate the ATE with little bias. Logistic regression has the least amount of absolute bias, while the DNN and NN approaches are relatively close, and all other approaches produce less than 2% absolute bias. The exception is bagged CART, which has a large amount of bias (absolute bias = 11.3%). As covariates increase from 20 to 100 and 200, logistic regression becomes substantially more biased than all other methods. All machine learning approaches perform well in the 100 covariate condition, with all producing bias below 2.5%. In this scenario, the lowest bias estimates are produced by my DNN approach, specifically DNN-2 and nn-1 (absolute bias = 0.43% and 0.21%, respectively). In the highest dimensional covariate condition (p = 200), all methods have an increase in bias. However, the machine learning approaches perform exceptionally well compared to logistic regression. Bagged CART produces the least biased estimate (absolute bias = 1.02%), followed by my DNN-2 approach (absolute bias = 1.33%), although the difference in magnitude is relatively small. An interesting finding is that the nn-1 approach produces the most biased results, even more so than logistic regression (23.5%, and 5.18%, respectively).
@@ -494,6 +475,26 @@ Next, I evaluate the absolute bias performance of each method by complexities in
 #| fig-cap: "Absolute bias (%) of the ATE by data generation mechanisms"
 #| fig-width: 7.5
 #| fig-height: 5
+
+
+
+res |> 
+  mutate(rel_bias = (ATE - 0.3)/0.3) |> 
+  group_by(p, method, scenarioT, scenarioY) |> 
+  mutate(rel_bias_mcse = sd(rel_bias)/sqrt(1000)) |> 
+  summarise(rel_bias = mean(rel_bias), rel_bias_mcse = mean(rel_bias_mcse)) |> 
+  mutate(method = factor(method, levels = unique(method))) |> 
+  ggplot(aes(x = method, y = rel_bias, fill = as.factor(p))) +
+  ylab("Relative Bias") +
+  facet_grid(scenarioT ~ scenarioY, scales = "fixed") +
+  geom_bar(position = "dodge", stat = "identity") +
+  labs(fill = 'Covariates') +
+  theme_Publication() +
+  scale_fill_Publication() +
+  geom_pointrange(aes(ymin = rel_bias - rel_bias_mcse, ymax = rel_bias + rel_bias_mcse), position = position_dodge(0.9), size = 0.1, alpha = 0.3) 
+
+
+
 
 res_sum_df %>%
   ggplot(aes(x = method, y = Abs_Per_Bias, fill = as.factor(p))) +
