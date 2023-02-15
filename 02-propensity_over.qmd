@@ -18,9 +18,6 @@ source("~/Projects/inProgress/dissertation/ggplot_theme_pub.R")
 
 # Load sim results
 res <- readRDS("~/Projects/inProgress/2018_propensity_neuralnet_paper/data/res_all.rds")
-
-# Generate sim_sum results overall
-simsum_res_all <- simsum(data = res, estvarname = "ATE", true = 0.3, se = "ATE_se", methodvar = "method", by = c("p"), ref = "logit")
 ```
 
 # Paper 1: Evaluating modern propensity score estimation methods with high-dimensional data
@@ -412,19 +409,19 @@ I start by summarizing the bias in the average treatment effect (ATE) across the
 #| fig-cap: "Bias of the ATE"
 
 res %>%
+  mutate(true_ATE = 0.3) |> 
   group_by(p, method) %>%
   do(calc_absolute(., estimates = ATE, true_param = true_ATE)) %>%
   mutate(method = factor(method, levels = unique(method))) %>%
   ggplot(aes(x = method, y = bias, fill = as.factor(p))) +
   ylab("Bias") +
   geom_bar(position = "dodge", stat = "identity") +
-  labs(fill = 'Covariates') +
+  labs(fill = 'Covariates', caption = "Notes: The solid black dots represent the mean bias. The extending lines represent the associated Monte Carlo 95% C.I.") +
   theme_Publication() +
   scale_fill_Publication() +
-   coord_cartesian(ylim=c(-.2,.2)) +
-  geom_pointrange(aes(ymin = bias - bias_mcse, ymax = bias + bias_mcse), 
-                position = position_dodge(0.9), size = 0.1, alpha = 0.3) +
-  geom_hline(yintercept = -.2, color = "white", size = 1) 
+  geom_pointrange(aes(ymin = bias - (1.96 * bias_mcse), ymax = bias + (1.96 * bias_mcse)), 
+                position = position_dodge(0.9), size = 0.1, alpha = 0.3) 
+
 ```
 
 Across methods and covariate conditions, there is much variability in terms of bias. In the low-dimensional condition (p = 20), all methods accurately estimate the true ATE with relatively little bias, except for bagged CART, which substantially underestimates the true ATE. As the number of covariates increases to 100, the magnitude of bias also increases, with logistic regression overestimating the ATE, while all other machine learning approaches estimate the ATE with less bias.
