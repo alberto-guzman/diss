@@ -17,7 +17,7 @@ lapply(packages, library, character.only = TRUE)
 source("~/Projects/inProgress/dissertation/ggplot_theme_pub.R")
 
 # Load sim results
-res <- readRDS("~/Projects/inProgress/2018_propensity_neuralnet_paper/data/res_all.rds")
+res <- readRDS("~/Projects/inProgress/2018_propensity_neuralnet_paper/data/res_all_nnmod.rds")
 ```
 
 # Paper 1: Evaluating modern propensity score estimation methods with high-dimensional data
@@ -396,62 +396,81 @@ The simulations were performed on the University of Pittsburgh Center for Resear
 
 This section presents the results of my Monte Carlo simulation study, which compares the performance of my DNN-based approach, traditional logistic regression, and other commonly used machine learning-based approaches, including CART, bagged CART, and random forest, in estimating the average treatment effect (ATE) through propensity score weighting. The simulation aims to evaluate how accurately these methods estimate the population ATE (ATE = 0.3) under different levels of covariate conditions (p = 20, 100, 200) and when complexities are introduced into the treatment and outcome models.
 
-The results are organized into three main parts. First, I present the results on the bias in the ATE estimation. Next, I evaluate the variability of the ATE estimation by examining the standard error (SE), mean squared error (MSE), and 95% confidence interval coverage. Then, I assess covariate balance through the average standardized absolute mean difference (ASMD). Finally, I discuss the mean IPTW weights and statistical power.
+The results are organized into three main parts. First, I present the results on the bias in the ATE estimation. Next, I evaluate the variability of the ATE estimation by examining the standard error (SE), mean squared error (MSE), and 95% confidence interval coverage. Then, I assess covariate balance through the average standardized absolute mean difference, (ASAM). Finally, I discuss the mean IPTW weights and statistical power.
 
 ### Bias of ATE Estimation
 
 #### Bias
 
-I start by summarizing the bias in the average treatment effect (ATE) across the population treatment and outcome model conditions to understand the average performance of the methods under different conditions. Figure @fig-bias displays the results for the bias of the ATE by method and covariate conditions (p = 20, 100, 200). The "true" ATE is set to 0.3, so a bias of 0 means that the method has accurately estimated the true ATE without any bias. If the bar is above 0, the method overestimates the true ATE, and if it is below 0, it underestimates the ATE.
+I start by summarizing the bias in the average treatment effect (ATE) across the population treatment and outcome model conditions to understand the average performance of each method under different conditions. Bias refers to the difference between the estimated ATE and the true ATE = 0.3. In other words, bias measure how much a method tends, on average, to over- or under-estimate the true ATE. Figure @fig-bias displays the results for the bias of the ATE by method and covariate conditions (p = 20, 100, 200). The "true" ATE is set to 0.3, so a bias of 0 means that the method has accurately estimated the true ATE without any bias. If the bar is above 0, the method overestimates the true ATE, and if it is below 0, it underestimates the ATE. The solid dots represent the mean bias and the extending lines are the associated Monte Carlo 95% confidence interval.
 
 ```{r}
 #| label: fig-bias
 #| fig-cap: "Bias of the ATE"
 
-res %>%
-  mutate(true_ATE = 0.3) |> 
-  group_by(p, method) %>%
-  do(calc_absolute(., estimates = ATE, true_param = true_ATE)) %>%
-  mutate(method = factor(method, levels = unique(method))) %>%
-  ggplot(aes(x = method, y = bias, fill = as.factor(p))) +
+res |> 
+  simsum(estvarname = "ATE", true = 0.3, se = "ATE_se", methodvar = "method", ref = "logit", by = c("p")) |> 
+  summary() |> 
+  tidy() |> 
+  filter(stat == "bias") |> 
+  ggplot(aes(x = method, y = est, fill = as.factor(p))) +
   ylab("Bias") +
   geom_bar(position = "dodge", stat = "identity") +
-  labs(fill = 'Covariates', caption = "Notes: The solid black dots represent the mean bias. The extending lines represent the associated Monte Carlo 95% C.I.") +
+  labs(fill = 'Covariates',caption = "Notes: The solid black dots represent the mean bias. The extending lines represent the associated Monte Carlo 95% C.I.") +
   theme_Publication() +
   scale_fill_Publication() +
-  geom_pointrange(aes(ymin = bias - (1.96 * bias_mcse), ymax = bias + (1.96 * bias_mcse)), 
-                position = position_dodge(0.9), size = 0.1, alpha = 0.3) 
+  geom_pointrange(aes(ymin = lower, ymax = upper), position = position_dodge(0.9), size = 0.1, alpha = 0.5) 
 
 ```
 
-Across methods and covariate conditions, there is much variability in terms of bias. In the low-dimensional condition (p = 20), all methods accurately estimate the true ATE with relatively little bias, except for bagged CART, which substantially underestimates the true ATE. As the number of covariates increases to 100, the magnitude of bias also increases, with logistic regression overestimating the ATE, while all other machine learning approaches estimate the ATE with less bias.
+```{r}
+#| label: fig-bias
+#| fig-cap: "Bias of the ATE"
 
-The results become more pronounced in the highest covariate condition (p = 200) compared to the low-dimensional condition (p = 20). Logistic regression severely overestimates the true ATE, while the machine learning methods estimate the true ATE with significantly less bias. A notable exception is nn-1, which in the high covariate scenario severely underestimates the ATE, albeit in the opposite direction, with a larger magnitude than logistic regression.
+res |> 
+  simsum(estvarname = "ATE", true = 0.3, se = "ATE_se", methodvar = "method", ref = "logit", by = c("p","scenarioT", "scenarioY")) |> 
+  summary() |> 
+  tidy() |> 
+  filter(stat == "bias") |> 
+  ggplot(aes(x = method, y = est, fill = as.factor(p))) +
+  ylab("Bias") +
+  geom_bar(position = "dodge", stat = "identity") +
+  labs(fill = 'Covariates',caption = "Notes: The solid black dots represent the mean bias. The extending lines represent the associated Monte Carlo 95% C.I.") +
+  theme_Publication() +
+  scale_fill_Publication() +
+    coord_cartesian(ylim=c(-.6,.6)) +
+  geom_pointrange(aes(ymin = lower, ymax = upper), position = position_dodge(0.9), size = 0.1, alpha = 0.5) +
+    facet_grid(scenarioT ~ scenarioY, scales = "fixed") +
+  theme(panel.spacing = unit(.5, "cm")) +
+    geom_hline(yintercept = -.1, linetype = "dashed", color = "grey", size = .5) +
+  geom_hline(yintercept = .1, linetype = "dashed", color = "grey", size = .5) 
+```
 
-#### Absolute Percent Bias
+In the low-dimensional condition (p = 20), all methods accurately estimate the true ATE with relatively little bias and good precision, except for bagged CART, which substantially underestimates the true ATE. As the number of covariates increases to 100, the magnitude of bias also increases, with logistic regression overestimating the ATE, while all other machine learning approaches estimate the ATE with less bias. The results become more pronounced in the highest covariate condition (p = 200) compared to the low-dimensional condition (p = 20). Logistic regression on average overestimates the true ATE, however the point estimate is severely impresize as indicated by a wide Monte Carlo 95% C.I., while the machine learning methods estimate the true ATE with significantly less bias, and less sampling variability . The dnn-2 approach produces the least biased ATE compares to all other machine learning in the high-dimensional case, it also exhibits lower sampling variablity than the others methods.
 
-In addition to the raw bias, I also evaluated the absolute percent bias, which is displayed in Figure @fig-abs-bias. An absolute percent bias of 0 indicates that there is no bias in the estimated ATE. It's worth noting that with absolute percent bias, we are disregarding the direction of the bias for easier visual representation.
+#### Relative Bias
+
+In addition to bias, I also evaluated relative bias, which is displayed in Figure @fig-rel-bias. Relative bias is calculated as the difference between the estimated ATE and the true ATE divided by the true ATE. It is expressed as a fraction of the true ATE. For example, say our estimated ATE is 5 and the true ATE is 10, the relative bias of the method would be (5-10)/10 = -0.5 or -50%. Meaning that the methods is biased downward by 50%, or that the estimated ATE is 50% of the true ATE. I propose the use of using less than 10% bias as my tolerance level for deciding if a method is biased, this is based on the literature on sensiivity analysis in propenisty score estimation where its genrally tollerated that a ATE is robust to unmeasure confounding if the inclusion of a unmeasured confounder changed the ATE by nor more than 10%.
 
 ```{r}
-#| label: fig-abs-bias
-#| fig-cap: "Absolute bias (%) of the ATE"
-
-
-
+#| label: fig-rel-bias
+#| fig-cap: "Relative bias of the ATE"
 
 res |> 
   mutate(rel_bias = (ATE - 0.3)/0.3) |> 
   group_by(p, method) |> 
   mutate(rel_bias_mcse = sd(rel_bias)/sqrt(1000)) |> 
   summarise(rel_bias = mean(rel_bias), rel_bias_mcse = mean(rel_bias_mcse)) |> 
-  mutate(method = factor(method, levels = unique(method))) |> 
   ggplot(aes(x = method, y = rel_bias, fill = as.factor(p))) +
   ylab("Relative Bias") +
   geom_bar(position = "dodge", stat = "identity") +
-  labs(fill = 'Covariates') +
+  labs(fill = 'Covariates',caption = "Notes: The solid black dots represent the mean bias. The extending lines represent the associated Monte Carlo 95% C.I.. The dashed lines indicate +- 10% bias ") +
+  coord_cartesian(ylim=c(-.6,.6)) +
+  geom_hline(yintercept = -.1, linetype = "dashed", color = "grey", size = .5) +
+  geom_hline(yintercept = .1, linetype = "dashed", color = "grey", size = .5) +
   theme_Publication() +
   scale_fill_Publication() +
-  geom_pointrange(aes(ymin = rel_bias - rel_bias_mcse, ymax = rel_bias + rel_bias_mcse), position = position_dodge(0.9), size = 0.1, alpha = 0.3) 
+  geom_pointrange(aes(ymin = rel_bias - (1.96 * rel_bias_mcse), ymax = rel_bias + (1.96 * rel_bias_mcse)), position = position_dodge(0.9), size = 0.1, alpha = 0.5) 
 
 
 
@@ -459,70 +478,73 @@ res |>
 
 ```
 
-In the low-dimensional condition (p = 20), nearly all methods accurately estimate the ATE with little bias. Logistic regression has the least amount of absolute bias, while the DNN and NN approaches are relatively close, and all other approaches produce less than 2% absolute bias. The exception is bagged CART, which has a large amount of bias (absolute bias = 11.3%). As covariates increase from 20 to 100 and 200, logistic regression becomes substantially more biased than all other methods. All machine learning approaches perform well in the 100 covariate condition, with all producing bias below 2.5%. In this scenario, the lowest bias estimates are produced by my DNN approach, specifically DNN-2 and nn-1 (absolute bias = 0.43% and 0.21%, respectively). In the highest dimensional covariate condition (p = 200), all methods have an increase in bias. However, the machine learning approaches perform exceptionally well compared to logistic regression. Bagged CART produces the least biased estimate (absolute bias = 1.02%), followed by my DNN-2 approach (absolute bias = 1.33%), although the difference in magnitude is relatively small. An interesting finding is that the nn-1 approach produces the most biased results, even more so than logistic regression (23.5%, and 5.18%, respectively).
+In the low-dimensional condition (p = 20), nearly all methods accurately estimate the ATE with little bias, and high precision. Logistic regression has the least amount of absolute bias, while all other approaches produce less than 2% absolute bias. The exception is bagged CART, which has a large amount of bias (absolute bias = -37%), meaning that it severely underestimated the true ATE, by around -37% of the true ATE. As covariates increase from 20 to 100 and 200, logistic regression becomes substantially more biased than all other methods, reaching its maximum relative bias in the 200 covariate condition where logistic regresison overeestimated the true ATE by nearly 16%. All machine learning approaches perform well in the 100 covariate condition, with all producing bias below 4%. In this scenario, the lowest bias estimates are produced by my DNN approach bagged CART. In the highest dimensional covariate condition (p = 200), all methods have an increase in bias, with an acompanying increase in sampling variability. However, the machine learning approaches perform exceptionally well compared to logistic regression. With the dnn-2 approach producing the least biased results with a mean relative bias of less than 1%, followed by nn-1 and dnn-3. The neural network baseed apporahc produced less bias and exbihited less sampling variaability than all other methods. Also bagged cart did good. However, none of the methods in the 200 covariate condition had 95% Monte Carlo confidence intervals within the 10% treshold, although all methods had much more narrow C.I. than that of logistic regresison which had extreme sampling variabiliyt.
 
 ##### Complexities in the Population Outcome and Treatment Models
 
-Next, I evaluate the absolute bias performance of each method by complexities introduced into the treatment and outcome model. Recall, that the data generating models *Base T* and *Base Y* include only main effects in the treatment and outcome model, while *Complex T* and *Complex Y* include non-addivity and non-linearities in the form quadratic and interaction terms among the covariates.
+Next, I evaluate the relative bias performance of each method by complexities introduced into the treatment and outcome model. Recall, that the data generating models *Base T* and *Base Y* include only main effects in the treatment and outcome model, while *Complex T* and *Complex Y* include non-addivity and non-linearities in the form quadratic and interaction terms among the covariates.
 
-@fig-abs-bias-cond presents a faceted figure where the upper-left facet represents the condition where the population treatment and outcome models only include main effects (i.e., Base T & Base Y). The lower-right facet represents the condition where the population treatment and outcome models include quadratic and interaction terms (i.e., Complex T & Complex Y). Deviations from the diagonal facets indicate conditions where only one of the models includes quadratic and interaction terms, while the other only includes main effects.
+@fig-rel-bias-cond presents a faceted figure where the upper-left facet represents the condition where the population treatment and outcome models only include main effects (i.e., Base T & Base Y). The lower-right facet represents the condition where the population treatment and outcome models include quadratic and interaction terms (i.e., Complex T & Complex Y). Deviations from the diagonal facets indicate conditions where only one of the models includes quadratic and interaction terms, while the other only includes main effects.
 
 ```{r}
-#| label: fig-abs-bias-cond
-#| fig-cap: "Absolute bias (%) of the ATE by data generation mechanisms"
+#| label: fig-rel-bias-cond
+#| fig-cap: "Relative bias of the ATE by data generation conditions"
 #| fig-width: 7.5
 #| fig-height: 5
-
-
 
 res |> 
   mutate(rel_bias = (ATE - 0.3)/0.3) |> 
   group_by(p, method, scenarioT, scenarioY) |> 
   mutate(rel_bias_mcse = sd(rel_bias)/sqrt(1000)) |> 
   summarise(rel_bias = mean(rel_bias), rel_bias_mcse = mean(rel_bias_mcse)) |> 
-  mutate(method = factor(method, levels = unique(method))) |> 
   ggplot(aes(x = method, y = rel_bias, fill = as.factor(p))) +
   ylab("Relative Bias") +
-  facet_grid(scenarioT ~ scenarioY, scales = "fixed") +
   geom_bar(position = "dodge", stat = "identity") +
-  labs(fill = 'Covariates') +
+  labs(fill = 'Covariates',caption = "Notes: The solid black dots represent the mean bias. The extending lines represent the associated Monte Carlo 95% C.I.. The dashed lines indicate +- 10% bias ") +
+    facet_grid(scenarioT ~ scenarioY, scales = "fixed") +
+  coord_cartesian(ylim=c(-.6,.6)) +
+  geom_hline(yintercept = -.1, linetype = "dashed", color = "grey", size = .5) +
+  geom_hline(yintercept = .1, linetype = "dashed", color = "grey", size = .5) +
   theme_Publication() +
   scale_fill_Publication() +
-  geom_pointrange(aes(ymin = rel_bias - rel_bias_mcse, ymax = rel_bias + rel_bias_mcse), position = position_dodge(0.9), size = 0.1, alpha = 0.3) 
+  geom_pointrange(aes(ymin = rel_bias - (1.96 * rel_bias_mcse), ymax = rel_bias + (1.96 * rel_bias_mcse)), position = position_dodge(0.9), size = 0.1, alpha = 0.5) +
+    theme(panel.spacing = unit(.5, "cm")) 
 
 
-
-
-res_sum_df %>%
-  ggplot(aes(x = method, y = Abs_Per_Bias, fill = as.factor(p))) +
-  ylab("Absolute Bias (%)") +
+res |> 
+  simsum(estvarname = "ATE", true = 0.3, se = "ATE_se", methodvar = "method", ref = "logit", by = c("p","scenarioT", "scenarioY")) |> 
+  summary() |> 
+  tidy() |> 
+  filter(stat == "bias") |> 
+  ggplot(aes(x = method, y = est, fill = as.factor(p))) +
+  ylab("Bias") +
   geom_bar(position = "dodge", stat = "identity") +
-  labs(fill='Covariates') +
-  facet_grid(scenarioT ~ scenarioY, scales = "fixed") +
-  coord_cartesian(ylim=c(0,10)) +
+  labs(fill = 'Covariates',caption = "Notes: The solid black dots represent the mean bias. The extending lines represent the associated Monte Carlo 95% C.I.") +
   theme_Publication() +
   scale_fill_Publication() +
-  theme(panel.spacing = unit(.5, "cm")) +
-  geom_hline(yintercept = 10, color = "white", size = 2)
+  geom_pointrange(aes(ymin = lower, ymax = upper), position = position_dodge(0.9), size = 0.1, alpha = 0.5) +
+  facet_grid(scenarioT ~ scenarioY, scales = "fixed") +
+  theme(panel.spacing = unit(.5, "cm")) 
+
 ```
 
 ###### Base - Population Outcome and Treatment Models
 
-When complexities are not included in the treatment or outcome models, nearly all methods perform well, regardless of the covariate conditions, exhibiting an absolute bias of less than 2.5%. The only exception is bagged CART, which produced significant bias with 20 covariates (absolute bias = 18.3%). Logistic regression produces the least biased estimates (absolute bias = 0.01%) when both the population treatment and outcome models include only main effects, which is expected as when estimating the propensity score using the various methods, only main effects are included in the model. Thus, in the Base Y and Base T condition, the population treatment model is equal to the propensity score estimation model. As the number of covariates increases, all methods perform exceptionally well, with my DNN-3 approach producing the least biased estimate (absolute bias = 0.11%).
+When complexities are not included in the treatment or outcome models, nearly all methods perform well, regardless of the covariate conditions, exhibiting a relative bias well below the 10% treshold. The only exception is bagged CART, which produced the most biased ATE estimated with 20 coviates. Logistic regression produces the least biased estimates (relative bias \< 0.001%) when both the population treatment and outcome models include only main effects, which is expected as when estimating the propensity score using the various methods, only main effects are included in the model. Thus, in the Base Y and Base T condition, the population treatment model is equal to the propensity score estimation model. As the number of covariates increases, all methods perform exceptionally well, with bias within the 10% threshold. This finding suggest that when covariates have simple associations all methods produce unbiased ATE with a high level of precision, regarless of the number of covariates included.
 
 ###### Complex - Population Outcome and Treatment Models
 
-In contrast to the models where only main effects are included in the population treatment and outcome models, the lower-right facet of @fig-abs-bias-cond displays the results when both the population treatment and outcome models include quadratic and interaction terms. When complexities are included in the population models, there is much more variability across methods and covariate conditions. All methods perform well when only 20 covariates are included, with absolute bias below 1.5%, except for bagged CART.
+In contrast to the models where only main effects are included in the population treatment and outcome models, the lower-right facet of @fig-rel-bias-cond displays the results when both the population treatment and outcome models include quadratic and interaction terms. When complexities are included in the population models, there is much more bias introduced into the ATE estimate with an increse in sampling variability across methods and covariate conditions. All methods perform well when only 20 covariates are included, with relative bias well withing the 10% interval, except for bagged CART.
 
-However, as the number of covariates increases, there is a significant increase in absolute bias. With 100 covariates, all methods perform well, with absolute bias below 1.5%, with bagged CART and nn-1 producing the least biased estimates (absolute bias = 0.08% and 0.13%, respectively). The differences become more pronounced in the high covariate condition (p = 200). Specifically, logistic and nn-1 produce the largest biased ATE estimates (absolute bias = 16.6% and 87.9%, respectively). The least biased estimates are produced by my DNN-2 approach (absolute bias = 2.67%), which is far lower than the absolute bias produced by all other machine learning approaches.
+However, as the number of covariates increases, there is a significant increase in bias. With 100 covariates, all methods perform well, with mean relative bias well within the 10% treshold. However, in terms of sampling variability only nn-1, bagged cart, and dnn-2 produce bias estimates with Monte Carlo confidence interal close to but not necessarily within the 10% treshold, while logistic regression produces very biased estimates indicated but its large confidence interval. The differences become more pronounced in the high covariate condition (p = 200). Specifically, logistic severaly overestimates the ATE , by more than half (relative bias = 55%,). The least biased estimates are produced by the nn-1 and dnn-2 approach (relative bias = 5%, and 9%, repestively), which is far lower than the absolute bias produced by all other machine learning approaches. However, even though its producing the least biased results they still have fairly large sampling variability, however not as large as that produced by logistic regression in that same condition (n = 200).
 
 ###### Deviations - Population Outcome and Treatment Models
 
-In @fig-abs-bias-cond, deviations from the treatment and outcome model are indicated by points off the diagonal in the facets. The lower-left facet displays the results when the treatment model is complex, and the outcome model only has main effects, while the upper-right facet displays the results when the outcome model is complex, but the treatment model only includes main effects. In general, bias performance is sensitive to complexities in the outcome model or when complexities exist in both the outcome and treatment models, specifically in the highest covariate condition.
+In @fig-rel-bias-cond, deviations from the treatment and outcome model are indicated by points off the diagonal in the facets. The lower-left facet displays the results when the treatment model is complex, and the outcome model only has main effects, while the upper-right facet displays the results when the outcome model is complex, but the treatment model only includes main effects. In general, relative bias performance is sensitive to complexities in the outcome model or when complexities exist in both the outcome and treatment models, specifically in the highest covariate conditions.
 
 ##### Summary
 
-My findings suggest variability in the bias of the estimated ATE across methods and covariate conditions. In low-dimensional condition (p=20), most methods accurately estimate the true ATE with little bias. As the number of covariates increases, the magnitude of bias also increases, with logistic regression overestimating the ATE, while all other machine learning approaches produce less biased estimates. In the highest covariate condition (p=200), logistic regression severely overestimates the true ATE, while the machine learning methods estimate the true ATE with significantly less bias. Notably, my DNN-2 approach is a robust method for estimating the ATE in the high-dimensional covariate setting, especially when complexities are present in the population treatment and outcome model.
+My findings suggest variability in the bias of the estimated ATE across methods and covariate conditions. In low-dimensional condition (p=20), most methods accurately estimate the true ATE with little bias and little sampling variablity. As the number of covariates increases, the magnitude of bias also increases, with logistic regression overestimating the ATE, while all other machine learning approaches produce less biased estimates. In the highest covariate condition (p=200), logistic regression severely overestimates the true ATE, while the machine learning methods estimate the true ATE with significantly less bias. Notably, NN-1 and DNN-2 approach is a robust method for estimating the ATE in the high-dimensional covariate setting, especially when complexities are present in the population treatment and outcome model. In this condition they produce bias estimates that are nearly 11 times lower than that produced by logistic regression in that condition.
 
 ### ATE Estimation: SE, MSE, and 95% CI Coverage
 
@@ -539,36 +561,53 @@ Although bias in the average treatment effect (ATE) is an important metric to ev
 #|   - "95% CI Coverage"
 #| layout-ncol: 2
 
-over_df %>%
-  ggplot(aes(x = method, y = ATE_se, fill = as.factor(p))) +
+
+res |> 
+  simsum(estvarname = "ATE", true = 0.3, se = "ATE_se", methodvar = "method", ref = "logit", by = c("p")) |> 
+  summary() |> 
+  tidy() |> 
+  filter(stat == "modelse") |> 
+  ggplot(aes(x = method, y = est, fill = as.factor(p))) +
   ylab("Standard Error (SE)") +
   geom_bar(position = "dodge", stat = "identity") +
-  labs(fill='Covariates') +
-  coord_cartesian(ylim=c(0,1)) +
+  labs(fill = 'Covariates',caption = "Notes: The solid black dots represent the mean bias. The extending lines represent the associated Monte Carlo 95% C.I.") +
   theme_Publication() +
   scale_fill_Publication() +
-  geom_hline(yintercept = 1, color = "white", size = 2)
+  geom_pointrange(aes(ymin = lower, ymax = upper), position = position_dodge(0.9), size = 0.1, alpha = 0.5) 
 
-over_df %>%
-  ggplot(aes(x = method, y = MSE, fill = as.factor(p))) +
+
+res |> 
+  simsum(estvarname = "ATE", true = 0.3, se = "ATE_se", methodvar = "method", ref = "logit", by = c("p")) |> 
+  summary() |> 
+  tidy() |> 
+  filter(stat == "mse") |> 
+  ggplot(aes(x = method, y = est, fill = as.factor(p))) +
   ylab("Mean Squared Error (MSE)") +
   geom_bar(position = "dodge", stat = "identity") +
-  labs(fill='Covariates') +
-  coord_cartesian(ylim=c(0,4)) +
+  labs(fill = 'Covariates',caption = "Notes: The solid black dots represent the mean bias. The extending lines represent the associated Monte Carlo 95% C.I.") +
   theme_Publication() +
+  coord_cartesian(ylim=c(0,10)) +
   scale_fill_Publication() +
-  geom_hline(yintercept = 4, color = "white", size = 2)
+  geom_pointrange(aes(ymin = lower, ymax = upper), position = position_dodge(0.9), size = 0.1, alpha = 0.5) 
 
 
-over_df %>%
-  ggplot(aes(x = method, y = coverage_95, fill = as.factor(p))) +
+
+res |> 
+  simsum(estvarname = "ATE", true = 0.3, se = "ATE_se", methodvar = "method", ref = "logit", by = c("p")) |> 
+  summary() |> 
+  tidy() |> 
+  filter(stat == "cover") |> 
+  ggplot(aes(x = method, y = est, fill = as.factor(p))) +
   ylab("95% C.I. Coverage") +
   geom_bar(position = "dodge", stat = "identity") +
-  labs(fill='Covariates') +
-  coord_cartesian(ylim=c(0,1)) +
+  labs(fill = 'Covariates',caption = "Notes: The solid black dots represent the mean bias. The extending lines represent the associated Monte Carlo 95% C.I.") +
   theme_Publication() +
+  coord_cartesian(ylim=c(0,1)) +
+  geom_hline(yintercept = .95, linetype = 2, color = "black", size = .5) +
   scale_fill_Publication() +
-  geom_hline(yintercept = .95, linetype = 2, color = "black", size = .5) 
+  geom_pointrange(aes(ymin = lower, ymax = upper), position = position_dodge(0.9), size = 0.1, alpha = 0.5) 
+
+
 ```
 
 #### Standard Error (SE) and Mean Squared Error
@@ -594,40 +633,58 @@ As with the previous ATE bias results, next, I evaluate the SE and MSE performan
 #| fig-width: 7.5
 #| fig-height: 5
 
-res_sum_df %>%
-  ggplot(aes(x = method, y = ATE_se, fill = as.factor(p))) +
-  ylab("ATE SE") +
-  geom_bar(position = "dodge", stat = "identity") +
-  labs(fill='Covariates') +
-  facet_grid(scenarioT ~ scenarioY, scales = "fixed") +
-  coord_cartesian(ylim=c(0,1)) +
-  theme_Publication() +
-  scale_fill_Publication() +
-  theme(panel.spacing = unit(.5, "cm")) +
-  geom_hline(yintercept = 1, color = "white", size = 2)
 
-res_sum_df %>%
-  ggplot(aes(x = method, y = MSE, fill = as.factor(p))) +
-  ylab("MSE") +
+res |> 
+  simsum(estvarname = "ATE", true = 0.3, se = "ATE_se", methodvar = "method", ref = "logit", by = c("p","scenarioT", "scenarioY")) |> 
+  summary() |> 
+  tidy() |> 
+  filter(stat == "modelse") |> 
+  ggplot(aes(x = method, y = est, fill = as.factor(p))) +
+  ylab("Standard Error (SE)") +
   geom_bar(position = "dodge", stat = "identity") +
-  labs(fill='Covariates') +
-  facet_grid(scenarioT ~ scenarioY, scales = "fixed") +
-  coord_cartesian(ylim=c(0,4)) +
+  labs(fill = 'Covariates',caption = "Notes: The solid black dots represent the mean bias. The extending lines represent the associated Monte Carlo 95% C.I.") +
   theme_Publication() +
   scale_fill_Publication() +
-  theme(panel.spacing = unit(.5, "cm")) +
-  geom_hline(yintercept = 4, color = "white", size = 2)
-
-res_sum_df %>%
-  ggplot(aes(x = method, y = coverage_95, fill = as.factor(p))) +
-  ylab("95% CI Coverage") +
-  geom_bar(position = "dodge", stat = "identity") +
-  labs(fill='Covariates') +
+  geom_pointrange(aes(ymin = lower, ymax = upper), position = position_dodge(0.9), size = 0.1, alpha = 0.5) +
   facet_grid(scenarioT ~ scenarioY, scales = "fixed") +
-  coord_cartesian(ylim=c(0,1)) +
-  theme_Publication() +
-  scale_fill_Publication() +
   theme(panel.spacing = unit(.5, "cm")) 
+
+
+res |> 
+  simsum(estvarname = "ATE", true = 0.3, se = "ATE_se", methodvar = "method", ref = "logit", by = c("p","scenarioT", "scenarioY")) |> 
+  summary() |> 
+  tidy() |> 
+  filter(stat == "mse") |> 
+  ggplot(aes(x = method, y = est, fill = as.factor(p))) +
+  ylab("Mean Squared Error (MSE)") +
+  geom_bar(position = "dodge", stat = "identity") +
+  labs(fill = 'Covariates',caption = "Notes: The solid black dots represent the mean bias. The extending lines represent the associated Monte Carlo 95% C.I.") +
+  theme_Publication() +
+  coord_cartesian(ylim=c(0,10)) +
+  scale_fill_Publication() +
+  geom_pointrange(aes(ymin = lower, ymax = upper), position = position_dodge(0.9), size = 0.1, alpha = 0.5) +
+  facet_grid(scenarioT ~ scenarioY, scales = "fixed") +
+  theme(panel.spacing = unit(.5, "cm")) 
+
+
+
+res |> 
+  simsum(estvarname = "ATE", true = 0.3, se = "ATE_se", methodvar = "method", ref = "logit", by = c("p","scenarioT", "scenarioY")) |> 
+  summary() |> 
+  tidy() |> 
+  filter(stat == "cover") |> 
+  ggplot(aes(x = method, y = est, fill = as.factor(p))) +
+  ylab("95% C.I. Coverage") +
+  geom_bar(position = "dodge", stat = "identity") +
+  labs(fill = 'Covariates',caption = "Notes: The solid black dots represent the mean bias. The extending lines represent the associated Monte Carlo 95% C.I.") +
+  theme_Publication() +
+  coord_cartesian(ylim=c(0,1)) +
+  geom_hline(yintercept = .95, linetype = 2, color = "black", size = .5) +
+  scale_fill_Publication() +
+  geom_pointrange(aes(ymin = lower, ymax = upper), position = position_dodge(0.9), size = 0.1, alpha = 0.5) +
+  facet_grid(scenarioT ~ scenarioY, scales = "fixed") +
+  theme(panel.spacing = unit(.5, "cm")) 
+
 ```
 
 ###### Base - Population Outcome and Treatment Models
@@ -650,6 +707,33 @@ Finally, in the third panel (@fig-ate-var-3), I present the results for the 95% 
 
 The third panel of @fig-ate-var-cond shows the 95% CI coverage rate results by model complexities. Overall, coverage rates appear particularly sensitive to complexities in the population treatment model, with all methods displaying lower coverage rates than when only main effects are included in the population treatment model. In addition, we observe a fairly consistent pattern that the neural network-based approach (nn-1, dnn-2, dnn-3) and logistic regression produce lower coverage rates as covariates increase.
 
+```{r}
+#| label: fig-ate-var
+#| fig-cap: Variability in ATE
+#| fig-subcap: 
+#|   - "Standard Error (SE)"
+#|   - "Mean Squared Error (MSE)"
+#|   - "95% CI Coverage"
+#| layout-ncol: 2
+
+
+res |> 
+  simsum(estvarname = "ATE", true = 0.3, se = "ATE_se", methodvar = "method", ref = "logit", by = c("p")) |> 
+  summary() |> 
+  tidy() |> 
+  filter(stat == "relerror") |> 
+  ggplot(aes(x = method, y = est, fill = as.factor(p))) +
+  ylab("Relative % error in standard error") +
+  geom_bar(position = "dodge", stat = "identity") +
+  labs(fill = 'Covariates',caption = "Notes: The solid black dots represent the mean bias. The extending lines represent the associated Monte Carlo 95% C.I.") +
+  theme_Publication() +
+  scale_fill_Publication() +
+  geom_pointrange(aes(ymin = lower, ymax = upper), position = position_dodge(0.9), size = 0.1, alpha = 0.5) +
+  geom_hline(yintercept = -5, linetype = 2, color = "black", size = .5) 
+
+
+```
+
 ##### Summary
 
 All methods produced ATE with low SE and MSE values in the low-dimensional condition. However, as the number of covariates increased, the DNN approaches (dnn-2 and dnn-3) outperformed traditional logistic regression and other methods, producing the lowest MSE values. These findings suggest that the DNN approaches are reliable and consistent for ATE estimation in high-dimensional contexts, while also emphasizing the sensitivity of the estimates to complexities in the population outcome and treatment models. Bagging also performed well, with sound 95% confidence interval coverage and low MSE, making it another robust method in high-dimensional contexts. Logistic regression was effective in low-dimensional contexts, but its effectiveness decreased with an increase in dimensionality. The results emphasize the importance of considering both the bias and variability of estimated ATE when choosing the optimal estimation method.
@@ -664,7 +748,10 @@ The results of the ASAM evaluation averaged across all population outcome models
 #| label: fig-asam
 #| fig-cap: "Average Standardized Absolute Mean Difference (ASAM)"
 
-over_df %>%
+
+res |> 
+  group_by(p,method)  |> 
+  summarise(ASAM = mean(ASAM)) |> 
   ggplot(aes(x = method, y = ASAM, fill = as.factor(p))) +
   ylab("ASAM") +
   geom_bar(position = "dodge", stat = "identity") +
@@ -675,6 +762,7 @@ over_df %>%
   geom_hline(yintercept = .5, color = "white", size = 2) +
   geom_hline(yintercept = .1, linetype = 2, color = "black", size = .25) +
   geom_hline(yintercept = .2, linetype = 2, color = "black", size = .5) 
+
 ```
 
 ###### Base - Population Outcome and Treatment Models
@@ -687,19 +775,24 @@ When the outcome and treatment models included only main effects, all methods pr
 #| fig-width: 7.5
 #| fig-height: 5
 
-res_sum_df %>%
+
+res |> 
+  group_by(p,method,scenarioT,scenarioY)  |> 
+  summarise(ASAM = mean(ASAM)) |> 
   ggplot(aes(x = method, y = ASAM, fill = as.factor(p))) +
   ylab("ASAM") +
   geom_bar(position = "dodge", stat = "identity") +
   labs(fill='Covariates') +
-  facet_grid(scenarioT ~ scenarioY, scales = "fixed") +
   coord_cartesian(ylim=c(0,.5)) +
-  theme(panel.spacing = unit(.5, "cm")) +
   theme_Publication() +
   scale_fill_Publication() +
   geom_hline(yintercept = .5, color = "white", size = 2) +
   geom_hline(yintercept = .1, linetype = 2, color = "black", size = .25) +
-  geom_hline(yintercept = .2, linetype = 2, color = "black", size = .5) 
+  geom_hline(yintercept = .2, linetype = 2, color = "black", size = .5) +
+  facet_grid(scenarioT ~ scenarioY, scales = "fixed") +
+  theme(panel.spacing = unit(.5, "cm")) 
+
+
 ```
 
 ###### Complex - Population Outcome and Treatment Models
@@ -724,7 +817,10 @@ I estimated the average treatment effect (ATE) using inverse propensity score we
 #| label: fig-weights
 #| fig-cap: "Mean IPTW weights"
 
-over_df %>%
+
+res |> 
+  group_by(p,method)  |> 
+  summarise(PS_Weights = mean(mean_ps_weights)) |> 
   ggplot(aes(x = method, y = PS_Weights, fill = as.factor(p))) +
   ylab("IPTW Weights") +
   geom_bar(position = "dodge", stat = "identity") +
@@ -733,6 +829,8 @@ over_df %>%
   theme_Publication() +
   scale_fill_Publication() +
   geom_hline(yintercept = 5, color = "white", size = 2) 
+
+
 
 ```
 
@@ -746,17 +844,20 @@ When assesing the IPTW weight by the various complexities in the population trea
 #| fig-width: 7.5
 #| fig-height: 5
 
-res_sum_df %>%
+
+res |> 
+  group_by(p,method, scenarioY, scenarioT)  |> 
+  summarise(PS_Weights = mean(mean_ps_weights)) |> 
   ggplot(aes(x = method, y = PS_Weights, fill = as.factor(p))) +
   ylab("IPTW Weights") +
   geom_bar(position = "dodge", stat = "identity") +
   labs(fill='Covariates') +
-  facet_grid(scenarioT ~ scenarioY, scales = "fixed") +
   coord_cartesian(ylim=c(0,5)) +
   theme_Publication() +
   scale_fill_Publication() +
   geom_hline(yintercept = 5, color = "white", size = 2) +
-  theme(panel.spacing = unit(.5, "cm")) 
+  theme(panel.spacing = unit(.5, "cm")) +
+  facet_grid(scenarioT ~ scenarioY, scales = "fixed") 
 
 ```
 
@@ -774,14 +875,21 @@ Finally, I evaluated the statistical power of the methods. Statistical power ref
 #| label: fig-power
 #| fig-cap: "Power"
 
-over_df %>%
-  ggplot(aes(x = method, y = Power, fill = as.factor(p))) +
+
+res |> 
+  simsum(estvarname = "ATE", true = 0.3, se = "ATE_se", methodvar = "method", ref = "logit", by = c("p")) |> 
+  summary() |> 
+  tidy() |> 
+  filter(stat == "power") |> 
+  ggplot(aes(x = method, y = est, fill = as.factor(p))) +
   ylab("Power") +
   geom_bar(position = "dodge", stat = "identity") +
-  labs(fill='Covariates') +
-  coord_cartesian(ylim=c(0,1)) +
+  labs(fill = 'Covariates',caption = "Notes: The solid black dots represent the mean bias. The extending lines represent the associated Monte Carlo 95% C.I.") +
   theme_Publication() +
-  scale_fill_Publication() 
+  coord_cartesian(ylim=c(0,1)) +
+  scale_fill_Publication() +
+  geom_pointrange(aes(ymin = lower, ymax = upper), position = position_dodge(0.9), size = 0.1, alpha = 0.5) 
+
 ```
 
 \newpage
