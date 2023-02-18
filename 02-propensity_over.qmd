@@ -422,29 +422,6 @@ res |>
   geom_pointrange(aes(ymin = lower, ymax = upper), position = position_dodge(0.9), size = 0.1, alpha = 0.5) 
 ```
 
-```{r}
-#| label: fig-bias
-#| fig-cap: "Bias of the ATE"
-
-res |> 
-  simsum(estvarname = "ATE", true = 0.3, se = "ATE_se", methodvar = "method", ref = "logit", by = c("p","scenarioT", "scenarioY")) |> 
-  summary() |> 
-  tidy() |> 
-  filter(stat == "bias") |> 
-  ggplot(aes(x = method, y = est, fill = as.factor(p))) +
-  ylab("Bias") +
-  geom_bar(position = "dodge", stat = "identity") +
-  labs(fill = 'Covariates',caption = "Notes: The solid black dots represent the mean bias. The extending lines represent the associated Monte Carlo 95% C.I.") +
-  theme_Publication() +
-  scale_fill_Publication() +
-    coord_cartesian(ylim=c(-.6,.6)) +
-  geom_pointrange(aes(ymin = lower, ymax = upper), position = position_dodge(0.9), size = 0.1, alpha = 0.5) +
-    facet_grid(scenarioT ~ scenarioY, scales = "fixed") +
-  theme(panel.spacing = unit(.5, "cm")) +
-    geom_hline(yintercept = -.1, linetype = "dashed", color = "grey", size = .5) +
-  geom_hline(yintercept = .1, linetype = "dashed", color = "grey", size = .5) 
-```
-
 In the low-dimensional condition (p = 20), all methods accurately estimate the true ATE with relatively little bias and good precision, except for bagged CART, which substantially underestimates the true ATE. As I increase the number of covariates to 100, the magnitude of bias also increases, with logistic regression overestimating the ATE, while all other machine learning approaches estimate the ATE with less bias. The results become more pronounced in the highest covariate condition (p = 200) compared to the low-dimensional condition (p = 20). Logistic regression, on average, overestimates the true ATE, however, its point estimate is severely imprecise, as indicated by a wide Monte Carlo 95% confidence interval. In contrast, the machine learning methods estimate the true ATE with significantly less bias and lower sampling variability. Among these methods, my dnn-2 approach produces the least biased ATE estimate compared to all other machine learning methods, and it also exhibits lower sampling variability.
 
 #### Relative Bias
@@ -524,7 +501,7 @@ res |>
 
 ###### Base - Population Outcome and Treatment Models
 
-When the treatment and outcome models only include main effects, nearly all methods perform well, regardless of the number of covariates. The only exception is bagged CART, which produced the most biased ATE estimate with 20 covariates. Logistic regression produced the least biased estimates (relative bias less than 0.001%) when both the population treatment and outcome models include only main effects, which is expected because when estimating the propensity score using the various methods, only main effects are included in the model. This means that in the Base Y and Base T condition, the population treatment model is equal to the propensity score estimation model. As the number of covariates increased, all methods performed exceptionally well, with bias within the 10% threshold. This finding suggests that when covariates have simple associations, all methods produce unbiased ATE with a high level of precision, regardless of the number of covariates included, with the exception of bagged cart which should not be used in a low-covariate condition. 
+When the treatment and outcome models only include main effects, nearly all methods perform well, regardless of the number of covariates. The only exception is bagged CART, which produced the most biased ATE estimate with 20 covariates. Logistic regression produced the least biased estimates (relative bias less than 0.001%) when both the population treatment and outcome models include only main effects, which is expected because when estimating the propensity score using the various methods, only main effects are included in the model. This means that in the Base Y and Base T condition, the population treatment model is equal to the propensity score estimation model. As the number of covariates increased, all methods performed exceptionally well, with bias within the 10% threshold. This finding suggests that when covariates have simple associations, all methods produce unbiased ATE with a high level of precision, regardless of the number of covariates included, with the exception of bagged cart which should not be used in a low-covariate condition.
 
 ###### Complex - Population Outcome and Treatment Models
 
@@ -534,11 +511,11 @@ However, as the number of covariates increased, there was a significant increase
 
 ###### Deviations - Population Outcome and Treatment Models
 
-In the lower-left facet of @fig-rel-bias-cond, I present the results when the treatment model is complex, while the outcome model only contains main effects. In the upper-right facet, I show the results when the outcome model is complex, but the treatment model is simple with only main effects. Overall, the relative bias performance is sensitive to complexities in either the outcome model or both the treatment and outcome models, especially when the number of covariates is high. This implies that if either the outcome model or both models are complex, the accuracy of the ATE estimate may be affected. 
+In the lower-left facet of @fig-rel-bias-cond, I present the results when the treatment model is complex, while the outcome model only contains main effects. In the upper-right facet, I show the results when the outcome model is complex, but the treatment model is simple with only main effects. Overall, the relative bias performance is sensitive to complexities in either the outcome model or both the treatment and outcome models, especially when the number of covariates is high. This implies that if either the outcome model or both models are complex, the accuracy of the ATE estimate may be affected.
 
 ##### Summary
 
-My findings suggest that there is variability in the bias of the estimated ATE depending on the method and covariate conditions. In the low-dimensional condition (p=20), most methods accurately estimated the true ATE with little bias and little sampling variability. As the number of covariates increased, the magnitude of bias also increased, with logistic regression overestimating the true ATE, while all other machine learning approaches produced less biased estimates. In the highest covariate condition (p=200), logistic regression severely overestimated the true ATE, while the machine learning methods estimated the true ATE with significantly less bias. Notably, my NN-1 and DNN-2 approaches were robust methods for estimating the ATE in the high-dimensional covariate setting, especially when complexities were present in the population treatment and outcome model. In this condition, they produced bias estimates that were nearly 11 times lower than those produced by logistic regression in that same condition. 
+My findings suggest that there is variability in the bias of the estimated ATE depending on the method and covariate conditions. In the low-dimensional condition (p=20), most methods accurately estimated the true ATE with little bias and little sampling variability. As the number of covariates increased, the magnitude of bias also increased, with logistic regression overestimating the true ATE, while all other machine learning approaches produced less biased estimates. In the highest covariate condition (p=200), logistic regression severely overestimated the true ATE, while the machine learning methods estimated the true ATE with significantly less bias. Notably, my NN-1 and DNN-2 approaches were robust methods for estimating the ATE in the high-dimensional covariate setting, especially when complexities were present in the population treatment and outcome model. In this condition, they produced bias estimates that were nearly 11 times lower than those produced by logistic regression in that same condition.
 
 My findings also indicate that the presence of complexities in the population treatment and outcome models significantly affects the accuracy of the ATE estimate. When both the treatment and outcome models include quadratic and interaction terms, there is a significant increase in bias, as well as increased sampling variability across methods and covariate conditions. These results highlight the importance of considering the complexities of the population treatment and outcome models when choosing a propensity score estimation method.
 
@@ -676,7 +653,7 @@ In the upper-left panels of @fig-ate-var-cond, I present the results when only m
 
 ###### Complex - Population Outcome and Treatment Models
 
-As the complexity of the population treatment and outcome models increased, I observed a substantial increase in the standard error (SE) and mean squared error (MSE) of the estimated average treatment effect (ATE). In the 100 covariate condition, logistic regression had a high MSE value (MSE = 7.51). However, when the number of covariates increased to 200, logistic regression resulted in extremely high SE and MSE values (SE = 4.00; MSE = 115.1). On the other hand, my DNN-2 and DNN-3 approaches had significantly lower MSE values, with MSE values below 2, which were nearly 60 times lower than the MSE value for logistic regression in the high-dimensional condition. 
+As the complexity of the population treatment and outcome models increased, I observed a substantial increase in the standard error (SE) and mean squared error (MSE) of the estimated average treatment effect (ATE). In the 100 covariate condition, logistic regression had a high MSE value (MSE = 7.51). However, when the number of covariates increased to 200, logistic regression resulted in extremely high SE and MSE values (SE = 4.00; MSE = 115.1). On the other hand, my DNN-2 and DNN-3 approaches had significantly lower MSE values, with MSE values below 2, which were nearly 60 times lower than the MSE value for logistic regression in the high-dimensional condition.
 
 ###### Deviations - Population Outcome and Treatment Models
 
@@ -705,7 +682,7 @@ where ModSE is the estimated SE and empSE is the empirical standard error taken 
 All methods, regardless of the number of covariates, underestimate the empirical standard error. CART and random forest have the worst performance, with an underestimation of the empirical standard error by more than 75%. While bagged cart and all neural network approaches (nn-1, dnn-2, dnn-3) underestimate the empirical standard error by a smaller margin, it is still not ideal. This is likely contributing to the suboptimal 95% confidence interval coverage rates, especially in complex model conditions. These results may indicate that it would be beneficial to move away from a robust sandwich estimator, which relies on the normality assumption of the data, and instead use a bootstrapped standard error that provides a more robust estimate of the uncertainty in the estimate of the ATE.
 
 ```{r}
-#| label: fig-ate-var
+#| label: fig-ate-relerr
 #| fig-cap: Variability in ATE
 #| fig-subcap: 
 #|   - "Standard Error (SE)"
@@ -891,14 +868,6 @@ In this study, I evaluated the performance of various methods for estimating pro
 
 The study evaluated the performance of the methods under different covariate conditions, ranging from 20 covariates to 200 covariates, and with varying levels of complexity in both the population treatment model and the population outcome model. The results showed that the choice of method for propensity score estimation should be based on the context and dimensionality of the data. For low-dimensional datasets, logistic regression produced good balance on covariates and unbiased ATE estimates, regardless of complexities in the population treatment or outcome model. Its simplicity in terms of ease of implementation, interpretability, and lower computational cost make it a preferred choice in these settings.
 
-
-
-
-
-
-
-
-
 However, for high-dimensional datasets, machine learning methods, such as bagged CART and the proposed DNN approach, were found to be the optimal choice. These methods resulted in less bias and better covariate balance compared to traditional logistic regression, which produced extreme weights and led to inaccurate ATE estimates in high-dimensional settings. The DNN-based approach demonstrated superior bias reduction in estimating the ATE in a high-dimensional scenario, outperforming not only traditional logistic regression but also all other machine learning methods tested, including bagged CART.
 
 These findings build upon previous simulation studies (CITE) that have demonstrated the superiority of machine learning approaches over traditional logistic regression in estimating propensity scores. However, this study extends the previous work by demonstrating the superiority of the DNN-based approach in high-dimensional settings, outperforming other machine learning methods, including bagged CART. The results of this study provide a valuable contribution to the field of causal inference and have implications for the design and analysis of observational studies in educational research.
@@ -962,22 +931,22 @@ In conclusion, this study is the first to compare various machine learning metho
 ```{r}
 #| label: tbl-bias
 #| tbl-cap: Bias of ATE estimation
-
-over_tab <- res |> 
-  dplyr::select(p, scenarioT, scenarioY, method, Bias, Abs_Per_Bias)  
-
-gt(over_tab) |>
-  tab_spanner(
-    label = "Condition",
-    columns = c(p, scenarioT, scenarioY)
-  ) |>
-  fmt_number(columns = c(Bias, Abs_Per_Bias), decimals = 3) |>
-  cols_align_decimal() |> 
-    cols_label(
-    scenarioT = md("Outcome"),
-    scenarioY = md("Treatment"),
-    Abs_Per_Bias = md("Abs. Bias (%)"),
-    method = "Method") 
+# 
+# over_tab <- res |> 
+#   dplyr::select(p, scenarioT, scenarioY, method, Bias, Abs_Per_Bias)  
+# 
+# gt(over_tab) |>
+#   tab_spanner(
+#     label = "Condition",
+#     columns = c(p, scenarioT, scenarioY)
+#   ) |>
+#   fmt_number(columns = c(Bias, Abs_Per_Bias), decimals = 3) |>
+#   cols_align_decimal() |> 
+#     cols_label(
+#     scenarioT = md("Outcome"),
+#     scenarioY = md("Treatment"),
+#     Abs_Per_Bias = md("Abs. Bias (%)"),
+#     method = "Method") 
 ```
 
 \newpage
@@ -986,23 +955,23 @@ gt(over_tab) |>
 #| label: tbl-var
 #| tbl-cap: ATE estimation - SE, MSE, and 95% C.I. coverage
 
-
-over_tab <- res |> 
-  dplyr::select(p, scenarioT, scenarioY, method, ATE_se, MSE, coverage_95)  
-
-gt(over_tab) |>
-  tab_spanner(
-    label = "Condition",
-    columns = c(p, scenarioT, scenarioY)
-  ) |>
-  fmt_number(columns = c(ATE_se, MSE, coverage_95), decimals = 3) |>
-  cols_align_decimal() |> 
-    cols_label(
-    scenarioT = md("Outcome"),
-    scenarioY = md("Treatment"),
-    ATE_se = md("SE"),
-    method = "Method",
-    coverage_95 = md("95% C.I.<br>Coverage"))
+# 
+# over_tab <- res |> 
+#   dplyr::select(p, scenarioT, scenarioY, method, ATE_se, MSE, coverage_95)  
+# 
+# gt(over_tab) |>
+#   tab_spanner(
+#     label = "Condition",
+#     columns = c(p, scenarioT, scenarioY)
+#   ) |>
+#   fmt_number(columns = c(ATE_se, MSE, coverage_95), decimals = 3) |>
+#   cols_align_decimal() |> 
+#     cols_label(
+#     scenarioT = md("Outcome"),
+#     scenarioY = md("Treatment"),
+#     ATE_se = md("SE"),
+#     method = "Method",
+#     coverage_95 = md("95% C.I.<br>Coverage"))
 ```
 
 \newpage
@@ -1011,20 +980,20 @@ gt(over_tab) |>
 #| label: tbl-power
 #| tbl-cap: Power
 
-over_tab <- res |> 
-  dplyr::select(p, scenarioT, scenarioY, method, Power)  
-
-gt(over_tab) |>
-  tab_spanner(
-    label = "Condition",
-    columns = c(p, scenarioT, scenarioY)
-  ) |>
-  fmt_number(columns = c(Power), decimals = 3) |>
-  cols_align_decimal() |> 
-    cols_label(
-    scenarioT = md("Outcome"),
-    scenarioY = md("Treatment"),
-    method = "Method")
+# over_tab <- res |> 
+#   dplyr::select(p, scenarioT, scenarioY, method, Power)  
+# 
+# gt(over_tab) |>
+#   tab_spanner(
+#     label = "Condition",
+#     columns = c(p, scenarioT, scenarioY)
+#   ) |>
+#   fmt_number(columns = c(Power), decimals = 3) |>
+#   cols_align_decimal() |> 
+#     cols_label(
+#     scenarioT = md("Outcome"),
+#     scenarioY = md("Treatment"),
+#     method = "Method")
 ```
 
 \newpage
@@ -1033,18 +1002,18 @@ gt(over_tab) |>
 #| label: tbl-asam
 #| tbl-cap: ASAM
 
-over_tab <- res |> 
-  dplyr::select(p, scenarioT, scenarioY, method, ASAM)  
-
-gt(over_tab) |>
-  tab_spanner(
-    label = "Condition",
-    columns = c(p, scenarioT, scenarioY)
-  ) |>
-  fmt_number(columns = c(ASAM), decimals = 3) |>
-  cols_align_decimal() |> 
-    cols_label(
-    scenarioT = md("Outcome"),
-    scenarioY = md("Treatment"),
-    method = "Method")
+# over_tab <- res |> 
+#   dplyr::select(p, scenarioT, scenarioY, method, ASAM)  
+# 
+# gt(over_tab) |>
+#   tab_spanner(
+#     label = "Condition",
+#     columns = c(p, scenarioT, scenarioY)
+#   ) |>
+#   fmt_number(columns = c(ASAM), decimals = 3) |>
+#   cols_align_decimal() |> 
+#     cols_label(
+#     scenarioT = md("Outcome"),
+#     scenarioY = md("Treatment"),
+#     method = "Method")
 ```
