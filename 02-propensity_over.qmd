@@ -394,15 +394,15 @@ The simulations were performed on the University of Pittsburgh Center for Resear
 
 ## Results
 
-This section presents the results of my Monte Carlo simulation study, which compares the performance of my DNN-based approach, traditional logistic regression, and other commonly used machine learning-based approaches, including CART, bagged CART, and random forest, in estimating the average treatment effect (ATE) through propensity score weighting. The simulation aims to evaluate how accurately these methods estimate the population ATE (ATE = 0.3) under different levels of covariate conditions (p = 20, 100, 200) and when complexities are introduced into the treatment and outcome models.
+In this section, I present the results of my Monte Carlo simulation study, which compares the performance of various methods in estimating the Average Treatment Effect (ATE) through Propensity Score Weighting. The methods include my DNN-based approach, traditional logistic regression, and other commonly used machine learning-based approaches such as CART, Bagged CART, and Random Forest. The simulation aimed to evaluate the accuracy of these methods in estimating the population ATE (ATE = 0.3) under different levels of covariate conditions (p = 20, 100, 200) and with varying levels of complexity in the treatment and outcome models (Treatment population model = Base, Complex; Outcome population model = Base, Complex).
 
-The results are organized into three main parts. First, I present the results on the bias in the ATE estimation. Next, I evaluate the variability of the ATE estimation by examining the standard error (SE), mean squared error (MSE), and 95% confidence interval coverage. Then, I assess covariate balance through the average standardized absolute mean difference, (ASAM). Finally, I discuss the mean IPTW weights and statistical power.
+The results are presented in four main parts. Firstly, I examine the bias in the ATE estimation. Secondly, I evaluate the variability of the ATE estimation through the standard error (SE), mean squared error (MSE), and 95% confidence interval coverage. Thirdly, I assess covariate balance through the average standardized absolute mean difference (ASAM). Finally, I present the mean IPTW weights and discuss the results regarding statistical power.
 
 ### Bias of ATE Estimation
 
 #### Bias
 
-I start by summarizing the bias in the average treatment effect (ATE) across the population treatment and outcome model conditions to understand the average performance of each method under different conditions. Bias refers to the difference between the estimated ATE and the true ATE = 0.3. In other words, bias measure how much a method tends, on average, to over- or under-estimate the true ATE. Figure @fig-bias displays the results for the bias of the ATE by method and covariate conditions (p = 20, 100, 200). The "true" ATE is set to 0.3, so a bias of 0 means that the method has accurately estimated the true ATE without any bias. If the bar is above 0, the method overestimates the true ATE, and if it is below 0, it underestimates the ATE. The solid dots represent the mean bias and the extending lines are the associated Monte Carlo 95% confidence interval.
+I start by evaluating the bias in the average treatment effect (ATE) across the different population treatment and outcome model conditions to understand the overall performance of each method. Bias refers to the difference between the estimated ATE and the true ATE (set to 0.3). In other words, it measures how much, on average, a method tends to over- or under-estimate the true ATE. Figure @fig-bias displays my results for the bias of the ATE by method and covariate conditions (p = 20, 100, 200). The solid dots represent the mean bias and the extending lines are the associated Monte Carlo 95% confidence intervals.
 
 ```{r}
 #| label: fig-bias
@@ -420,7 +420,6 @@ res |>
   theme_Publication() +
   scale_fill_Publication() +
   geom_pointrange(aes(ymin = lower, ymax = upper), position = position_dodge(0.9), size = 0.1, alpha = 0.5) 
-
 ```
 
 ```{r}
@@ -446,11 +445,13 @@ res |>
   geom_hline(yintercept = .1, linetype = "dashed", color = "grey", size = .5) 
 ```
 
-In the low-dimensional condition (p = 20), all methods accurately estimate the true ATE with relatively little bias and good precision, except for bagged CART, which substantially underestimates the true ATE. As the number of covariates increases to 100, the magnitude of bias also increases, with logistic regression overestimating the ATE, while all other machine learning approaches estimate the ATE with less bias. The results become more pronounced in the highest covariate condition (p = 200) compared to the low-dimensional condition (p = 20). Logistic regression on average overestimates the true ATE, however the point estimate is severely impresize as indicated by a wide Monte Carlo 95% C.I., while the machine learning methods estimate the true ATE with significantly less bias, and less sampling variability . The dnn-2 approach produces the least biased ATE compares to all other machine learning in the high-dimensional case, it also exhibits lower sampling variablity than the others methods.
+In the low-dimensional condition (p = 20), all methods accurately estimate the true ATE with relatively little bias and good precision, except for bagged CART, which substantially underestimates the true ATE. As I increase the number of covariates to 100, the magnitude of bias also increases, with logistic regression overestimating the ATE, while all other machine learning approaches estimate the ATE with less bias. The results become more pronounced in the highest covariate condition (p = 200) compared to the low-dimensional condition (p = 20). Logistic regression, on average, overestimates the true ATE, however, its point estimate is severely imprecise, as indicated by a wide Monte Carlo 95% confidence interval. In contrast, the machine learning methods estimate the true ATE with significantly less bias and lower sampling variability. Among these methods, my dnn-2 approach produces the least biased ATE estimate compared to all other machine learning methods, and it also exhibits lower sampling variability.
 
 #### Relative Bias
 
-In addition to bias, I also evaluated relative bias, which is displayed in Figure @fig-rel-bias. Relative bias is calculated as the difference between the estimated ATE and the true ATE divided by the true ATE. It is expressed as a fraction of the true ATE. For example, say our estimated ATE is 5 and the true ATE is 10, the relative bias of the method would be (5-10)/10 = -0.5 or -50%. Meaning that the methods is biased downward by 50%, or that the estimated ATE is 50% of the true ATE. I propose the use of using less than 10% bias as my tolerance level for deciding if a method is biased, this is based on the literature on sensiivity analysis in propenisty score estimation where its genrally tollerated that a ATE is robust to unmeasure confounding if the inclusion of a unmeasured confounder changed the ATE by nor more than 10%.
+In @fig-rel-bias, I present the results for the relative bias for each of the methods and covariate conditions. The relative bias is calculated as the difference between the estimated ATE and the true ATE of 0.3, divided by the true ATE. For example, if the estimated ATE is 0.5 and the true ATE is 0.3, the relative bias would be (0.5-0.3)/0.3 = 0.67 or 67%. This means that the method has overestimated the true ATE by 67%. I set my tolerance level for bias at less than 10%, which is based on the literature on sensitivity analysis in propensity score estimation. In the literature, it is generally considered that the ATE is robust to unmeasured confounding if the inclusion of an unmeasured confounder changes the ATE by no more than 10% (CITE).
+
+In @fig-rel-bias, the solid dots represent the mean relative bias and the extending lines are the associated 95% Monte Carlo confidence interval. The dashed lines indicate the +- 10% tolerance level.
 
 ```{r}
 #| label: fig-rel-bias
@@ -471,20 +472,15 @@ res |>
   theme_Publication() +
   scale_fill_Publication() +
   geom_pointrange(aes(ymin = rel_bias - (1.96 * rel_bias_mcse), ymax = rel_bias + (1.96 * rel_bias_mcse)), position = position_dodge(0.9), size = 0.1, alpha = 0.5) 
-
-
-
-
-
 ```
 
-In the low-dimensional condition (p = 20), nearly all methods accurately estimate the ATE with little bias, and high precision. Logistic regression has the least amount of absolute bias, while all other approaches produce less than 2% absolute bias. The exception is bagged CART, which has a large amount of bias (absolute bias = -37%), meaning that it severely underestimated the true ATE, by around -37% of the true ATE. As covariates increase from 20 to 100 and 200, logistic regression becomes substantially more biased than all other methods, reaching its maximum relative bias in the 200 covariate condition where logistic regresison overeestimated the true ATE by nearly 16%. All machine learning approaches perform well in the 100 covariate condition, with all producing bias below 4%. In this scenario, the lowest bias estimates are produced by my DNN approach bagged CART. In the highest dimensional covariate condition (p = 200), all methods have an increase in bias, with an acompanying increase in sampling variability. However, the machine learning approaches perform exceptionally well compared to logistic regression. With the dnn-2 approach producing the least biased results with a mean relative bias of less than 1%, followed by nn-1 and dnn-3. The neural network baseed apporahc produced less bias and exbihited less sampling variaability than all other methods. Also bagged cart did good. However, none of the methods in the 200 covariate condition had 95% Monte Carlo confidence intervals within the 10% treshold, although all methods had much more narrow C.I. than that of logistic regresison which had extreme sampling variabiliyt.
+In the low-dimensional condition (p = 20), nearly all methods accurately estimated the ATE with little bias and high precision. I found that logistic regression had the least amount of absolute bias, while all other methods produced less than 2% absolute bias. The exception was bagged CART, which had a large amount of bias (absolute bias = -37%), meaning that it severely underestimated the true ATE by around -37% of the true ATE. As the number of covariates increased from 20 to 100 and 200, logistic regression became substantially more biased compared to all other methods, reaching its maximum relative bias in the 200 covariate condition where it overestimated the true ATE by nearly 16%. All machine learning approaches performed well in the 100 covariate condition, with all producing bias below 4%. In this scenario, the lowest bias estimates were produced by my DNN-2 approach and bagged CART. In the highest-dimensional covariate condition (p = 200), all methods had an increase in bias, with an accompanying increase in sampling variability. However, the machine learning approaches performed exceptionally well compared to logistic regression. I found that my DNN-2 approach produced the least biased results with a mean relative bias of less than 1%, followed by nn-1 and dnn-3. The neural network-based approaches produced less bias and exhibited less sampling variability than all other methods. Also, bagged CART did well. However, none of the methods in the 200 covariate condition had 95% Monte Carlo confidence intervals within the 10% threshold, although all machine learning approaches had much narrower confidence intervals than logistic regression, which had extreme sampling variability. These results imply that if I were to use a mahcine learning method to estimate an ATE in a high dimensional setting, I would increase my probability of capturing the true population ATE much more than if I used logistic regression to estimate the propensity scores.
 
 ##### Complexities in the Population Outcome and Treatment Models
 
-Next, I evaluate the relative bias performance of each method by complexities introduced into the treatment and outcome model. Recall, that the data generating models *Base T* and *Base Y* include only main effects in the treatment and outcome model, while *Complex T* and *Complex Y* include non-addivity and non-linearities in the form quadratic and interaction terms among the covariates.
+Next, I evaluated the performance of each method in terms of relative bias when complexities were introduced into the treatment and outcome model. Recall that the data generating models *Base T* and *Base Y* only included main effects in the treatment and outcome model, while *Complex T* and *Complex Y* included non-additivity and non-linearities in the form of quadratic and interaction terms among the covariates.
 
-@fig-rel-bias-cond presents a faceted figure where the upper-left facet represents the condition where the population treatment and outcome models only include main effects (i.e., Base T & Base Y). The lower-right facet represents the condition where the population treatment and outcome models include quadratic and interaction terms (i.e., Complex T & Complex Y). Deviations from the diagonal facets indicate conditions where only one of the models includes quadratic and interaction terms, while the other only includes main effects.
+@fig-rel-bias-cond presents a faceted plot where the upper-left facet represents the condition where the population treatment and outcome models only include main effects (i.e., Base T & Base Y). The lower-right facet represents the condition where the population treatment and outcome models include quadratic and interaction terms (i.e., Complex T & Complex Y). Deviations from the diagonal facets indicate conditions where only one of the models includes quadratic and interaction terms, while the other only includes main effects.
 
 ```{r}
 #| label: fig-rel-bias-cond
@@ -510,7 +506,6 @@ res |>
   geom_pointrange(aes(ymin = rel_bias - (1.96 * rel_bias_mcse), ymax = rel_bias + (1.96 * rel_bias_mcse)), position = position_dodge(0.9), size = 0.1, alpha = 0.5) +
     theme(panel.spacing = unit(.5, "cm")) 
 
-
 res |> 
   simsum(estvarname = "ATE", true = 0.3, se = "ATE_se", methodvar = "method", ref = "logit", by = c("p","scenarioT", "scenarioY")) |> 
   summary() |> 
@@ -525,32 +520,31 @@ res |>
   geom_pointrange(aes(ymin = lower, ymax = upper), position = position_dodge(0.9), size = 0.1, alpha = 0.5) +
   facet_grid(scenarioT ~ scenarioY, scales = "fixed") +
   theme(panel.spacing = unit(.5, "cm")) 
-
 ```
 
 ###### Base - Population Outcome and Treatment Models
 
-When complexities are not included in the treatment or outcome models, nearly all methods perform well, regardless of the covariate conditions, exhibiting a relative bias well below the 10% treshold. The only exception is bagged CART, which produced the most biased ATE estimated with 20 coviates. Logistic regression produces the least biased estimates (relative bias \< 0.001%) when both the population treatment and outcome models include only main effects, which is expected as when estimating the propensity score using the various methods, only main effects are included in the model. Thus, in the Base Y and Base T condition, the population treatment model is equal to the propensity score estimation model. As the number of covariates increases, all methods perform exceptionally well, with bias within the 10% threshold. This finding suggest that when covariates have simple associations all methods produce unbiased ATE with a high level of precision, regarless of the number of covariates included.
+When the treatment and outcome models only include main effects, nearly all methods perform well, regardless of the number of covariates. The only exception is bagged CART, which produced the most biased ATE estimate with 20 covariates. Logistic regression produced the least biased estimates (relative bias less than 0.001%) when both the population treatment and outcome models include only main effects, which is expected because when estimating the propensity score using the various methods, only main effects are included in the model. This means that in the Base Y and Base T condition, the population treatment model is equal to the propensity score estimation model. As the number of covariates increased, all methods performed exceptionally well, with bias within the 10% threshold. This finding suggests that when covariates have simple associations, all methods produce unbiased ATE with a high level of precision, regardless of the number of covariates included, with the exception of bagged cart which should not be used in a low-covariate condition. 
 
 ###### Complex - Population Outcome and Treatment Models
 
-In contrast to the models where only main effects are included in the population treatment and outcome models, the lower-right facet of @fig-rel-bias-cond displays the results when both the population treatment and outcome models include quadratic and interaction terms. When complexities are included in the population models, there is much more bias introduced into the ATE estimate with an increse in sampling variability across methods and covariate conditions. All methods perform well when only 20 covariates are included, with relative bias well withing the 10% interval, except for bagged CART.
+In contrast to the models where only main effects were included in the population treatment and outcome models, the lower-right facet of @fig-rel-bias-cond displays the results when both the population treatment and outcome models include quadratic and interaction terms. When complexities are included in the population models, there is much more bias introduced into the ATE estimate with an increase in sampling variability across methods and covariate conditions. All methods performed well when only 20 covariates were included, with relative bias well within the 10% interval, except for bagged CART.
 
-However, as the number of covariates increases, there is a significant increase in bias. With 100 covariates, all methods perform well, with mean relative bias well within the 10% treshold. However, in terms of sampling variability only nn-1, bagged cart, and dnn-2 produce bias estimates with Monte Carlo confidence interal close to but not necessarily within the 10% treshold, while logistic regression produces very biased estimates indicated but its large confidence interval. The differences become more pronounced in the high covariate condition (p = 200). Specifically, logistic severaly overestimates the ATE , by more than half (relative bias = 55%,). The least biased estimates are produced by the nn-1 and dnn-2 approach (relative bias = 5%, and 9%, repestively), which is far lower than the absolute bias produced by all other machine learning approaches. However, even though its producing the least biased results they still have fairly large sampling variability, however not as large as that produced by logistic regression in that same condition (n = 200).
+However, as the number of covariates increased, there was a significant increase in bias. With 100 covariates, all methods performed well, with mean relative bias well within the 10% threshold. However, in terms of sampling variability, only nn-1, bagged CART, and dnn-2 produced bias estimates with Monte Carlo confidence intervals close to but not necessarily within the 10% threshold, while logistic regression produced very biased estimates indicated by its large confidence interval. The differences became more pronounced in the high covariate condition (p = 200). Specifically, logistic regression severely overestimated the ATE by more than half of the true ATE (relative bias = 55%). The least biased estimates were produced by the nn-1 and dnn-2 approaches (relative bias = 5% and 9%, respectively), which was far lower than the absolute bias produced by all other machine learning approaches. However, even though they produced the least biased results, they still had fairly large sampling variability, although not as large as that produced by logistic regression in the same condition (n = 200).
 
 ###### Deviations - Population Outcome and Treatment Models
 
-In @fig-rel-bias-cond, deviations from the treatment and outcome model are indicated by points off the diagonal in the facets. The lower-left facet displays the results when the treatment model is complex, and the outcome model only has main effects, while the upper-right facet displays the results when the outcome model is complex, but the treatment model only includes main effects. In general, relative bias performance is sensitive to complexities in the outcome model or when complexities exist in both the outcome and treatment models, specifically in the highest covariate conditions.
+In the lower-left facet of @fig-rel-bias-cond, I present the results when the treatment model is complex, while the outcome model only contains main effects. In the upper-right facet, I show the results when the outcome model is complex, but the treatment model is simple with only main effects. Overall, the relative bias performance is sensitive to complexities in either the outcome model or both the treatment and outcome models, especially when the number of covariates is high. This implies that if either the outcome model or both models are complex, the accuracy of the ATE estimate may be affected. 
 
 ##### Summary
 
-My findings suggest variability in the bias of the estimated ATE across methods and covariate conditions. In low-dimensional condition (p=20), most methods accurately estimate the true ATE with little bias and little sampling variablity. As the number of covariates increases, the magnitude of bias also increases, with logistic regression overestimating the ATE, while all other machine learning approaches produce less biased estimates. In the highest covariate condition (p=200), logistic regression severely overestimates the true ATE, while the machine learning methods estimate the true ATE with significantly less bias. Notably, NN-1 and DNN-2 approach is a robust method for estimating the ATE in the high-dimensional covariate setting, especially when complexities are present in the population treatment and outcome model. In this condition they produce bias estimates that are nearly 11 times lower than that produced by logistic regression in that condition.
+My findings suggest that there is variability in the bias of the estimated ATE depending on the method and covariate conditions. In the low-dimensional condition (p=20), most methods accurately estimated the true ATE with little bias and little sampling variability. As the number of covariates increased, the magnitude of bias also increased, with logistic regression overestimating the true ATE, while all other machine learning approaches produced less biased estimates. In the highest covariate condition (p=200), logistic regression severely overestimated the true ATE, while the machine learning methods estimated the true ATE with significantly less bias. Notably, my NN-1 and DNN-2 approaches were robust methods for estimating the ATE in the high-dimensional covariate setting, especially when complexities were present in the population treatment and outcome model. In this condition, they produced bias estimates that were nearly 11 times lower than those produced by logistic regression in that same condition. 
+
+My findings also indicate that the presence of complexities in the population treatment and outcome models significantly affects the accuracy of the ATE estimate. When both the treatment and outcome models include quadratic and interaction terms, there is a significant increase in bias, as well as increased sampling variability across methods and covariate conditions. These results highlight the importance of considering the complexities of the population treatment and outcome models when choosing a propensity score estimation method.
 
 ### ATE Estimation: SE, MSE, and 95% CI Coverage
 
-Although bias in the average treatment effect (ATE) is an important metric to evaluate the performance of the methods, it is equally important to consider the sampling variability of the estimated ATE. The optimal method should have low bias in the estimated ATE and exhibit minimal variability through tight standard errors (SE) and mean squared errors (MSE) and high 95% confidence interval coverage. These properties enhance the precision of the estimated ATE. In this section, I summarize the findings of the estimated ATE in terms of standard error (SE), mean squared error (MSE), and 95% confidence interval coverage rate.
-
-@fig-ate-var is a multi-panel figure that compares the performance of each method in terms of SE and MSE of the ATE and 95% confidence interval coverage rate across population models.
+In this section, I evaluated the estimated ATE based on the standard error (SE), mean squared error (MSE), and 95% confidence interval coverage rate. The optimal method should have low bias in the estimated ATE, as well as minimal variability in terms of tight SE and MSE and high 95% confidence interval coverage rate. To summarize my findings, I used the multi-panel @fig-ate-var to compare the performance of each method in terms of SE, MSE, and 95% confidence interval coverage rate across different population models.
 
 ```{r}
 #| label: fig-ate-var
@@ -560,7 +554,6 @@ Although bias in the average treatment effect (ATE) is an important metric to ev
 #|   - "Mean Squared Error (MSE)"
 #|   - "95% CI Coverage"
 #| layout-ncol: 2
-
 
 res |> 
   simsum(estvarname = "ATE", true = 0.3, se = "ATE_se", methodvar = "method", ref = "logit", by = c("p")) |> 
@@ -574,7 +567,6 @@ res |>
   theme_Publication() +
   scale_fill_Publication() +
   geom_pointrange(aes(ymin = lower, ymax = upper), position = position_dodge(0.9), size = 0.1, alpha = 0.5) 
-
 
 res |> 
   simsum(estvarname = "ATE", true = 0.3, se = "ATE_se", methodvar = "method", ref = "logit", by = c("p")) |> 
@@ -590,8 +582,6 @@ res |>
   scale_fill_Publication() +
   geom_pointrange(aes(ymin = lower, ymax = upper), position = position_dodge(0.9), size = 0.1, alpha = 0.5) 
 
-
-
 res |> 
   simsum(estvarname = "ATE", true = 0.3, se = "ATE_se", methodvar = "method", ref = "logit", by = c("p")) |> 
   summary() |> 
@@ -606,21 +596,19 @@ res |>
   geom_hline(yintercept = .95, linetype = 2, color = "black", size = .5) +
   scale_fill_Publication() +
   geom_pointrange(aes(ymin = lower, ymax = upper), position = position_dodge(0.9), size = 0.1, alpha = 0.5) 
-
-
 ```
 
 #### Standard Error (SE) and Mean Squared Error
 
-The first panel (@fig-ate-var-1) displays the results for standard error of the estimated ATE by covariate condition. All methods produce comparable SE in the low dimensional condition (p = 20). As the number of covariates increases, logistic regression and nn-1 produce very large standard errors, while the other machine learnig approaches smaller SE, with cart and forest having the smallest standard errors (SE = 0.17 and 0.16, respectively).
+In the first panel of @fig-ate-var, I present the results for the standard error (SE) of the estimated ATE by covariate condition. In the low-dimensional condition, all methods produced small standard errors. However, as the number of covariates increased, the standard error of logistic regression and nn-1 increased significantly, while other machine learning approaches, such as CART and random forest, had smaller standard errors (SE = 0.22 and 0.21, respectively). Despite the differences in the standard error, all methods produced narrow 95% Monte Carlo confidence intervals for the estimated ATE, indicating high precision in the ATE estimate.
 
-In addition to the standard error (SE) of the estimated ATE, I also evaluated the mean squared error (MSE) of the ATE (@fig-ate-var-2). MSE measures the average squared difference between the estimated and true values, where a lower MSE indicates a better fit between the two. MSE provides a summary statistic that incorporates both bias and variance of the ATE. All methods perform well in the 20 covariate condition, producing small SE values. However, in the highest covariate condition (p = 200), logistic regression and nn-1 produce large MSE values, while all other machine learning approaches perform well with MSE values below 2. Out of all the machine learning approaches, my DNN-2 approach performs the best, with the lowest MSE value (MSE = 0.87), which is 35 times lower than the MSE for logistic regression (MSE = 29.4).
+A high standard error implies a high degree of uncertainty in the estimated ATE, with a wide range of possible values. In the context of a true ATE of 0.3, even a standard error of 0.2 (the lowest estimated standard error) could be substantial. This could lead to incorrect conclusions about the effectiveness of the treatment and reduce the reliability of the ATE estimate. A high standard error can also indicate that the model is not capturing the underlying relationship between the treatment and outcome, making the estimated ATE unreliable. Therefore, it is crucial to choose a method that produces a low standard error, in addition to low bias, to ensure the validity and reliability of the estimated ATE.
+
+In the second panel of @fig-ate-var-2, I present the results for the mean squared error (MSE) of the estimated ATE. The MSE measures the average squared difference between the estimated and true values, with a lower MSE indicating a better fit between the two. This metric provides a comprehensive summary statistic that takes into account both the bias and variance of the estimated ATE. In the low-dimensional condition (p=20), all methods produced low MSE values. However, as the number of covariates increased (p=200), logistic regression produced extremely high MSE values (MSE = 29.4), while the other machine learning approaches maintained low MSE values, with the best performance achieved by my DNN-2 and DNN-3 approaches (both with MSE = 0.87), which were 35 times lower than the MSE produced by logistic regression.
 
 ##### Complexities in the Population Outcome and Treatment Models
 
-As with the previous ATE bias results, next, I evaluate the SE and MSE performance of each method by complexities introduced into the treatment and outcome model.
-
-@fig-ate-var-cond further delves into the performance of each method by evaluating SE, MSE, and 95% CI coverage in the presence of complexities in the treatment and outcome models. The figure is divided into three panels, each representing the SE, MSE, or 95% CI coverage rate. Within each panel, the upper-left facet represents the condition where only main effects are included in the population treatment and outcome models (Base T & Base Y), while the lower-right facet represents the condition where both the population treatment and outcome models include quadratic and interaction terms (Complex T & Complex Y). The deviations from the diagonal facets indicate conditions where only one of the models includes quadratic and interaction terms while the other only includes main effects.
+In @fig-ate-var-cond, I further investigate the performance of each method by evaluating SE, MSE, and 95% CI coverage in the presence of complexities in the treatment and outcome models. The figure is divided into three panels, each representing the SE, MSE, or 95% CI coverage rate. In the upper-left facet, I show the results when only main effects are included in both the population treatment and outcome models (Base T & Base Y). In the lower-right facet, I display the results when both the population treatment and outcome models include quadratic and interaction terms (Complex T & Complex Y). The deviations from the diagonal facets represent conditions where only one of the models includes quadratic and interaction terms while the other only includes main effects. These results provide insight into how the presence of complexities in the treatment and outcome models affects the performance of each method in terms of SE, MSE, and 95% CI coverage rate.
 
 ```{r}
 #| label: fig-ate-var-cond
@@ -633,7 +621,6 @@ As with the previous ATE bias results, next, I evaluate the SE and MSE performan
 #| fig-width: 7.5
 #| fig-height: 5
 
-
 res |> 
   simsum(estvarname = "ATE", true = 0.3, se = "ATE_se", methodvar = "method", ref = "logit", by = c("p","scenarioT", "scenarioY")) |> 
   summary() |> 
@@ -648,7 +635,6 @@ res |>
   geom_pointrange(aes(ymin = lower, ymax = upper), position = position_dodge(0.9), size = 0.1, alpha = 0.5) +
   facet_grid(scenarioT ~ scenarioY, scales = "fixed") +
   theme(panel.spacing = unit(.5, "cm")) 
-
 
 res |> 
   simsum(estvarname = "ATE", true = 0.3, se = "ATE_se", methodvar = "method", ref = "logit", by = c("p","scenarioT", "scenarioY")) |> 
@@ -666,8 +652,6 @@ res |>
   facet_grid(scenarioT ~ scenarioY, scales = "fixed") +
   theme(panel.spacing = unit(.5, "cm")) 
 
-
-
 res |> 
   simsum(estvarname = "ATE", true = 0.3, se = "ATE_se", methodvar = "method", ref = "logit", by = c("p","scenarioT", "scenarioY")) |> 
   summary() |> 
@@ -684,28 +668,41 @@ res |>
   geom_pointrange(aes(ymin = lower, ymax = upper), position = position_dodge(0.9), size = 0.1, alpha = 0.5) +
   facet_grid(scenarioT ~ scenarioY, scales = "fixed") +
   theme(panel.spacing = unit(.5, "cm")) 
-
 ```
 
 ###### Base - Population Outcome and Treatment Models
 
-The upper-left panels in @fig-ate-var-cond-1 and @fig-ate-var-cond-2 show the results for the SE and MSE of the ATE, when only main effects are included in the population treatment and outcome models. When only main effects are included all methods, regarless of covariate condition, perform well producing low SE and MSE values.
+In the upper-left panels of @fig-ate-var-cond, I present the results when only main effects are included in both the population treatment and outcome models. Regardless of the covariate condition, all methods performed well and produced low values for both the standard error (SE) and mean squared error (MSE) of the estimated ATE. This indicates that the estimated ATE is precise and accurate when only main effects are present in both models.
 
 ###### Complex - Population Outcome and Treatment Models
 
-However, when both the treatment and outcome models include quadratic and interaction terms (lower-right panels in @fig-ate-var-cond-1 and @fig-ate-var-cond-2), a drastic increase in SE and MSE values is observed. Focusing on the MSE results, as the number of covariates increases to 100, logistic regression, CART, random forest, and nn-1 exhibit high SE and MSE values. Logistic regression has the highest MSE value (MSE = 1.05). In the highest dimensional case with 200 covariates, logistic regression leads to exceptionally high SE and MSE values (SE = 3.24; MSE = 115.1) compared to all other machine learning approaches, except for nn-1. This contrasts logistic regression's low SE and MSE values in the base condition (SE = 0.013; MSE = 0.00008). On the other hand, DNN-2 and DNN-3 have significantly lower MSE values than all other methods, with MSE values below 3, which is nearly 40 times lower than the MSE value for logistic regression in the high dimensional condition.
+As the complexity of the population treatment and outcome models increased, I observed a substantial increase in the standard error (SE) and mean squared error (MSE) of the estimated average treatment effect (ATE). In the 100 covariate condition, logistic regression had a high MSE value (MSE = 7.51). However, when the number of covariates increased to 200, logistic regression resulted in extremely high SE and MSE values (SE = 4.00; MSE = 115.1). On the other hand, my DNN-2 and DNN-3 approaches had significantly lower MSE values, with MSE values below 2, which were nearly 60 times lower than the MSE value for logistic regression in the high-dimensional condition. 
 
 ###### Deviations - Population Outcome and Treatment Models
 
-As with the ATE bias evaluation results, both SE and MSE appear sensitive to complexities in the outcome model, more so than when complexities are only included in the treatment model. When complexities are only included in the outcome model, bagging, DNN-2, DNN-3, and logistic regression are robust to covariate conditions, with MSE values below 1. In contrast, nn-1 has the highest MSE, followed by bagged cart and random forest.
+As I observed with the ATE bias evaluation results, both the standard error (SE) and mean squared error (MSE) were sensitive to complexities in the outcome model, more so than when complexities were only included in the treatment model. When complexities were only included in the outcome model, I found that the CART and random forest methods produced larger MSE values than all other methods. In the highest covariate condition, all other methods, including logistic regression, produced MSE values well below 2.5.
 
 #### 95% Confidence Interval Coverage
 
-Finally, in the third panel (@fig-ate-var-3), I present the results for the 95% confidence interval (CI) coverage rate of the ATE, indicated by the dashed line which represents the desired coverage rate. The 95% CI coverage rate assesses how well each method captures the true ATE of 0.3 within the estimated 95% confidence interval. A good estimator should have high coverage, meaning that the true population ATE is reliably captured within the interval. The machine learning approaches appear relatively insensitive to the different covariate conditions. However, both logistic regression and nn-1 seem more sensitive, showing a decrease in coverage rate as the number of covariates increases. Overall, all methods exhibit adequate coverage, except for bagged CART in the 20 covariate condition, and CART and random forest which exhibit lower coverage rates across all covariate conditions.
+Finally, in the third panel (@fig-ate-var-3), I present my findings for the 95% confidence interval (CI) coverage rate of the ATE across different population outcome models. The desired coverage rate of 95% is indicated by the dashed line. This rate assesses how well each method captures the true ATE of 0.3 within the estimated 95% confidence interval, with a good estimator having high coverage and reliably capturing the true population ATE within the interval.
+
+I found that the machine learning approaches appear relatively insensitive to the different covariate conditions. However, logistic regression seems to be more sensitive and shows a decrease in coverage rate as the number of covariates increases. Overall, only logistic regression in the low covariate condition approached the normal 95% confidence interval. In the high-covariate conditions, all methods had relatively low coverage, with coverage rates below 75%, while CART and random forest showed incredibly low coverage rates below 30%. The exception was bagged CART which had a coverage rate of 81%, followed by logistic regression with 71%. However, it's important to note that logistic regression in the highest covariate condition also exhibited large bias and standard errors, so its relative good performance in this condition may be due to the large amount of bias and sampling variability in the ATE.
 
 ##### Complexities in the Population Outcome and Treatment Models
 
-The third panel of @fig-ate-var-cond shows the 95% CI coverage rate results by model complexities. Overall, coverage rates appear particularly sensitive to complexities in the population treatment model, with all methods displaying lower coverage rates than when only main effects are included in the population treatment model. In addition, we observe a fairly consistent pattern that the neural network-based approach (nn-1, dnn-2, dnn-3) and logistic regression produce lower coverage rates as covariates increase.
+In the third panel of @fig-ate-var-cond, I present the results of the 95% confidence interval (CI) coverage rate of the ATE by model complexities. The results show that the coverage rates were highly influenced by the complexities in the population treatment model, with all methods having lower coverage rates than when only main effects were included in the population treatment model. Additionally, even when both the population outcome and treatment models only had main effects, all methods other than logistic regression still had suboptimal coverage rates. On the other hand, when complexities were included in both the outcome and treatment model, logistic regression had inadequate coverage, especially in the high covariate condition, where it had a coverage rate below 50%. The highest coverage rate was achieved by bagged CART, at around 77%, followed by DNN-3 with a 56% coverage rate. A lower 95% confidence interval coverage for the machine learning methods may indicate that they are not accurately capturing the relationship between the treatment and outcome, resulting in an unreliable estimate of the ATE.
+
+#### Model Based versus Empirical Standard Error
+
+A method can have low bias and low standard errors but low coverage if it fails to capture the true relationship between the treatment and the outcome, leading to an unreliable estimate of the average treatment effect (ATE). The bias measures the systematic error in the estimate of the ATE, while the standard error measures the variability of the estimate. Low bias and low standard error indicate a good fit between the estimated and true values, but they do not guarantee the accuracy of the estimate.
+
+One possible scenario that could lead to low coverage is that the estimated standard error is biased away from the empirical standard error. To analyze whether my estimated standard errors are biased away from the empirical standard error, I computed the relative percent error in the standard errors using the following equation:
+
+100(modse/empse -1)
+
+where ModSE is the estimated SE and empSE is the empirical standard error taken as the standard deviation of the ATE estimates. A value greater than 0 indicates that the method is overestimating the empirical SE, while a value below indicates that the method is underestimating the empirical standard error. @fig-se-error presents the results of the relative percent error in standard errors by method across population models and covariate conditions. The solid black dot indicates the mean relative error and the diverging lines indicate the associated Monte Carlo 95% confidence interval.
+
+All methods, regardless of the number of covariates, underestimate the empirical standard error. CART and random forest have the worst performance, with an underestimation of the empirical standard error by more than 75%. While bagged cart and all neural network approaches (nn-1, dnn-2, dnn-3) underestimate the empirical standard error by a smaller margin, it is still not ideal. This is likely contributing to the suboptimal 95% confidence interval coverage rates, especially in complex model conditions. These results may indicate that it would be beneficial to move away from a robust sandwich estimator, which relies on the normality assumption of the data, and instead use a bootstrapped standard error that provides a more robust estimate of the uncertainty in the estimate of the ATE.
 
 ```{r}
 #| label: fig-ate-var
@@ -734,15 +731,11 @@ res |>
 
 ```
 
-##### Summary
-
-All methods produced ATE with low SE and MSE values in the low-dimensional condition. However, as the number of covariates increased, the DNN approaches (dnn-2 and dnn-3) outperformed traditional logistic regression and other methods, producing the lowest MSE values. These findings suggest that the DNN approaches are reliable and consistent for ATE estimation in high-dimensional contexts, while also emphasizing the sensitivity of the estimates to complexities in the population outcome and treatment models. Bagging also performed well, with sound 95% confidence interval coverage and low MSE, making it another robust method in high-dimensional contexts. Logistic regression was effective in low-dimensional contexts, but its effectiveness decreased with an increase in dimensionality. The results emphasize the importance of considering both the bias and variability of estimated ATE when choosing the optimal estimation method.
-
 ### Covariate Balance
 
-Up to this point, I have considered performance metrics that are not directly observable in practice. For example, a researcher cannot assess the degree of bias introduced by each propensity score estimation method within their observational dataset. A commonly used and directly observable metric for deciding which method to use is covariate balance. Covariate balance is typically assessed using the average standardized absolute mean difference (ASAM) between treated and untreated units. Maintaining covariate balance reduces the risk of bias in the estimated treatment effect and leads to more accurate results. However, the use of average standardized absolute mean difference as the metric for assessing balance is contested, with some researchers suggesting that other moments besides the mean should be considered. In my simulation, I focused exclusively on assessing balance through ASAM. For simplicity, I took the average ASAM for all covariates in the propensity score estimation model, but in practice, each covariate should be assessed separately. A mean ASAM value of 0 indicates balance in the mean between treated and untreated units across all covariates. I consider two commonly used thresholds for deciding whether adequate covariate balance has been achieved: the more typical 0.2 threshold proposed by (CITE), and the more stringent threshold of 0.1.
+Up to this point, I have considered performance metrics that are not directly observable in practice. A commonly used and directly observable metric for deciding which method to use is covariate balance (CITE). Covariate balance is assessed using the average standardized absolute mean difference (ASAM) between treated and untreated units. Maintaining covariate balance reduces the risk of bias in the estimated treatment effect. In my simulation, I focused on assessing balance through ASAM and took the average ASAM for all covariates in the propensity score estimation model, though in practice, each covariate should be assessed separately. A mean ASAM value of 0 indicates balance in the mean between treated and untreated units across all covariates. I consider two commonly used thresholds for deciding whether adequate covariate balance has been achieved: the more typical 0.2 threshold (CITE) and the more stringent threshold of 0.1 (CITE).
 
-The results of the ASAM evaluation averaged across all population outcome models can be seen in Figure @fig-asam, where the thicker dashed line indicates an ASAM value of 0.2, and the thinner dashed line indicates an ASAM value of 0.1. Overall, all methods achieved adequate covariate balance in the low-dimensional condition with ASAM values below 0.2. However, using the more stringent cutoff of 0.1, both CART and random forest failed to achieve covariate balance. The lowest ASAM value achieved in the 20 covariate condition was by logistic regression with an ASAM value of XXX. As the covariate dimensionality increased, logistic regression produced extreme imbalance (ASAM = 74.9), while all other machine learning approaches maintained good covariate balance with ASAM values at or below the most stringent cutoff of 0.1. The lowest levels of covariate balance were achieved by bagged CART and my DNN approaches, with the DNN-2 approach producing the best balance with an ASAM value of 0.06.
+The results of the ASAM evaluation can be found in @fig-asam, with thicker and thinner dashed lines indicating an ASAM value of 0.2 and 0.1 respectively. In the low-dimensional condition, all methods achieved adequate covariate balance, with ASAM values below 0.2. However, using the more stringent cutoff of 0.1, both CART and random forest failed to reach this standard. As the number of covariates increased, logistic regression produced extreme imbalance (ASAM = 74.9), while the other machine learning approaches maintained good covariate balance with ASAM values below 0.1. The best balance was achieved by the nn-1, DNN-1, DNN-2 and bagged cart, with an ASAM value of 0.06.
 
 ```{r}
 #| label: fig-asam
@@ -767,7 +760,7 @@ res |>
 
 ###### Base - Population Outcome and Treatment Models
 
-When the outcome and treatment models included only main effects, all methods produced good covariate balance using the 0.2 thresholds across all covariate conditions (as shown in the upper-left facet of @fig-asam-cond). With the more stringent 0.1 thresholds, bagging, the neural network-based approaches, and logistic regression produced optimal balance. In the base condition, the machine learning approaches appear insensitive to the number of covariates, while logistic regression and nn-1 seem sensitive to dimensionality.
+@fig-asam-cond, when the outcome and treatment models only had main effects, all methods achieved good covariate balance using the 0.2 threshold across all covariate conditions. When using the more stringent 0.1 threshold, bagging, the neural network-based approaches, and logistic regression produced optimal balance. In this base condition, all methods appear to be insensitive to the number of covariates.
 
 ```{r}
 #| label: fig-asam-cond
@@ -797,26 +790,25 @@ res |>
 
 ###### Complex - Population Outcome and Treatment Models
 
-When complexities are introduced into the treatment and outcome models, a slight increase in imbalance is observed, but nothing significant. In the low-covariate condition, all methods perform well with ASAM values below 0.2. With the more stringent threshold, CART and random forest fail to achieve covariate balance. In line with the overall ASAM results, logistic regression and nn-1 produced extreme imbalances among covariates in the higher covariate condition. For example, with 200 covariates, logistic regression produced extreme imbalances (ASAM = 74.94). In comparison, my DNN-2 approach achieved adequate covariate balance (ASAM = 0.061), and using the most stringent threshold, the DNN-2 and DNN-3 approaches were the only methods to achieve covariate balance.
+When complexities are introduced into the treatment and outcome models, there is a slight increase in imbalance, with the exception of logistic regression, which produces extreme imbalance in the high covariate condition. In the low-covariate condition, all methods perform well with ASAM values below 0.2. However, when using the more stringent 0.1 threshold, CART and random forest fail to achieve covariate balance. Logistic regression produced particularly extreme imbalances among covariates in the high covariate condition, with an ASAM value of 286 for 200 covariates. In contrast, my DNN-2 approach and nn-1 achieved adequate covariate balance with an ASAM value of 0.08. With the most stringent threshold, the neural network-based approaches were the only methods that achieved covariate balance.
 
 #### Deviations from the Treatment and Outcome Models
 
-Covariate balance is relatively robust to different specifications of covariate conditions and complexities in the outcome and treatment models. However, when dealing with higher covariates, specifically 100 and 200, logistic regression and nn-1 are sensitive to complexities in the treatment models, producing more imbalance in this context.
+When dealing with different specifications of covariate conditions and complexities in the outcome and treatment models, covariate balance is relatively robust. However, in the context of higher covariates, specifically 100 and 200, logistic regression is sensitive to complexities in the treatment models and show an increase in imbalance.
 
 ##### Summary
 
-Most methods produced acceptable balance using a 0.2 threshold across all covariate levels, except for CART, Random Forest, and Logistic Regression. With the more stringent 0.1 thresholds, bagging, DNN-2, and DNN-3 performed better. In the highest covariate case, logistic regression produced extreme imbalance, while DNN-2 had the best balance with an ASAM value of 0.06. When considering complexities in both the outcome and treatment models, DNN-2 led to the best covariate balance among all methods, especially in high-dimensional cases, while logistic and nn-1 were sensitive to complexities in the treatment models. These results suggest that DNN-2 will lead to the best covariate balance in high-dimensional cases, especially when complexities are present.
+In this simulation, most methods demonstrated good covariate balance with a 0.2 threshold across all covariate conditions, with the exception of logistic regression in high-dimensional cases. However, when using the more stringent 0.1 threshold, the bagging method, nn-1, DNN-2, and DNN-3 performed even better. In high-dimensional contexts, logistic regression produced significant imbalance, while the neural network-based methods, particularly DNN-2, achieved the best balance with an ASAM value of 0.06, followed by bagged CART. These results suggest that when considering complexities in both the outcome and treatment models, neural network-based methods provide the best covariate balance among all methods and are a reliable choice in high-dimensional cases.
 
 ### Weights Assessment
 
-I estimated the average treatment effect (ATE) using inverse propensity score weighting (IPTW). To ensure unbiased treatment effects, it is important to avoid extreme IPTW weights, as large weights can result in bias (CITE). To evaluate this, I calculated the mean IPTW weight for each method, with a considerable departure from 1, indicating the presence of extreme weights.
+In this section, I present the results of the propensity score weight assessment. The assessment is an important step in ensuring unbiased treatment effects as it helps to identify extreme weights, which can result in bias. The inverse propensity score weighting (IPTW) method was used to estimate the average treatment effect (ATE), and the mean IPTW weight was calculated for each method. A considerable departure from 1 in the mean IPTW weight indicates the presence of extreme weights.
 
-@fig-weights shows the mean IPTW weights across treated and untreated units. All machine learning approaches resulted in acceptable weights below 2.5. All methods performed adequately well in the low-dimensional case with mean weights below 2. However, in the high-dimensional cases, logistic regression and nn-1 produced extreme weights. In the 200 covariate case, logistic regression produced extreme weights (IPTW = 225,868,800), as did nn-1 (IPTW = 130,406).
+In @fig-weights, the mean IPTW weights are displayed. All machine learning approaches produced weights below 2.5, which are considered acceptable. In the low-dimensional case, all methods performed well with mean weights below 2. However, in high-dimensional cases, logistic regression produced extreme weights with a mean of 22,587,000. This high value is likely due to logistic regression producing extreme propensity scores when 200 covariates are included in the estimation step.
 
 ```{r}
 #| label: fig-weights
 #| fig-cap: "Mean IPTW weights"
-
 
 res |> 
   group_by(p,method)  |> 
@@ -830,20 +822,17 @@ res |>
   scale_fill_Publication() +
   geom_hline(yintercept = 5, color = "white", size = 2) 
 
-
-
 ```
 
 ##### Complexities in the Population Outcome and Treatment Models
 
-When assesing the IPTW weight by the various complexities in the population treatment and outcome model, we find that all methods regardless of condition produce adequate weights below 2 (@fig-weights-cond). The mean values of the IPTW were consistent across all covariate conditions, indicating that the balance between the treatment and control groups was not affected by the presence of covariates. The only deviation from this result is logistic and nn-1, where they produce extreme weights whever complexities are introduced into the population treatment model, we don't see this affect when the base treatment model only includes main effects.
+When evaluating the IPTW weights by the different complexities in the population outcome and treatment models, I found that all methods, regardless of the condition, produced acceptable weights below 2 (@fig-weights-cond). The only exception to this was logistic regression, which produced extreme weights whenever complexities were introduced into the population treatment model. This effect was not seen when the base treatment model only included main effects.
 
 ```{r}
 #| label: fig-weights-cond
 #| fig-cap: "IPTW Weights by data generating mechanisms"
 #| fig-width: 7.5
 #| fig-height: 5
-
 
 res |> 
   group_by(p,method, scenarioY, scenarioT)  |> 
@@ -863,13 +852,13 @@ res |>
 
 ##### Summary
 
-Overall, all methods produced acceptable IPTW weights across covariate conditions, especially when complexities were not included in the population treatment or outcome model. However, with added complexities and a higher number of covariates, logistic regression, and nn-1 produced extreme weights, which could result in biased treatment effects. These results indicate that most machine learning approaches, particularly the DNN approach and Random Forest, would be good options for generating IPTW weights in high-dimensional covariate conditions. The sensitivity of the IPTW weights to complexities in the treatment and outcome models underscores the importance of considering these complexities when selecting a method for IPTW weighting to ensure accurate treatment effect estimates and minimize the risk of extreme weights.
+The results from the IPTW weight analysis showed that all machine learning approaches produced acceptable weights below 2.5, except for logistic regression which produced extreme weights in high-dimensional cases and when complexities were introduced into the population treatment model. Overall, these results suggest that all methods, except for logistic regression, are robust to the complexities in the population outcome and treatment models and produce acceptable IPTW weights.
 
 ### Power
 
-Finally, I evaluated the statistical power of the methods. Statistical power refers to the probability of detecting a statistically significant effect at a specific alpha level, typically .05. Low power means that the method has a high rate of committing type II error and may miss detecting real differences in the treatment effect estimation. High power, on the other hand, indicates a low rate of type II error. However, it is important to note that factors such as sample size and the magnitude of the effect can impact statistical power. In this simulation, the sample size was fixed at 10,000, and the treatment effect was relatively small. Statistical power may not be the most relevant benchmark for this simulation and should not be generalized outside my specific assessment of an ATE = 0.3. The following is a brief summary of the results.
+Finally, I evaluated the statistical power of each method. Statistical power refers to the ability to detect a significant treatment effect at a specified alpha level, usually .05. High power indicates a low rate of type II error, meaning that the method is able to accurately detect real differences in the treatment effect. However, factors such as sample size and effect size also impact statistical power. In this simulation, the sample size was fixed at 10,000 and the treatment effect was relatively small. The results of the power assessment are summarized below, but it is important to note that the results should not be generalized outside of the specific ATE of 0.3 used in this simulation.
 
-@fig-power shows the results of the statistical power evaluation, averaged across the population treatment and outcome models. The standard alpha level of 0.05 was used to assess statistical significance. We observe a consistent pattern across methods, wherein in the low-dimensional condition, all methods can correctly identify a significant treatment effect, while as the number of covariates increases, we see a decrease in power. However, this decrease in power is more pronounced for both logistic regression and nn-1, while the other machine learning methods have a less steep drop.
+In @fig-power I display the results of the statistical power assessment, which was calculated based on a standard alpha level of 0.05. The results were averaged across the various population treatment and outcome models. In the low-dimensional condition, all methods were able to detect a significant treatment effect, however, as the number of covariates increased, a decrease in power was observed. This decrease was particularly pronounced for logistic regression, while the other machine learning methods showed a less steep drop in power.
 
 ```{r}
 #| label: fig-power
@@ -901,6 +890,14 @@ Quasi-experimental methods are commonly used in educational research to address 
 In this study, I evaluated the performance of various methods for estimating propensity scores, including logistic regression, tree-based machine learning approaches (CART, bagged CART, random forest), and neural network-based approaches (neural network, deep neural networks). The study also included a novel deep neural network-based approach for estimating propensity scores, which builds upon the literature on propensity score simulation (CITE).
 
 The study evaluated the performance of the methods under different covariate conditions, ranging from 20 covariates to 200 covariates, and with varying levels of complexity in both the population treatment model and the population outcome model. The results showed that the choice of method for propensity score estimation should be based on the context and dimensionality of the data. For low-dimensional datasets, logistic regression produced good balance on covariates and unbiased ATE estimates, regardless of complexities in the population treatment or outcome model. Its simplicity in terms of ease of implementation, interpretability, and lower computational cost make it a preferred choice in these settings.
+
+
+
+
+
+
+
+
 
 However, for high-dimensional datasets, machine learning methods, such as bagged CART and the proposed DNN approach, were found to be the optimal choice. These methods resulted in less bias and better covariate balance compared to traditional logistic regression, which produced extreme weights and led to inaccurate ATE estimates in high-dimensional settings. The DNN-based approach demonstrated superior bias reduction in estimating the ATE in a high-dimensional scenario, outperforming not only traditional logistic regression but also all other machine learning methods tested, including bagged CART.
 
