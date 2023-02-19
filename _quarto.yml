@@ -2,56 +2,63 @@ project:
   type: book
   execute-dir: project
 
-execute:
+execute: 
   echo: false
   warning: false
+  message: false
 
 book:
-  title: "**Deep Learning for Investigating Causal Effects with High-Dimensional Data: Analytic Tools and Applications to Educational Interventions**"
-  author: "**Alberto Guzman-Alvarez**"
+  title: "Diss Title"
+  author: "Alberto Guzman-Alvarez"
   output-file: "alberto_guzmanalvarez_diss"
-  date: last-modified
-  date-format: long
   chapters:
     - index.qmd
     - 01-intro.qmd
     - 02-propensity_over.qmd
     - 03-commonapp_over.qmd
     - references.qmd
-  appendices: 
     - simulation_code.qmd
     
 bibliography: m3m4.bib
 csl: apa.csl
 link-citations: yes
 
-include-in-header: 
-  text: |
-    \usepackage{fvextra}
-    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
-    
-format: 
-  titlepage-pdf:
-    documentclass: report
-    geometry: margin=1.0in
-    fontsize: 12pt
+format:
+  pdf:
+    documentclass: book 
+    # class option “oneside” makes the margins of the even and odd pages 
+    # the same. 
+    # class option “open=any” allows chapters and parts to start
+    # on even or odd pages; the default is to only start chapters and parts
+    # on odd pages. 
+    # class option "listof=totoc" adds the list of tables and list of figures to TOC
+    # https://tex.stackexchange.com/questions/48509/insert-list-of-figures-in-the-table-of-contents
+    classoption: ["oneside", "open=any", "listof=totoc"]
+    margin-left: "1in"
+    margin-right: "1in"
+    margin-top: "1in"
+    margin-bottom: "1in" # this is larger than technically needed, but it gets the page number in the footer >1in from the bottom (a requriement per UMN)
+    linestretch: 1.5
+    template-partials: 
+      - "tex/before-body.tex" # overrides default template used by quarto
+      - "tex/_titlepage.tex" # custom title page
+    include-in-header: 
+      - text: | 
+          \usepackage{fvextra}
+          \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
+          \usepackage{setspace}
+          \doublespacing
+          \pagenumbering{gobble} 
+    include-before-body: 
+      - file: "tex/copyright.tex"
+      - file: "tex/acknowledgements.tex"
+      - file: "tex/dedication.tex"
+      - file: "tex/abstract.tex"
+    toc: true
     toc-depth: 3
+    lof: true
+    lot: true
     number-sections: TRUE
-    toc: TRUE
-    lof: TRUE
-    lot: TRUE
-    titlepage: plain
-    titlepage-footer: |
-        University of Pittburgh\ 
-        2023
-    titlepage-include-file:
-     - copyright.tex
-    titlepage-theme:
-            elements: [ "\\titleblock", "by", "\\authorblock","B.S., University of California - Davis, 2013","M.A., University of Pittsburgh, 2018", 
-            "Submitted to the Graduate Faculty of the School of Education in partial fulfillment of the requirements for the degree of Doctor of Philosophy",
-            "\\vfill", "\\footerblock"] 
-            author-space-after: 0 in
-            title-align: center
-
-
-    
+  docx:
+    toc: true
+    reference-doc: custom-reference.docx
