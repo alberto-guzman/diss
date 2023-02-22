@@ -16,9 +16,14 @@ book:
     - 01-intro.qmd
     - 02-propensity_over.qmd
     - 03-commonapp_over.qmd
-    - references.qmd
     - simulation_code.qmd
-    
+    - references.qmd
+
+
+filters:
+  - section-bibliographies
+reference-section-title: References
+citeproc: false
 bibliography: "https://api.citedrive.com/bib/a3b2d1f7-6632-4857-8038-c222a4053fa1/references.bib?x=eyJpZCI6ICJhM2IyZDFmNy02NjMyLTQ4NTctODAzOC1jMjIyYTQwNTNmYTEiLCAidXNlciI6ICIyMDQxIiwgInNpZ25hdHVyZSI6ICI4MDNmNDRkNGI0ZGFlNzlhMThhMDEwZjAwYTUxN2QzOTQ1YzUxYTc5Y2QxMzc5OGQ2OGJjOTIyZmEwOGFkODJiIn0=/bibliography.bib"
 csl: apa.csl
 
@@ -61,3 +66,4 @@ format:
   docx:
     toc: true
     reference-doc: custom-reference.docx
+    
