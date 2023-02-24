@@ -1,6 +1,6 @@
-# Simulation Code
+# Appendix A. Simulation R Code {.unnumbered}
 
-## Data Generating Function
+Data Generating Function
 
 ```{r}
 #| echo: true
@@ -255,7 +255,7 @@ Generate <- function(condition, fixed_objects = NULL) {
 
 ```
 
-## Analyse Function
+Analyse Function
 
 ```{r}
 #| echo: true
@@ -545,7 +545,7 @@ Analyse <- function(condition, dat, fixed_objects = NULL) {
 
 ```
 
-## Summarize Function
+Summarize Function
 
 ```{r}
 #| echo: true
@@ -584,7 +584,7 @@ Summarise <- function(condition, results, fixed_objects = NULL) {
 
 ```
 
-## Simulation Driver 1
+Simulation Driver 1
 
 ```{r}
 #| echo: true
@@ -659,7 +659,7 @@ res <- runSimulation(
 
 ```
 
-## Simulation Driver 2
+Simulation Driver 2
 
 ```{r}
 #| echo: true

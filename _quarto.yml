@@ -19,17 +19,12 @@ book:
     - simulation_code.qmd
     - references.qmd
 
-
-filters:
-  - section-bibliographies
-reference-section-title: References
-citeproc: false
 bibliography: "https://api.citedrive.com/bib/a3b2d1f7-6632-4857-8038-c222a4053fa1/references.bib?x=eyJpZCI6ICJhM2IyZDFmNy02NjMyLTQ4NTctODAzOC1jMjIyYTQwNTNmYTEiLCAidXNlciI6ICIyMDQxIiwgInNpZ25hdHVyZSI6ICI4MDNmNDRkNGI0ZGFlNzlhMThhMDEwZjAwYTUxN2QzOTQ1YzUxYTc5Y2QxMzc5OGQ2OGJjOTIyZmEwOGFkODJiIn0=/bibliography.bib"
 csl: apa.csl
 
 format:
   pdf:
-    documentclass: book 
+    documentclass: book
     # class option “oneside” makes the margins of the even and odd pages 
     # the same. 
     # class option “open=any” allows chapters and parts to start
@@ -54,14 +49,13 @@ format:
           \doublespacing
           \pagenumbering{gobble} 
     include-before-body: 
+      - file: "tex/comittee.tex"
       - file: "tex/copyright.tex"
-      - file: "tex/acknowledgements.tex"
-      - file: "tex/dedication.tex"
       - file: "tex/abstract.tex"
     toc: true
     toc-depth: 3
-    lof: true
     lot: true
+    lof: true
     number-sections: TRUE
   docx:
     toc: true
