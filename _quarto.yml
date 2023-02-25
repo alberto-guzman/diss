@@ -36,8 +36,8 @@ format:
     margin-left: "1in"
     margin-right: "1in"
     margin-top: "1in"
-    margin-bottom: "1in" # this is larger than technically needed, but it gets the page number in the footer >1in from the bottom (a requriement per UMN)
-    linestretch: 1.5
+    margin-bottom: "1in" 
+    linestretch: 2
     template-partials: 
       - "tex/before-body.tex" # overrides default template used by quarto
       - "tex/_titlepage.tex" # custom title page
@@ -57,7 +57,3 @@ format:
     lot: true
     lof: true
     number-sections: TRUE
-  docx:
-    toc: true
-    reference-doc: custom-reference.docx
-    
