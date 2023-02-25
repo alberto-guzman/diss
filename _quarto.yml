@@ -25,13 +25,6 @@ csl: apa.csl
 format:
   pdf:
     documentclass: book
-    # class option “oneside” makes the margins of the even and odd pages 
-    # the same. 
-    # class option “open=any” allows chapters and parts to start
-    # on even or odd pages; the default is to only start chapters and parts
-    # on odd pages. 
-    # class option "listof=totoc" adds the list of tables and list of figures to TOC
-    # https://tex.stackexchange.com/questions/48509/insert-list-of-figures-in-the-table-of-contents
     classoption: ["oneside", "open=any", "listof=totoc"]
     margin-left: "1in"
     margin-right: "1in"
@@ -49,9 +42,9 @@ format:
           \doublespacing
           \pagenumbering{gobble} 
     include-before-body: 
-      - file: "tex/comittee.tex"
+      #- file: "tex/comittee.tex"
       - file: "tex/copyright.tex"
-      - file: "tex/abstract.tex"
+      #- file: "tex/abstract.tex"
     toc: true
     toc-depth: 3
     lot: true
