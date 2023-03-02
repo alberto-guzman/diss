@@ -56,7 +56,7 @@ format:
     include-before-body: 
       #- file: "tex/comittee.tex"
       - file: "tex/copyright.tex"
-      #- file: "tex/abstract.tex"
+      - file: "tex/abstract.tex"
     toc: true
     toc-depth: 3
     lot: true

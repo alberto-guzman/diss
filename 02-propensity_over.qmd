@@ -58,7 +58,7 @@ In this section, I will review the literature on causal inference and propensity
 
 ### Neyman--Holland--Rubin Model for Causal Inference
 
-The Neyman--Holland--Rubin model, also known as the Rubin model, forms the basis of my approach to causal inference [@rubin1976inference; @rubin2005causal; @holland1986statistics; @neyman1923application]. A core tenet of the Rubin model states that a treatment effect is the difference between two potential outcomes for an individual [@rubin2005causal]. Consider a dichotomous treatment variable ($Z$), where $Z_i = 1$ represents the $i$'th student being in the treatment group---such as a college access program---and $Z_i = 0$ represents the student not being in the treatment group. Let $Y_{iz}$ be a potential outcome for student $i$ depending on treatment assignment $Z$, such that an individual student has two potential outcomes. $Y_{i1}$ is the potential outcome had student $i$ participated in the college access program, and $Y_{i0}$ is the potential outcome had that same student not participated. Therefore, the treatment effect of the program for student $i$ would be the difference in their two potential outcomes:
+The Neyman--Holland--Rubin model, also known as the Rubin model, forms the basis of my approach to causal inference [@rubin1976inference; @rubin2005causal; @holland1986statistics; @neyman1923application]. A core tenet of the Rubin model states that a treatment effect is the difference between two potential outcomes for an individual [@rubin2005causal]. Consider a dichotomous treatment variable ($Z$), where $Z_i = 1$ represents the $i$'th student being in the treatment group---such as a college access program---and $Z_i = 0$ represents the student not being in the treatment group. Let $Y_{iz}$ be a potential outcome for student $i$ depending on treatment assignment $Z$, such that an individual student has two potential outcomes. $Y_{i1}$ is the potential outcome had student $i$ participated in the college access program, and $Y_{i0}$ is the potential outcome had that same student not participated. Note, the potential outcomes framework is based on the stable unit value assumption (SUTVA), which states there is only one version of the treatment condition and that the potential outcomes of an invidual is not influences by the treatment assingment of any other individual [@Rosenbaum.2010]. Therefore, the treatment effect of the program for student $i$ would be the difference in their two potential outcomes:
 
 $$
 \tau_i = Y_{i1} - Y_{i0}
@@ -102,15 +102,15 @@ Propensity scores are typically estimated as predicted probabilities from a logi
 
 Researchers can adjust for the imbalance in the joint covariate distribution between the treatment and control groups by conditioning the propensity score using various techniques, including matching, stratification, and weighting. Matching involves pairing treated students with control students based on the proximity of their propensity scores, while stratification involves grouping students into unique strata based on their propensity scores [@Bai.2011p7]. Weighting involves reweighing students in the sample so that the distribution of propensity scores in the control group is similar to that of the treated group [@Pan.2018jza]. These methods aim to approximate true randomization conditions by using the propensity score to eliminate bias in the treatment effect due to observed confounding and approximate the true causal effect [@Pan.2018jza]. However, for this to be achieved, certain assumptions must hold.
 
-#### Assumptions
+#### Assumptions for Identification and Estimation of Causal Effects
 
-Several assumptions must be met to estimate an unbiased treatment effect using propensity scores. These include the stable unit value assumption (SUTVA), the strong ignorability assumption, and the region of common support [@rubin2005causal]. It is important to note that, while necessary, these assumptions are insufficient for unbiased causal inference using propensity scores. Furthermore, it can be challenging to assess the validity of these assumptions in practice, which can impact the validity of the estimated treatment effects [@Bai.2011p7].
+Several assumptions must be met to identify and estimate an unbiased treatment effect using propensity scores. These include the stable SUTVA, the strong ignorability assumption, and the region of common support [@rubin2005causal]. It is important to note that, while necessary, these assumptions are insufficient for unbiased causal inference using propensity scores. Furthermore, it can be challenging to assess the validity of these assumptions in practice, which can impact the validity of the estimated treatment effects [@Bai.2011p7].
 
-The first assumption, the SUTVA, states that there is only one version of the treatment condition and that the potential outcome of an individual is not influenced by the treatment assignment of any other individual [@Pan.2018jza, @Rosenbaum.2010]. Thus, the outcome of a student is independent of whether another student is assigned to the treatment or control group.
+The first assumption, the SUTVA, states that there is only one version of the treatment condition and that the potential outcome of an individual is not influenced by the treatment assignment of any other individual [@Pan.2018jza; @Rosenbaum.2010]. Thus, the outcome of a student is independent of whether another student is assigned to the treatment or control group.
 
-The strong ignorability assumption states that the potential outcome of an individual is conditionally independent of treatment assignment if we successfully conditioned on all covariates related to treatment, $Y_1, Y_0 \perp Z|\boldsymbol{X}$. Randomization satisfies this assumption in experimental studies, which ensures that treatment assignment is independent of an individual's outcome [@Rosenbaum.2010]. However, this assumption holds in observational studies only if *all* covariates related to treatment assignment are included in the propensity score model [@Rosenbaum.1981e00e; @Rosenbaum.1984a5; @Rosenbaum.1987osp]. In practice, it is unlikely that all such covariates are included, and sensitivity analysis is necessary to assess the influence of unmeasured confounding [@li2011propensity].
+The strong ignorability assumption states that the potential outcome of an individual is conditionally independent of treatment assignment if we successfully conditioned on all covariates related to treatment, $Y_1, Y_0 \perp Z|\boldsymbol{X}$. Randomization satisfies this assumption in experimental studies, which ensures that treatment assignment is independent of an individual's outcome [@Rosenbaum.2010]. However, this assumption holds in observational studies only if *all* covariates related to both treatment assignment and outcome are included in the propensity score model [@Rosenbaum.1981e00e; @Rosenbaum.1984a5; @Rosenbaum.1987osp]. In practice, it is unlikely that all such covariates are included, and sensitivity analysis is necessary to assess the influence of unmeasured confounding [@li2011propensity].
 
-Finally, the region of common support assumption states that there must be sufficient overlap in the estimated propensity score distribution between the treatment and control groups [@Rosenbaum.2010]. This overlap is crucial to ensure that suitable matches can be found for treated individuals. The adequacy of the common support can be assessed by plotting the distribution of the propensity scores in both the treatment and control groups and evaluating if there is sufficient overlap between the two distributions.
+Finally, the region of common support (i.e., positivity) assumption states that there must be sufficient overlap in the estimated propensity score distribution between the treatment and control groups [@Rosenbaum.2010]. This overlap is crucial to ensure that suitable matches can be found for treated individuals. The adequacy of the common support can be assessed by plotting the distribution of the propensity scores in both the treatment and control groups and evaluating if there is sufficient overlap between the two distributions.
 
 Estimating causal effects from observational data is possible if these assumptions are satisfied. However, many of these assumptions are untestable [@rubin2005causal; @Rubin.2004]. For instance, in observational data, the underlying mechanism of treatment assignment is usually unknown, making it difficult to determine if all covariates related to treatment assignment have been included in the propensity score model. As a result, propensity score analysis should be viewed as a method to reduce, but not eliminate, the bias between treatment and outcome in observational studies. It is crucial to carefully consider which covariates are included in the propensity score model and to conduct sensitivity analysis to assess the impact of unmeasured confounding.
 
@@ -168,7 +168,7 @@ The building block for artificial neural networks was initially developed by psy
 
 The artificial neuron receives a set of inputs $X_i = (X_1, X_2, \dots, X_p)$ with corresponding weights $w_i = (w_1, w_2, \dots ,w_p)$ that represent the strength of each input variable. The inputs are multiplied by their corresponding weights and then summed with a bias term $\beta_0$ to create a linear transformation of the inputs. The weight and bias terms are similar to the slope and intercept in linear regression. The linear transformation is then passed through an activation function $g(z)$ to generate an output ($\hat{y}$) that is either a 1 or 0, or a value between 0 and 1 if the activation function is set to be linear, such as the sigmoid function.
 
-The artificial neuron in Equation ({#eq-nn}) can be used to solve a binary classification problem. In our case, we are interested in classifying each student in our sample as belonging to the treatment or control condition based on observed covariates. If the activation function $g(z)$ is set to a sigmoid function, the desired propensity score will be guaranteed an output value between 0 and 1. For the neuron to make accurate predictions for each student, it must "learn" the correct weight and bias parameter specifications, similar to finding the correct slope and intercept in bivariate data.
+The artificial neuron in @eq-nn can be used to solve a binary classification problem. In our case, we are interested in classifying each student in our sample as belonging to the treatment or control condition based on observed covariates. If the activation function $g(z)$ is set to a sigmoid function, the desired propensity score will be guaranteed an output value between 0 and 1. For the neuron to make accurate predictions for each student, it must "learn" the correct weight and bias parameter specifications, similar to finding the correct slope and intercept in bivariate data.
 
 $$
 \hat{y} = g(z) = g(\beta_0 + \sum_{i=1}^{p}X_iw_i)
@@ -238,7 +238,7 @@ The popularity of DNNs in causal inference has increased in recent years due to 
 
 To date, DNNs have received limited attention in the broader literature on causal inference, with most research focused on medical or genomic applications [@Kale.2015cza; @Iglesias.2021ruh]. DNNs have not yet been widely adopted in social science, likely due to a limited understanding of implementing these algorithms [@Farrell.2021]. As high-dimensional datasets become more prevalent in social science research, it is expected that DNNs will become more widespread and a promising area of investigation in the future. Despite its potential, there has been limited research that incorporates DNNs into propensity score analysis.
 
-Only two medical peer-reviewed studies have applied DNNs for propensity score estimation [@Whata.202204a; @Weberpals.2021lch]. @Weberpals.2021lch1 used data from around 130,000 cancer patients to construct a simulated dataset with 31 baseline covariates, where the treatment was a fictional cancer drug, and the outcome was a binary survival indicator. Employing a specific DNN architecture with three hidden layers, known as an "autoencoder", they found that DNN reduced confounding bias in treatment effect compared to the traditional logistic model with manual variable selection. Conversely, @Whata.202204a compared the performance of logistic regression to a DNN with four hidden layers through a simulation (with 15 covariates) and a real-world application. In their simulation, they varied the level of complexity in the population treatment model but not the outcome model. The results showed that DNN outperformed logistic regression regarding covariate balance, classification accuracy, and absolute relative bias.
+Only two medical peer-reviewed studies have applied DNNs for propensity score estimation [@Whata.202204a; @Weberpals.2021lch]. @Weberpals.2021lch used data from around 130,000 cancer patients to construct a simulated dataset with 31 baseline covariates, where the treatment was a fictional cancer drug, and the outcome was a binary survival indicator. Employing a specific DNN architecture with three hidden layers, known as an "autoencoder", they found that DNN reduced confounding bias in treatment effect compared to the traditional logistic model with manual variable selection. Conversely, @Whata.202204a compared the performance of logistic regression to a DNN with four hidden layers through a simulation (with 15 covariates) and a real-world application. In their simulation, they varied the level of complexity in the population treatment model but not the outcome model. The results showed that DNN outperformed logistic regression regarding covariate balance, classification accuracy, and absolute relative bias.
 
 Both studies demonstrate the growing interest in using DNNs for causal inference and suggest that DNNs may be a valid approach for estimating the propensity score. My dissertation builds upon these studies by comparing DNNs to traditional logistic regression and established machine learning methods in the propensity score simulation literature. Additionally, my study will test the complexity of both the outcome and treatment models, making it the first to examine the use of DNNs for propensity score estimation outside of medical research and with high-dimensional data that resembles high-dimensional administrative datasets encountered in educational research.
 
@@ -258,7 +258,7 @@ The data generation mechanism for my simulation was informed by the evaluation I
 
 I used a programmatic approach to generate $(X_1,X_2,X_3,\dots,X_p)$ correlated covariates. Specifically, I simulated three covariate conditions with varying covariates generated, with $p = 20, 100, 200$. The 20 covariate conditions represented the average number of covariates used in typical propensity score analyses in educational research [@huber2013performance; @Powell.20204oe]. The remaining two conditions, with $p = 100$ and $p = 200$, were chosen as they represent high-dimensional datasets commonly encountered in education research [@grimmer2015we; @Song.2020tde; @Einav.2014; @Bird.2022gc4; @Hill.201183].
 
-Much of the literature on propensity score simulation generates uncorrelated covariates [@Setoguchi.2008ulg; @Cannas.2019; @Lee.2010u1]. However, this does not represent the correlated data typically found in administrative data. To address this, all covariates were generated from random draws from a multivariate normal distribution with $\mu=0$ and $\sigma=1$, with a specified correlation matrix with correlations ranging from -0.3 to 0.3, using the mvrnorm function from the MASS package in R [@ripley2013package]. This approach was based on the correlations found in the Common App data. Additionally, by inducing bounded correlations that straddle 0, I aim to circumvent potential issues that may arise when correlations approach -1 or 1, such as collinearity.
+Much of the literature on propensity score simulation generates uncorrelated covariates [@Setoguchi.2008ulg; @Cannas.2019; @Lee.2010u1]. However, this does not represent the correlated data typically found in administrative data. To address this, all covariates were generated from random draws from a multivariate normal distribution with $\mu=0$ and $\sigma=1$, with a specified correlation matrix with correlations ranging from -0.3 to 0.3, using the mvrnorm function from the MASS package in R [@ripley2013package]. This choice of correlation coefficient values was based on the correlations found in the Common App data. Additionally, by inducing bounded correlations that straddle 0, I aim to circumvent potential issues that may arise when correlations approach -1 or 1, such as collinearity.
 
 In order to preserve the correlation structure, I used the inverse cumulative distribution function (CDF) approach [@li2021improving] to convert the initial random pull of covariates from the multivariate normal distribution to three distributions: a normal distribution with a mean of 0 and standard deviation of 1, a uniform distribution with a range of 0 to 1, and a Bernoulli distribution with a probability of success set at 0.5. This approach aims to maintain the same correlation structure, although some correlations may be slightly suppressed, but should be equal on average across the simulation. The covariates were constructed such that half affected both treatment and outcome (i.e., confounders), a quarter affected treatment only, and the remaining quarter affected the outcome only. This approach is in line with other propensity score simulation studies [@Setoguchi.2008ulg; @Cannas.2019; @Lee.2010u1].
 
@@ -271,25 +271,25 @@ I used a fixed sample size of 10,000 for all conditions. This sample size is lar
 I generated the population treatment assignment models using standard logistic regression. These models can also be referred to as population propensity score models, as they generate the true probability of being assigned to treatment. The following logistic regression model represents the general structure of these models.
 
 $$
-Pr(Z = 1) = (1 + exp(-(\beta_0 + \sum_{i=1}^{p} \beta_i X_i)))^{-1}
+e(x)=Pr(Z = 1|X) = (1 + exp(-(\beta_0 + \sum_{i=1}^{p} \beta_i X_i)))^{-1}
 $$ {#eq-popps}
 
-$X_i$ represents $p$ covariates and their associated coefficients ($\beta_i$). The output, $Pr(Z = 1)$ is the probability of assignment to the treatment condition (i.e., the propensity score, $e(x)$). The intercept, $\beta_0$, was set to 0.25, and the remaining coefficients, $\beta_i$, were randomly assigned values between -0.4 and 0.4, which were based on the corresponding standardized coeffecient values in the Common App evaluation.
+$X$ represents covariates and their associated coefficients ($\beta$). The output, $Pr(Z = 1|X)$ is the probability of assignment to the treatment condition (i.e., the propensity score, $e(x)$). The intercept, $\beta_0$, was set to 0.25, and the remaining coefficients, $\beta_i$, were randomly assigned values between -0.4 and 0.4, which were based on the corresponding standardized coefficient values in the Common App evaluation.
 
 I generated two population treatment assignment models, Base(T) and Complex(T). To add complexity to these models, I included interactions (non-additivity) and higher-order terms (non-linearity) for the confounders and covariates related to treatment.
 
 **Base(T)**: includes only main effects, which assumes a linear relationship between covariates and treatment assignment. I consider this the base model, which is expressed using the following formula:
 
 $$
-PS^{Base} = (1 + exp(-(\beta_0 + \sum_{i=1}^{p} \beta_iX_i)))^{-1}
+e(x)^{Base} = (1 + exp(-(\beta_0 + \sum_{i=1}^{p} \beta_iX_i)))^{-1}
 $$ {#eq-psA}
 
-$X$ represents $p$ covariates and their associated coefficients $\beta$. The output is the assignment probability to the treatment condition (i.e., propensity score).
+$X$ represents covariates and their associated coefficients $\beta$. The output is the assignment probability to the treatment condition (i.e., propensity score).
 
 **Complex(T)**: my simulation's most complex population treatment assignment model. To construct it, I incorporated quadratic terms for half of the covariates that are both confounders and related to treatment and interactions with another half of the same group of covariates. This design aims to account for complex relationships between covariates and treatment assignment.
 
 $$
-PS^{Complex} = PS^{Base} + \beta_iX_i^2 + \beta_iX_iX_{i+1}
+e(x)^{Complex} = e(x)^{Base} + \sum_{j=1}^{J} [\beta_jX_j^2 + \beta_jX_jX_{j+1}]
 $$ {#eq-psD}
 
 Using the propensity scores generated from these population treatment models, I generated a binary treatment assignment variable by comparing an individual's true propensity score to a random draw from a uniform distribution between 0 and 1. If the propensity score of an individual was higher than the random draw of the uniform distribution, the individual was assigned to treatment such that $Z = 1$, otherwise $Z = 0$. This approach should approximate a probability of assignment to the treatment of 0.5, which is the probability of assignment to a randomized experiment with binary treatment.
@@ -315,7 +315,7 @@ $$ {#eq-outcome_a}
 **Complex(Y)**: describes the complex model, which includes both non-linearities and non-additivities, which were generated in an identical way to how they were generated in the population treatment outcome models:
 
 $$
-Y^{Complex} =  Y^{Base} + \alpha_iX_i^2 + \alpha_iX_iX_{i+1}
+Y^{Complex} =  Y^{Base} + \sum_{j=1}^{J} [\alpha_jX_j^2 + \alpha_jX_jX_{j+1}]
 $$ {#eq-outcome_d}
 
 #### Propensity Score Estimation Methods
@@ -372,7 +372,7 @@ To gauge the performance of each propensity score estimation method, I used the 
 
 -   **Relative Bias (Bias)**: the difference between the estimated treatment effect and the population treatment effect, divided by the true population treatment effect of 0.3. A low relative bias value indicates that the estimated treatment effect is close to the true population treatment effect. In contrast, a high relative bias value indicates that the estimated treatment effect deviates significantly from the true ATE.
 
--   **ATE Standard Error**: is simply the standard error associated with the estimated ATE.
+-   **Estimated Standard Error of the ATE**: is simply the standard error associated with the estimated ATE.
 
 -   **Mean Squared Error (MSE)**: the average of the squared differences between the estimated and population treatment effects. MSE is a good representation of bias and variance and a common performance metric in the machine learning literature [@athey2015machine].
 
@@ -386,7 +386,7 @@ To gauge the performance of each propensity score estimation method, I used the 
 
 ### Simulation Scenarios
 
-In total, I tested three different covariate conditions (p = 20, 100, 200) with two treatment models (Base(T) and Complex(T)) and two outcome models (Base(Y) and Complex(Y)). I evaluated seven propensity score estimation methods, including logit, CART, BAG, forest, NN-1, DNN-2, and DNN-3. The sample size was fixed at 10,000. By fully crossing all these conditions, I tested 84 scenarios; each simulated 1,000 times.
+In total, I tested three different covariate conditions (p = 20, 100, 200) with varying levels of complexity in the treatment and outcome models (Treatment population model = Base, Complex; Outcome population model = Base, Complex). I evaluated seven propensity score estimation methods, including logit, CART, BAG, forest, NN-1, DNN-2, and DNN-3. The sample size was fixed at 10,000. By fully crossing all these conditions, I tested 84 scenarios; each simulated 1,000 times.
 
 ### Software
 
@@ -416,7 +416,7 @@ res |>
   ggplot(aes(x = method, y = est, fill = as.factor(p))) +
   ylab("Bias") +
   geom_bar(position = "dodge", stat = "identity") +
-  labs(fill = 'Covariates',caption = "Notes: The solid black dots represent the mean bias. The extending lines represent the associated Monte Carlo 95% C.I.") +
+  labs(fill = 'Covariates') +
   theme_Publication() +
   scale_fill_Publication() +
   geom_pointrange(aes(ymin = lower, ymax = upper), position = position_dodge(0.9), size = 0.1, alpha = 0.5) 
@@ -442,7 +442,7 @@ res |>
   ggplot(aes(x = method, y = rel_bias, fill = as.factor(p))) +
   ylab("Relative Bias") +
   geom_bar(position = "dodge", stat = "identity") +
-  labs(fill = 'Covariates',caption = "Notes: The solid black dots represent the mean bias. The extending lines represent the associated Monte Carlo 95% C.I.. The dashed lines indicate +- 10% bias ") +
+  labs(fill = 'Covariates') +
   coord_cartesian(ylim=c(-.6,.6)) +
   geom_hline(yintercept = -.1, linetype = "dashed", color = "grey", size = .5) +
   geom_hline(yintercept = .1, linetype = "dashed", color = "grey", size = .5) +
@@ -451,7 +451,7 @@ res |>
   geom_pointrange(aes(ymin = rel_bias - (1.96 * rel_bias_mcse), ymax = rel_bias + (1.96 * rel_bias_mcse)), position = position_dodge(0.9), size = 0.1, alpha = 0.5) 
 ```
 
-In the low-dimensional condition (p = 20), nearly all methods accurately estimated the ATE with little bias and high precision. I found that logistic regression had the least absolute bias, while all other methods produced less than 2% absolute bias. The exception was bagged-CART, which had a large amount of bias (absolute bias = -37%), meaning that it severely underestimated the true ATE by around -37% of the true ATE. As the number of covariates increased from 20 to 100 and 200, logistic regression became substantially more biased compared to all other methods, with substantially more imprecision, reaching its maximum relative bias in the 200-covariate condition, where it overestimated the true ATE by nearly 16%. All machine learning approaches performed well in the 100-covariate condition, producing bias below 4%. In this scenario, my DNN-2 approach and bagged-CART produced the lowest bias estimates, where as all other methods produced estimates exceeding the 10% bias treshold. In the highest-dimensional covariate condition (p = 200), all methods had an increase in bias, with an accompanying increase in sampling variability. However, the machine learning approaches performed exceptionally well compared to logistic regression. My DNN-2 approach produced the least biased results with a mean relative bias of less than 1%, followed by NN-1 and DNN-3. The NN-based approaches produced less bias and exhibited less sampling variability than all other methods, in addition to bagged-CART. However, none of the methods in the 200-covariate condition had 95% Monte Carlo confidence intervals within the 10% threshold. All machine learning approaches had much narrower confidence intervals than logistic regression, which had extreme sampling variability. These results imply that if I used a machine learning method to estimate an ATE in a high-dimensional setting, I would increase my probability of capturing the true population ATE much more with DNN and bagged-CART than if I used logistic regression to estimate the propensity scores.
+In the low-dimensional condition (p = 20), nearly all methods accurately estimated the ATE with little bias and high precision. I found that logistic regression had the least relative bias, while all other methods produced less than 2% relative bias. The exception was bagged-CART, which had a large amount of bias (relative bias = -37%), meaning that it severely underestimated the true ATE by around -37% of the true ATE. As the number of covariates increased from 20 to 100 and 200, logistic regression became substantially more biased compared to all other methods, with substantially more imprecision, reaching its maximum relative bias in the 200-covariate condition, where it overestimated the true ATE by nearly 16%. All machine learning approaches performed well in the 100-covariate condition, producing bias below 4%. In this scenario, my DNN-2 approach and bagged-CART produced the lowest bias estimates, where as all other methods produced estimates exceeding the 10% bias treshold. In the highest-dimensional covariate condition (p = 200), all methods had an increase in bias, with an accompanying increase in sampling variability. However, the machine learning approaches performed exceptionally well compared to logistic regression. My DNN-2 approach produced the least biased results with a mean relative bias of less than 1%, followed by NN-1 and DNN-3. The NN-based approaches produced less bias and exhibited less sampling variability than all other methods, in addition to bagged-CART. However, none of the methods in the 200-covariate condition had 95% Monte Carlo confidence intervals within the 10% threshold. All machine learning approaches had much narrower confidence intervals than logistic regression, which had extreme sampling variability. These results imply that if I used a machine learning method to estimate an ATE in a high-dimensional setting, I would increase my probability of capturing the true population ATE much more with DNN and bagged-CART than if I used logistic regression to estimate the propensity scores.
 
 ##### Complexities in the Population Outcome and Treatment Models
 
@@ -473,7 +473,7 @@ res |>
   ggplot(aes(x = method, y = rel_bias, fill = as.factor(p))) +
   ylab("Relative Bias") +
   geom_bar(position = "dodge", stat = "identity") +
-  labs(fill = 'Covariates',caption = "Notes: The solid black dots represent the mean bias. The extending lines represent the associated Monte Carlo 95% C.I.. The dashed lines indicate +- 10% bias ") +
+  labs(fill = 'Covariates') +
     facet_grid(scenarioT ~ scenarioY, scales = "fixed") +
   coord_cartesian(ylim=c(-.6,.6)) +
   geom_hline(yintercept = -.1, linetype = "dashed", color = "grey", size = .5) +
@@ -525,7 +525,7 @@ res |>
   ggplot(aes(x = method, y = est, fill = as.factor(p))) +
   ylab("Standard Error (SE)") +
   geom_bar(position = "dodge", stat = "identity") +
-  labs(fill = 'Covariates',caption = "Notes: The solid black dots represent the mean bias. The extending lines represent the associated Monte Carlo 95% C.I.") +
+  labs(fill = 'Covariates') +
   theme_Publication() +
   scale_fill_Publication() +
   geom_pointrange(aes(ymin = lower, ymax = upper), position = position_dodge(0.9), size = 0.1, alpha = 0.5) 
@@ -538,11 +538,13 @@ res |>
   ggplot(aes(x = method, y = est, fill = as.factor(p))) +
   ylab("Mean Squared Error (MSE)") +
   geom_bar(position = "dodge", stat = "identity") +
-  labs(fill = 'Covariates',caption = "Notes: The solid black dots represent the mean bias. The extending lines represent the associated Monte Carlo 95% C.I.") +
+  labs(fill = 'Covariates') +
   theme_Publication() +
   coord_cartesian(ylim=c(0,10)) +
   scale_fill_Publication() +
-  geom_pointrange(aes(ymin = lower, ymax = upper), position = position_dodge(0.9), size = 0.1, alpha = 0.5) 
+  geom_pointrange(aes(ymin = lower, ymax = upper), position = position_dodge(0.9), size = 0.1, alpha = 0.5) +
+  geom_hline(yintercept = 10, color = "white", size = 2) 
+
 
 res |> 
   simsum(estvarname = "ATE", true = 0.3, se = "ATE_se", methodvar = "method", ref = "logit", by = c("p")) |> 
@@ -552,7 +554,7 @@ res |>
   ggplot(aes(x = method, y = est, fill = as.factor(p))) +
   ylab("95% C.I. Coverage") +
   geom_bar(position = "dodge", stat = "identity") +
-  labs(fill = 'Covariates',caption = "Notes: The solid black dots represent the mean bias. The extending lines represent the associated Monte Carlo 95% C.I.") +
+  labs(fill = 'Covariates') +
   theme_Publication() +
   coord_cartesian(ylim=c(0,1)) +
   geom_hline(yintercept = .95, linetype = 2, color = "black", size = .5) +
@@ -560,13 +562,13 @@ res |>
   geom_pointrange(aes(ymin = lower, ymax = upper), position = position_dodge(0.9), size = 0.1, alpha = 0.5) 
 ```
 
-#### Standard Error (SE) and Mean Squared Error (MSE)
+#### Estimated Standard Error (SE) and Mean Squared Error (MSE)
 
 In the first panel of @fig-ate-var, I present the standard error (SE) results of the estimated ATE by covariate condition. In the low-dimensional condition, all methods produced small standard errors. However, as the number of covariates increased, the SE of logistic regression and NN-1 increased significantly. At the same time, other machine learning approaches, such as CART and random forest, had smaller SEs (SE = 0.22 and 0.21, respectively). Despite the differences in the SE, all methods produced narrow 95% Monte Carlo confidence intervals for the estimated ATE, indicating high precision in the ATE estimate.
 
 A high SE implies a high degree of uncertainty in the estimated ATE, with a wide range of possible values. In a true ATE of 0.3, even an SE of 0.2 (the lowest estimated SE) could be substantial. Such errors could lead to incorrect conclusions about the effectiveness of the treatment and reduce the reliability of the ATE estimate. A high SE can also indicate that the model is not capturing the underlying relationship between the treatment and outcome, making the estimated ATE unreliable. Therefore, it is crucial to choose a method that produces a low SE given its relationship to statistical inference, in addition to low bias, to ensure reliability of the estimated ATE.
 
-In the second panel of @fig-ate-var-2, I present the results for the mean squared error (MSE) of the estimated ATE. The MSE measures the average squared difference between the estimated and true values, with a lower MSE indicating a better fit. This metric provides a comprehensive summary statistic that considers both the bias and variance of the estimated ATE. Whereby an MSE > 1 indicates, on average, more that one point difference betwee the true ATE and the estimated ATE. In the low-dimensional condition (p=20), all methods produced low MSE values. However, as the number of covariates increased (p=200), logistic regression produced extremely high MSE values (MSE = 29.4). At the same time, the other machine learning approaches maintained low MSE values, with the best performance achieved by the DNN-2 and DNN-3 approaches (both with MSE = 0.87), which were 35 times lower than the MSE produced by logistic regression.
+In the second panel of @fig-ate-var-2, I present the results for the mean squared error (MSE) of the estimated ATE. The MSE measures the average squared difference between the estimated and true values, with a lower MSE indicating a better fit. This metric provides a comprehensive summary statistic that considers both the bias and variance of the estimated ATE. Whereby an MSE \> 1 indicates, on average, more that one point difference betwee the true ATE and the estimated ATE. In the low-dimensional condition (p=20), all methods produced low MSE values. However, as the number of covariates increased (p=200), logistic regression produced extremely high MSE values (MSE = 29.4). At the same time, the other machine learning approaches maintained low MSE values, with the best performance achieved by the DNN-2 and DNN-3 approaches (both with MSE = 0.87), which were 35 times lower than the MSE produced by logistic regression.
 
 ##### Complexities in the Population Outcome and Treatment Models
 
@@ -591,7 +593,7 @@ res |>
   ggplot(aes(x = method, y = est, fill = as.factor(p))) +
   ylab("Standard Error (SE)") +
   geom_bar(position = "dodge", stat = "identity") +
-  labs(fill = 'Covariates',caption = "Notes: The solid black dots represent the mean bias. The extending lines represent the associated Monte Carlo 95% C.I.") +
+  labs(fill = 'Covariates') +
   theme_Publication() +
   scale_fill_Publication() +
   geom_pointrange(aes(ymin = lower, ymax = upper), position = position_dodge(0.9), size = 0.1, alpha = 0.5) +
@@ -606,13 +608,15 @@ res |>
   ggplot(aes(x = method, y = est, fill = as.factor(p))) +
   ylab("Mean Squared Error (MSE)") +
   geom_bar(position = "dodge", stat = "identity") +
-  labs(fill = 'Covariates',caption = "Notes: The solid black dots represent the mean bias. The extending lines represent the associated Monte Carlo 95% C.I.") +
+  labs(fill = 'Covariates') +
   theme_Publication() +
   coord_cartesian(ylim=c(0,10)) +
   scale_fill_Publication() +
   geom_pointrange(aes(ymin = lower, ymax = upper), position = position_dodge(0.9), size = 0.1, alpha = 0.5) +
   facet_grid(scenarioT ~ scenarioY, scales = "fixed") +
-  theme(panel.spacing = unit(.5, "cm")) 
+  theme(panel.spacing = unit(.5, "cm")) +
+  geom_hline(yintercept = 10, color = "white", size = 2) 
+
 
 res |> 
   simsum(estvarname = "ATE", true = 0.3, se = "ATE_se", methodvar = "method", ref = "logit", by = c("p","scenarioT", "scenarioY")) |> 
@@ -622,7 +626,7 @@ res |>
   ggplot(aes(x = method, y = est, fill = as.factor(p))) +
   ylab("95% C.I. Coverage") +
   geom_bar(position = "dodge", stat = "identity") +
-  labs(fill = 'Covariates',caption = "Notes: The solid black dots represent the mean bias. The extending lines represent the associated Monte Carlo 95% C.I.") +
+  labs(fill = 'Covariates') +
   theme_Publication() +
   coord_cartesian(ylim=c(0,1)) +
   geom_hline(yintercept = .95, linetype = 2, color = "black", size = .5) +
@@ -648,7 +652,7 @@ As I observed with the ATE bias evaluation results, both the SE and MSE were mor
 
 Finally, in the third panel (@fig-ate-var-3), I present my findings for the 95% confidence interval (CI) coverage rate of the ATE across different population outcome models. The dashed line indicates the desired coverage rate of 95%. This rate assesses how well each method captures the true ATE of 0.3 within the estimated 95% confidence interval. A good estimator has high coverage and reliably captures the true population ATE within the interval.
 
-The machine learning approaches appear relatively insensitive to the different covariate conditions. However, logistic regression seems more sensitive and shows a decrease in coverage rate as the number of covariates increases. Overall, only logistic regression in the low-covariate condition approached the normal 95% CI. In the high-covariate conditions, all methods had relatively low coverage, with coverage rates below 75%, while CART and random forest showed incredibly low coverage rates below 30%. The exception was bagged-CART, which had a coverage rate of 81%, followed by logistic regression with 71%. However, it is important to note that logistic regression in the highest covariate condition also exhibited large bias and SEs. Thus, its relatively good performance in this condition may be due to the large amount of bias and sampling variability in the ATE.
+The machine learning approaches appear relatively insensitive to the different covariate conditions. However, logistic regression seems more sensitive and shows a decrease in coverage rate as the number of covariates increases. Overall, only logistic regression in the low-covariate condition approached the normal 95% CI. In the high-covariate conditions, all methods had relatively low coverage, with coverage rates below 75%, while CART and random forest showed incredibly low coverage rates below 30%. The exception was bagged-CART, which had a coverage rate of 81%, followed by logistic regression with 71%. The high coverate rate of bagged-CART is likely due to the method using building multiple decision trees based on bootstrap samples of the data, which reduces the variance of the model and improves its performance, especially in high-dimensional data. Attitionally, it is important to note that logistic regression in the highest covariate condition also exhibited large bias and SEs. Thus, its relatively good performance in this condition may be due to the large amount of bias and sampling variability in the ATE.
 
 ##### Complexities in the Population Outcome and Treatment Models
 
@@ -685,7 +689,7 @@ res |>
   ggplot(aes(x = method, y = est, fill = as.factor(p))) +
   ylab("Relative % error in standard error") +
   geom_bar(position = "dodge", stat = "identity") +
-  labs(fill = 'Covariates',caption = "Notes: The solid black dots represent the mean bias. The extending lines represent the associated Monte Carlo 95% C.I.") +
+  labs(fill = 'Covariates') +
   theme_Publication() +
   scale_fill_Publication() +
   geom_pointrange(aes(ymin = lower, ymax = upper), position = position_dodge(0.9), size = 0.1, alpha = 0.5) +
@@ -831,7 +835,7 @@ res |>
   ggplot(aes(x = method, y = est, fill = as.factor(p))) +
   ylab("Power") +
   geom_bar(position = "dodge", stat = "identity") +
-  labs(fill = 'Covariates',caption = "Notes: The solid black dots represent the mean bias. The extending lines represent the associated Monte Carlo 95% C.I.") +
+  labs(fill = 'Covariates') +
   theme_Publication() +
   coord_cartesian(ylim=c(0,1)) +
   scale_fill_Publication() +
