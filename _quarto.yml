@@ -36,6 +36,8 @@ format:
       - "tex/_titlepage.tex" # custom title page
     include-in-header: 
       - text: | 
+          \usepackage{indentfirst}
+          \setlength{\parindent}{1cm}
           \usepackage{fvextra}
           \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
           \usepackage{setspace}
