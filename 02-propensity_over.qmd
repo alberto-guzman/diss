@@ -9,7 +9,8 @@ packages <- c(
   "gtsummary",
   "simhelpers",
   "rsimsum",
-  "SimDesign"
+  "SimDesign",
+  "forcats"
 )
 
 lapply(packages, library, character.only = TRUE)
@@ -18,6 +19,12 @@ source("~/Projects/inProgress/dissertation/ggplot_theme_pub.R")
 
 # Load sim results
 res <- readRDS("~/Projects/inProgress/2018_propensity_neuralnet_paper/data/res_all_nnmod.rds")
+
+res <-
+  res |> 
+  mutate(method = as.factor(method)) |> 
+  mutate(method = fct_relevel(method, "logit","nn-1", "dnn-2", "dnn-3", "cart", "bag", "forest")) 
+  
 ```
 
 # Paper 1: Evaluating modern propensity score estimation methods with high-dimensional data
@@ -482,6 +489,67 @@ res |>
   scale_fill_Publication() +
   geom_pointrange(aes(ymin = rel_bias - (1.96 * rel_bias_mcse), ymax = rel_bias + (1.96 * rel_bias_mcse)), position = position_dodge(0.9), size = 0.1, alpha = 0.5) +
     theme(panel.spacing = unit(.5, "cm")) 
+```
+
+```{r}
+res |> 
+  mutate(rel_bias = (ATE - 0.3)/0.3) |> 
+  group_by(p, method, scenarioT, scenarioY) |> 
+  filter(scenarioT == "base_T", scenarioY == "base_Y") |> 
+  mutate(rel_bias_mcse = sd(rel_bias)/sqrt(1000)) |> 
+  summarise(rel_bias = mean(rel_bias), rel_bias_mcse = mean(rel_bias_mcse)) |> 
+  ggplot(aes(x = method, y = rel_bias, fill = as.factor(p))) +
+  ylab("Relative Bias") +
+  geom_bar(position = "dodge", stat = "identity") +
+  coord_cartesian(ylim=c(-.6,.6)) +
+  labs(fill = 'Covariates') +
+  geom_hline(yintercept = -.1, linetype = "dashed", color = "grey", size = .5) +
+  geom_hline(yintercept = .1, linetype = "dashed", color = "grey", size = .5) +
+  theme_Publication() +
+  scale_fill_Publication() +  
+  geom_pointrange(aes(ymin = rel_bias - (1.96 * rel_bias_mcse), ymax = rel_bias + (1.96 * rel_bias_mcse)), position = position_dodge(0.9), size = 0.1, alpha = 0.5) + theme(panel.spacing = unit(.5, "cm")) 
+```
+
+```{r}
+
+res |> 
+  mutate(rel_bias = (ATE - 0.3)/0.3) |> 
+  group_by(p, method, scenarioT, scenarioY) |> 
+  filter(scenarioT == "complex_T", scenarioY == "complex_Y") |> 
+  mutate(rel_bias_mcse = sd(rel_bias)/sqrt(1000)) |> 
+  summarise(rel_bias = mean(rel_bias), rel_bias_mcse = mean(rel_bias_mcse)) |> 
+  ggplot(aes(x = method, y = rel_bias, fill = as.factor(p))) +
+  ylab("Relative Bias") +
+  geom_bar(position = "dodge", stat = "identity") +
+  coord_cartesian(ylim=c(-.6,.6)) +
+  labs(fill = 'Covariates') +
+  geom_hline(yintercept = -.1, linetype = "dashed", color = "grey", size = .5) +
+  geom_hline(yintercept = .1, linetype = "dashed", color = "grey", size = .5) +
+  theme_Publication() +
+  scale_fill_Publication() +  
+  geom_pointrange(aes(ymin = rel_bias - (1.96 * rel_bias_mcse), ymax = rel_bias + (1.96 * rel_bias_mcse)), position = position_dodge(0.9), size = 0.1, alpha = 0.5) + theme(panel.spacing = unit(.5, "cm")) +
+    geom_hline(yintercept = -.6, color = "white", size = 2) +
+  geom_hline(yintercept = .6, color = "white", size = 2) 
+```
+
+```{r}
+
+res |> 
+  mutate(rel_bias = (ATE - 0.3)/0.3) |> 
+  group_by(p, method, scenarioT, scenarioY) |> 
+  filter(scenarioT == "complex_T", scenarioY == "complex_Y") |> 
+  mutate(rel_bias_mcse = sd(rel_bias)/sqrt(1000)) |> 
+  summarise(rel_bias = mean(rel_bias), rel_bias_mcse = mean(rel_bias_mcse)) |> 
+  ggplot(aes(x = method, y = rel_bias, fill = as.factor(p))) +
+  ylab("Relative Bias") +
+  geom_bar(position = "dodge", stat = "identity") +
+  labs(fill = 'Covariates') +
+  geom_hline(yintercept = -.1, linetype = "dashed", color = "grey", size = .5) +
+  geom_hline(yintercept = .1, linetype = "dashed", color = "grey", size = .5) +
+  coord_cartesian(ylim=c(-3,3)) +
+  theme_Publication() +
+  scale_fill_Publication() +  
+  geom_pointrange(aes(ymin = rel_bias - (1.96 * rel_bias_mcse), ymax = rel_bias + (1.96 * rel_bias_mcse)), position = position_dodge(0.9), size = 0.1, alpha = 0.5) + theme(panel.spacing = unit(.5, "cm")) 
 ```
 
 ###### Base - Population Outcome and Treatment Models
