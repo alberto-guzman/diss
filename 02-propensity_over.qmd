@@ -704,6 +704,37 @@ res |>
   theme(panel.spacing = unit(.5, "cm")) 
 ```
 
+```{r}
+
+res |> 
+  simsum(estvarname = "ATE", true = 0.3, se = "ATE_se", methodvar = "method", ref = "logit", by = c("p","scenarioT", "scenarioY")) |> 
+  summary() |> 
+  tidy() |> 
+  filter(stat == "modelse", scenarioT == "base_T", scenarioY == "base_Y") |> 
+  ggplot(aes(x = method, y = est, fill = as.factor(p))) +
+  ylab("Standard Error (SE)") +
+  geom_bar(position = "dodge", stat = "identity") +
+  labs(fill = 'Covariates') +
+  theme_Publication() +
+  scale_fill_Publication() +
+  geom_pointrange(aes(ymin = lower, ymax = upper), position = position_dodge(0.9), size = 0.1, alpha = 0.5)
+```
+
+```{r}
+res |> 
+  simsum(estvarname = "ATE", true = 0.3, se = "ATE_se", methodvar = "method", ref = "logit", by = c("p","scenarioT", "scenarioY")) |> 
+  summary() |> 
+  tidy() |> 
+  filter(stat == "modelse", scenarioT == "complex_T", scenarioY == "complex_Y") |> 
+  ggplot(aes(x = method, y = est, fill = as.factor(p))) +
+  ylab("Standard Error (SE)") +
+  geom_bar(position = "dodge", stat = "identity") +
+  labs(fill = 'Covariates') +
+  theme_Publication() +
+  scale_fill_Publication() +
+  geom_pointrange(aes(ymin = lower, ymax = upper), position = position_dodge(0.9), size = 0.1, alpha = 0.5)
+```
+
 ###### Base - Population Outcome and Treatment Models
 
 In the upper-left panels of @fig-ate-var-cond, I present the results when only the main effects are included in both the population treatment and outcome models. Regardless of the covariate condition, all methods performed well and produced low values for both the SE and MSE of the estimated ATE. This result indicates that the estimated ATE is precise and accurate when only the main effects are present in both models.
