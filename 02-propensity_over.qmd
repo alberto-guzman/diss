@@ -176,7 +176,7 @@ Machine learning algorithms have recently gained popularity in the causal infere
 
 One popular machine learning approach to estimating propensity score is classification and regression trees (CART) [@denison1998bayesian]. This algorithm recursively divides data into subsets based on individual covariates to predict the probability of membership assignment of a given individual. To generate propensity scores, the outcome is set to a binary indicator of treatment assignment ($Z$). This algorithm splits covariates by level of importance, with the first split being the covariate that can produce the most distinctive split. For example, if a student's age is related to the treatment assignment, the first split would divide the data into students with $age > 15$ and $age < 15$. The algorithm continues by splitting the data by the next most influential covariate, creating a tree-like structure (see @fig-decision_tree). Splitting stops when the data are binned into unique "branches," that minimize the prediction error such that an additional split would not improve the prediction of treatment assignment. The final "branches" of the model represent the individual groups of students with similar propensity scores [@denison1998bayesian]. The output of CART is the predicted probabilities, which can be used as propensity scores. Like logistic regression, the CART algorithm can handle continuous and categorical covariates. However, unlike logistic regression, CART is insensitive to outliers and can automatically model interactions and higher-order terms [@Westreich.2010; @Wyss.2014jfk]. Through a simulation study, @Lee.2010u1 found that CART outperformed logistic regression in reducing bias and balancing covariates when the data-generating mechanism had complex associations.
 
-[![Simple decision tree predicting students GPA based on gender and homework grade](figures/decision_tree.jpg){#fig-decision_tree fig-align="center" width="436"}](https://www.apa.org/science/about/psa/2018/04/classification-regression-trees)
+[![Simple Decision Tree Predicting Students GPA Based on Gender and Homework Grade](figures/decision_tree.jpg){#fig-decision_tree fig-align="center" width="436"}](https://www.apa.org/science/about/psa/2018/04/classification-regression-trees)
 
 However, a well-known issue with CART is its tendency to overfit the data [@Lee.2010u1]. A modified version of CART was developed to address this issue; it prunes back branches that do not contribute to reducing prediction error, referred to as pruned-CART [@Westreich.2010]. Although pruning can alleviate some of the changes in overfitting, a significant drawback of CART is its reliance on a single tree, which may be weak in predicting the propensity score.
 
@@ -192,7 +192,7 @@ Ensemble methods are a family of algorithms that generate multiple trees to pred
 
 The building block for artificial neural networks was initially developed by psychologist Frank @rosenblatt1958perceptron with their idea of a perceptron or artificial neuron, see @fig-perceptron. An artificial neuron is a simplified mathematical model of neurons in our brain [@LeCun.201587]. Neurons are biological switches that take input signals from other neurons that cause the neuron to fire. Neurons can be thought of as simple processing units. In our brain, these individual neurons are connected into vast networks of billions of neurons, where the outputs of one neuron become inputs of another, allowing for the transmission of complex information [@LeCun.201587].
 
-![Structure of a perceptron - artificial neuron](figures/perceptron.png){#fig-perceptron fig-align="center" width="437"}
+![Structure of a Perceptron - Artificial Neuron](figures/perceptron.png){#fig-perceptron fig-align="center" width="437"}
 
 The artificial neuron receives a set of inputs $X_i = (X_1, X_2, \dots, X_p)$ with corresponding weights $w_i = (w_1, w_2, \dots ,w_p)$ that represent the strength of each input variable. The inputs are multiplied by their corresponding weights and then summed with a bias term $\beta_0$ to create a linear transformation of the inputs. The weight and bias terms are similar to the slope and intercept in linear regression. The linear transformation is then passed through an activation function $g(z)$ to generate an output ($\hat{y}$) that is either a 1 or 0, or a value between 0 and 1 if the activation function is set to be linear, such as the logistic function (also refered to as the sigmoid function).
 
@@ -212,7 +212,7 @@ The goal of the artificial neuron and many machine learning algorithms is to cor
 
 Following the development of the artificial neuron, researchers began to model more complex processing units composed of interconnected artificial neurons organized in layers. This work culminated in creating the single-layer feed-forward neural network (NN), as shown in Figure [@fig-nn; @collier2021estimating; @keller2015neural]. NNs are referred to as single-layer because they have a single middle layer of interconnected artificial neurons. These NNs can learn very complex data representations by generating various non-linear representations of the data through multiple artificial neurons [@derry2023neural]. These non-linear outputs are passed into a final layer that pools the outputs of the individual neurons into a non-linear function, $f(x)$, generating a prediction ($\hat{y}$). By having multiple artificial neurons calculating predictions on various non-linear combinations of the input variables, these networks can learn complex non-linear and non-additive associations between covariates.
 
-![Structure of single-layer neural network](figures/nn.png){#fig-nn fig-align="center" width="493"}
+![Structure of Single-Layer Neural Network](figures/nn.png){#fig-nn fig-align="center" width="493"}
 
 \newpage
 
@@ -242,7 +242,7 @@ The development of NNs has led to the creation of more complex NN architectures,
 
 The DNN architecture captures even more complex relationships among covariates than a single-layer NN [@Pang.2019kdf; @hernandez2019systematic]. This effectiveness is due to the multiple hidden layers in the network, making it "deep". The diagram in @fig-nn shows a DNN with two hidden layers ($L_1, L_2$).
 
-![Structure of deep neural network with two hidden layers](figures/dnn.png){#fig-dnn fig-align="center"}
+![Structure of Deep Neural Network with Two Hidden Layers](figures/dnn.png){#fig-dnn fig-align="center"}
 
 The first hidden layer functions like the middle layer in an NN (as described in Equation @eq-nn_activation). The first layer in a DNN can be represented as:
 
@@ -460,7 +460,7 @@ In @fig-rel-bias, the solid dots represent the mean relative bias, and the exten
 
 ```{r}
 #| label: fig-rel-bias
-#| fig-cap: "Relative bias of the ATE"
+#| fig-cap: "Relative Bias of the ATE"
 
 res |> 
   mutate(rel_bias = (ATE - 0.3)/0.3) |> 
@@ -489,7 +489,7 @@ Next, I evaluated the performance of each method in terms of relative bias when 
 
 ```{r}
 #| label: fig-rel-bias-cond
-#| fig-cap: "Relative bias of the ATE by data generation conditions"
+#| fig-cap: "Relative Bias of the ATE by Data Generation Conditions"
 #| fig-width: 7.5
 #| fig-height: 5
 
@@ -663,7 +663,7 @@ In @fig-ate-var-cond, I further investigate the performance of each method by ev
 
 ```{r}
 #| label: fig-ate-var-cond
-#| fig-cap: Variability in ATE by data generating mechanisms
+#| fig-cap: Variability in ATE by Data Generating Mechanisms
 #| fig-subcap: 
 #|   - "Standard Error (SE)"
 #|   - "Mean Squared Error (MSE)"
@@ -848,7 +848,7 @@ res |>
 
 ```{r}
 #| label: fig-asam-cond
-#| fig-cap: "Average Standardized Absolute Mean Difference (ASAM) by data generating mechanisms"
+#| fig-cap: "Average Standardized Absolute Mean Difference (ASAM) by Data Generating Mechanisms"
 #| fig-width: 7.5
 #| fig-height: 5
 
@@ -874,7 +874,7 @@ res |>
 
 When complexities are introduced into the treatment and outcome models, there is a slight increase in imbalance, with the exception of logistic regression, which produces an extreme imbalance in the high-covariate condition. In the low-covariate condition, all methods perform well with ASAM values below 0.2. However, when using the more stringent 0.1 threshold, CART and random forest fail to achieve covariate balance. Logistic regression produced particularly extreme imbalances among covariates in the high-covariate condition, with an ASAM value of 286 for 200 covariates. In contrast, my DNN-2 approach and NN-1 achieved adequate covariate balance with an ASAM value of 0.08. With the most stringent threshold, the NN-based approaches were the only methods that achieved covariate balance.
 
-#### Deviations from the Selction and Outcome Models
+#### Deviations from the Selection and Outcome Models
 
 When dealing with different specifications of covariate conditions and complexities in the outcome and selection models, covariate balance is relatively robust. However, in the context of higher covariates, specifically 100 and 200, logistic regression is sensitive to complexities in the selection models and shows an increase in imbalance.
 
@@ -890,7 +890,7 @@ In @fig-weights, the mean IPTW weights are displayed. All machine learning appro
 
 ```{r}
 #| label: fig-weights
-#| fig-cap: "Mean IPTW weights"
+#| fig-cap: "Mean IPTW Weights"
 
 res |> 
   group_by(p,method)  |> 
@@ -912,7 +912,7 @@ When evaluating the IPTW weights by the different complexities in the population
 
 ```{r}
 #| label: fig-weights-cond
-#| fig-cap: "IPTW Weights by data generating mechanisms"
+#| fig-cap: "IPTW Weights by Data Generating Mechanisms"
 #| fig-width: 7.5
 #| fig-height: 5
 
