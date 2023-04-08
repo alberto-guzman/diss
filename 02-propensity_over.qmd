@@ -513,6 +513,8 @@ res |>
 ```
 
 ```{r}
+#| include: false
+
 res |> 
   mutate(rel_bias = (ATE - 0.3)/0.3) |> 
   group_by(p, method, scenarioT, scenarioY) |> 
@@ -532,6 +534,7 @@ res |>
 ```
 
 ```{r}
+#| include: false
 
 res |> 
   mutate(rel_bias = (ATE - 0.3)/0.3) |> 
@@ -552,6 +555,7 @@ res |>
 ```
 
 ```{r}
+#| include: false
 
 res |> 
   mutate(rel_bias = (ATE - 0.3)/0.3) |> 
@@ -724,6 +728,7 @@ res |>
 ```
 
 ```{r}
+#| include: false
 
 res |> 
   simsum(estvarname = "ATE", true = 0.3, se = "ATE_se", methodvar = "method", ref = "logit", by = c("p","scenarioT", "scenarioY")) |> 
@@ -741,6 +746,8 @@ res |>
 ```
 
 ```{r}
+#| include: false
+
 res |> 
   simsum(estvarname = "ATE", true = 0.3, se = "ATE_se", methodvar = "method", ref = "logit", by = c("p","scenarioT", "scenarioY")) |> 
   summary() |> 
