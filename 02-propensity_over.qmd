@@ -274,9 +274,9 @@ Both studies demonstrate the growing promise in using DNNs for causal inference 
 
 ## Method
 
-My first dissertation study focuses on a statistical simulation that evaluates the performance of several modern machine learning techniques, including CART, bagged-CART, random forest, and a single-layer neural network. These techniques will be compared to the traditional logistic regression and my proposed DNN-based approach in estimating the propensity score to recover the ATE using propensity score weighting. I will specifically examine the impact of different data conditions (i.e., low vs. high-dimensional context) and the inclusion of complexities in the population treatment and outcome models on estimating the ATE and covariate balance.
+My first dissertation study focuses on a statistical simulation that evaluates the performance of several modern machine learning techniques, including CART, bagged-CART, random forest, and a single-layer neural network. These techniques will be compared to the traditional logistic regression and my proposed DNN-based approach in estimating the propensity score to recover the ATE using propensity score weighting. I will specifically examine the impact of different data conditions (i.e., low vs. high-dimensional context) and the inclusion of complexities in the population treatment and outcome models on estimating the ATE and covariate balance. The choice of these specific conditions is motivated by the need to understand how the performance of the machine learning techniques varies across diverse data structures, which is crucial for determining their applicability and robustness in real-world scenarios. Additionally, assessing the impact of complexities in the treatment and outcome models will provide insights into the strengths and limitations of each technique, guiding researchers in selecting the most appropriate method for their studies.
 
-My study will use a Monte Carlo simulation design informed by previous propensity score estimation studies conducted by @Setoguchi.2008ulg, @Lee.2010u1, @Cannas.2019, @keller2015neural, @collier2021estimating. My simulation code was built upon @Cannas.2019 publicly available code and follow best practices in statistical simulation as outlined by [@Morris.2019abs]. In the following sections, I will detail the simulation design for this study, including the data generation process, estimands of interest, specific method specifications, and performance measures.
+My study will use a Monte Carlo simulation design informed by previous propensity score estimation studies conducted by @Setoguchi.2008ulg, @Lee.2010u1, @Cannas.2019, @keller2015neural, @collier2021estimating. My simulation code was built upon @Cannas.2019 publicly available code and will follow best practices in statistical simulation as outlined by [@Morris.2019abs]. In the following sections, I will detail the simulation design for this study, including the data generation process, estimands of interest, specific method specifications, and performance measures.
 
 ### Data-Generation Mechanisms
 
@@ -286,13 +286,13 @@ The data generation mechanism for my simulation was informed by the evaluation I
 
 I used a programmatic approach to generate $(X_1,X_2,X_3,\dots,X_p)$ correlated covariates. Specifically, I simulated three covariate conditions with varying covariates generated, with $p = 20, 100, 200$. The 20 covariate conditions represented the average number of covariates used in typical propensity score analyses in educational research [@huber2013performance; @Powell.20204oe]. The remaining two conditions, with $p = 100$ and $p = 200$, were chosen as they represent high-dimensional datasets commonly encountered in education research [@grimmer2015we; @Song.2020tde; @Einav.2014; @Bird.2022gc4; @Hill.201183].
 
-Much of the literature on propensity score simulation generates uncorrelated covariates [@Setoguchi.2008ulg; @Cannas.2019; @Lee.2010u1]. However, this does not represent the correlated data typically found in administrative data. To address this, all covariates were generated from random draws from a multivariate normal distribution with $\mu=0$ and $\sigma=1$, with a specified correlation matrix with correlations ranging from -0.3 to 0.3, using the mvrnorm function from the MASS package in R [@ripley2013package]. This choice of correlation coefficient values was based on the correlations found in the Common App data. Additionally, by inducing bounded correlations that straddle 0, I aim to circumvent potential issues that may arise when correlations approach -1 or 1, such as collinearity.
+Much of the literature on propensity score simulation generates uncorrelated covariates [@Setoguchi.2008ulg; @Cannas.2019; @Lee.2010u1]. However, this does not represent the correlated variables typically found in administrative data. To address this, all covariates were generated from random draws from a multivariate normal distribution with $\mu=0$ and $\sigma=1$, with a specified correlation matrix with correlations ranging from -0.3 to 0.3, using the mvrnorm function from the MASS package in R [@ripley2013package]. Additionally, by inducing bounded correlations that straddle 0, I aim to circumvent potential issues that may arise when correlations approach -1 or 1, such as collinearity.
 
-In order to preserve the correlation structure, I used the inverse cumulative distribution function (CDF) approach [@li2021improving] to convert the initial random pull of covariates from the multivariate normal distribution to three distributions: a normal distribution with a mean of 0 and standard deviation of 1, a uniform distribution with a range of 0 to 1, and a Bernoulli distribution with a probability of success set at 0.5. This approach aims to maintain the same correlation structure, although some correlations may be slightly suppressed, but should be equal on average across the simulation. The covariates were constructed such that half affected both treatment and outcome (i.e., confounders), a quarter affected treatment only, and the remaining quarter affected the outcome only. This approach is in line with other propensity score simulation studies [@Setoguchi.2008ulg; @Cannas.2019; @Lee.2010u1].
+In order to better mimic the actual structure of variables in administrative data sets and to preserve the correlation structure, I used the inverse cumulative distribution function (CDF) approach [@li2021improving] to convert the initial random pull of covariates from the multivariate normal distribution to three distributions: a normal distribution with a mean of 0 and standard deviation of 1, a uniform distribution with a range of 0 to 1, and a Bernoulli distribution with a probability of success set at 0.5. The purpose of this step is to create more realistic and heterogeneous data that reflects the distribution of variables typically observed in real-world datasets, while maintaining the same correlation structure. Although some correlations may be slightly suppressed, they should be equal on average across the simulation. The covariates were constructed such that half affected both treatment and outcome (i.e., confounders), a quarter affected treatment only, and the remaining quarter affected the outcome only. This approach is in line with other propensity score simulation studies [@Setoguchi.2008ulg; @Cannas.2019; @Lee.2010u1].
 
 #### Sample Size
 
-I used a fixed sample size of 10,000 for all conditions. This sample size is larger than typical in many propensity score simulation studies (n = 500; 2,000). The choice of this sample size is motivated by my goal to mimic real-world high-dimensional administrative data. Additionally, it was necessary to have a sufficiently large sample size to obtain accurate estimates, particularly when employing computationally intensive methods.
+I used a fixed sample size of 10,000 for all conditions. This sample size is larger than typical in many propensity score simulation studies (n = 500 to 2,000). The choice of this sample size is motivated by my goal to mimic real-world high-dimensional administrative data. Additionally, it was necessary to have a sufficiently large sample size to obtain accurate estimates, particularly when employing computationally intensive methods.
 
 #### Population Treatment Assignment Models
 
@@ -304,7 +304,7 @@ $$ {#eq-popps}
 
 $X$ represents covariates and their associated coefficients ($\beta$). The output, $Pr(Z = 1|X)$ is the probability of assignment to the treatment condition (i.e., the propensity score, $e(x)$). The intercept, $\beta_0$, was set to 0.25, and the remaining coefficients, $\beta_i$, were randomly assigned values between -0.4 and 0.4, which were based on the corresponding standardized coefficient values in the Common App evaluation.
 
-I generated two population treatment assignment models, Base(T) and Complex(T). To add complexity to these models, I included interactions (non-additivity) and higher-order terms (non-linearity) for the confounders and covariates related to treatment.
+I generated two population treatment assignment models, Base(T) and Complex(T). To add complexity to the complex models, I included interactions (non-additivity) and higher-order terms (non-linearity) for the confounders and covariates related to treatment.
 
 **Base(T)**: includes only main effects, which assumes a linear relationship between covariates and treatment assignment. I consider this the base model, which is expressed using the following formula:
 
@@ -340,7 +340,7 @@ $$
 Y^{Base} = \alpha_0 + \gamma Z + \sum_{i=1}^{p} \alpha_iX_i + \epsilon
 $$ {#eq-outcome_a}
 
-**Complex(Y)**: describes the complex model, which includes both non-linearities and non-additivities, which were generated in an identical way to how they were generated in the population treatment outcome models:
+**Complex(Y)**: describes the complex model, which includes the linear terms in addition to non-linearities and non-additivities, which were generated in an identical way to how they were generated in the population treatment outcome models:
 
 $$
 Y^{Complex} =  Y^{Base} + \sum_{j=1}^{J} [\alpha_jX_j^2 + \alpha_jX_jX_{j+1}]
@@ -360,11 +360,11 @@ Here I present the specification of each method used to estimate propensity scor
 
 -   **Random Forest**: parallel tree generation on subsamples based on randomly selected covariates using the R *randomForest* package with default parameters [@liaw2002classification].
 
--   **Single-Layer Neural Network (NN)**: I used a simple three-layer NN that consisted of an input layer, one hidden layer, and an output layer. The input layer consisted of $p$ covariates. The hidden layer comprised hidden neurons equal to 1/3 of the input covariates, a common practice in NN applications [@boger1997knowledge]. I used a ReLU activation function in the hidden layer for computational efficiency and a logistic activation function in the output layer to obtain probabilities bounded between 0 and 1. The NN was trained and fit using the R Keras package [@chollet2015keras], which interfaces with Python.
+-   **Single-Layer Neural Network (NN)**: I used a simple three-layer NN that consisted of an input layer, one hidden layer, and an output layer. The input layer consisted of $p$ covariates. The hidden layer comprised hidden neurons equal to 1/3 of the input covariates, a common practice in NN applications [@boger1997knowledge]. I used a ReLU activation function in the hidden layer for computational efficiency. The ReLU function introduces non-linearity into the network and allows it to learn more complex relationships between input covariates and output. In the output layer, I used a sigmoid activation function to obtain probabilities bounded between 0 and 1. The sigmoid function smoothly maps any input value to a probability between 0 and 1, making it suitable for binary classification tasks. The NN was trained and fit using the R Keras package [@chollet2015keras], which interfaces with Python.
 
 -   **Deep Neural Network (DNN-2)**: I used a four-layer deep neural network with an input layer, **two** hidden layers, and an output layer. The input layer consisted of $p$ covariates, and each hidden layer comprised hidden neurons equal to 1/3 of the input covariates. Similar to the NN, I used the ReLU activation function in the hidden layers. In contrast, the output layer consisted of a single neuron with a logistic activation function, which provides bounded probabilities between 0 and 1. I trained and fit the DNN-2 using the R Keras package [@chollet2015keras].
 
--   **Deep Neural Network (DNN-3)**: The last neural architecture I tested was a five-layer deep neural network with an input layer, **three** hidden layers, and an output layer. The output layer was a single neuron with a logistic activation function to produce bounded probabilities between 0 and 1. The ReLU activation function was also used in the hidden layers. The DNN-3 was also trained and fit using the R Keras package [@chollet2015keras], which interfaces with Python.
+-   **Deep Neural Network (DNN-3)**: The last neural architecture I tested was a five-layer deep neural network with an input layer, **three** hidden layers, and an output layer. A more complex DNN structure, such as this one, can be beneficial when dealing with high-dimensional and non-linear data, as it enables the network to learn more complex and intricate patterns, ultimately improving its predictive performance. The output layer was a single neuron with a logistic activation function to produce bounded probabilities between 0 and 1. The ReLU activation function was also used in the hidden layers. The DNN-3 was also trained and fit using the R Keras package [@chollet2015keras], which interfaces with Python.
 
 #### Training Methodology for Neural Network Approaches (NN-1, DNN-2, DNN-3)
 
@@ -380,21 +380,21 @@ ReLU activation was used in the hidden layers for computational efficiency, and 
 
 ### Estimating Treatment Effects - Propensity Score Weighting
 
-To estimate the treatment effect, I used a propensity score weighting approach, specifically the inverse probability of treatment weighting (IPTW) [@Lee.2010u1]. This method involves reweighing observations based on their estimated propensity score to achieve a covariate balance between the treated and untreated units. The weight for each treated observation was equal to $1/e_i(x)$, and for untreated units, the weight was $1/(1-e_i(x))$. The estimated propensity score, $e_i(x)$, was determined for each unit $i$. In accordance with the different methods given above, this weighting scheme was used to estimate the ATE.
+To estimate the causal effect of the treatment on the outcome, I used a propensity score weighting approach, specifically the inverse probability of treatment weighting (IPTW) [@Lee.2010u1]. This method involves reweighing observations based on their estimated propensity score to achieve a covariate balance between the treated and untreated units. The weight for each treated observation was equal to $1/e_i(x)$, and for untreated units, the weight was $1/(1-e_i(x))$. The estimated propensity score, $e_i(x)$, was determined for each unit $i$. In accordance with the different methods given above, this weighting scheme was used to estimate the ATE.
 
-I used the R *survey* package to calculate the ATE [@lumley2020package]. The outcome variable ($Y$) was predicted using the binary treatment assignment variable, with the ATE weights included. The ATE point estimate, as well as the robust standard error of the ATE, were saved.
+I used the R *survey* package to calculate the ATE [@lumley2020package]. The outcome variable ($Y$) was predicted using only the binary treatment assignment variable, with the ATE weights included. The ATE point estimate, as well as the robust standard error of the ATE, were saved.
 
 #### Estimating Standard Error of the ATE
 
-The proper method to estimate standard errors when using IPTW weights targeting the ATE remains a topic of debate in the literature. While some researchers support using simple methods, such as the standard deviation of the weighted outcome [@Rosenbaum.1984a5], others argue that more advanced methods, such as bootstrapping [@reifeis2022variance], are necessary to account for the bias introduced by the weighting process.
+The proper method to estimate standard errors when using IPTW weights targeting the ATE remains a topic of debate in the literature. While some researchers support using simple methods, such as the standard deviation of the weighted outcome [@Rosenbaum.1984a5], others argue that more advanced methods, such as bootstrapping [@reifeis2022variance], are necessary to account for the bias introduced by the weighting process. Bias in the weighting process can arise from the propensity score estimation itself, as any inaccuracies in the estimated propensity scores can lead to incorrect weights, potentially distorting the estimate of the treatment effect. Bootstrapping, a resampling technique that involves drawing multiple random samples with replacement from the original data, can help alleviate this bias by providing a more accurate estimate of the sampling distribution of the treatment effect, accounting for the variability introduced by the propensity score estimation process.
 
 Studies that have used propensity score weighting to estimate treatment effects find that the choice of standard error estimator can significantly impact the results. For example, @Stuart.201027c found that different standard error estimators can lead to vastly different conclusions about the presence of treatment effects. While, @calonico2015rdrobust found that using a bootstrap estimator led to more accurate confidence intervals than using the weighted outcome's standard deviation.
 
-Given these debates, it is vital to choose an appropriate standard error estimator based on the specific goals of the analysis and the trade-off between computational feasibility and statistical accuracy. To account for the uncertainty in the estimated propensity score, I used the "robust" standard errors calculated from the R survey package, as recommended by @robins2000marginal.
+Given these debates, it is vital to choose an appropriate standard error estimator based on the specific goals of the analysis and the trade-off between computational feasibility and statistical accuracy. Robust standard errors are preferred in this context because they account for the potential biases and uncertainties introduced by the propensity score estimation process, as well as any potential model misspecification. By providing more accurate estimates of the variability in the treatment effect, robust standard errors can lead to more reliable hypothesis testing and confidence interval estimation. To account for the uncertainty in the estimated propensity score, I used the \"robust\" standard errors calculated from the R survey package, as recommended by @robins2000marginal.
 
 ### Performance Metrics
 
-To gauge the performance of each propensity score estimation method, I used the following metrics, which are widely used to access model performance in the propensity score simulation literature [@Setoguchi.2008ulg; @Cannas.2019; @Lee.2010u1]:
+To gauge the performance of each propensity score estimation method, I used the following metrics, which are widely used to assess model performance in the propensity score simulation literature [@Setoguchi.2008ulg; @Cannas.2019; @Lee.2010u1]:
 
 -   **Bias**: The difference between the estimated treatment effect and the true population treatment effect of 0.3. Bias values show how far off the estimated ATE is from the true population treatment effect and allow us to determine if we overestimate or underestimate the true ATE.
 
@@ -408,7 +408,7 @@ To gauge the performance of each propensity score estimation method, I used the 
 
 -   **Average Standardized Absolute Mean Distance (ASAM)**: is a measure of covariate balance. After calculating the ATE, the absolute value of the standardized difference of means between the treated and untreated group was calculated for each covariate and averaged across all covariates. Lower ASAM values indicate better covariate balance.
 
--   **Power**: an indicator of whether the p-value associated with the estimated ATE is lower than an alpha level of 0.05. This metric helps determine if the estimated ATE is statistically significant and provides evidence of a treatment effect.
+-   **Power**: is the probability of correctly rejecting the null hypothesis (no treatment effect) when the alternative hypothesis (a treatment effect exists) is true. Power is typically calculated for a predetermined significance level (e.g., alpha = 0.05) and is a function of the sample size, effect size, and variability in the data. Higher power indicates a greater likelihood of detecting a true treatment effect, if one exists.
 
 -   **Weights**: a known issue with PSW is that extreme weights can result in biased treatment effects. Therefore, I examine the distribution of the estimated weights.
 
@@ -424,7 +424,7 @@ The simulations were performed on the University of Pittsburgh Center for Resear
 
 In this section, I present the results of my Monte Carlo simulation study, which compares the performance of various methods in estimating the ATE through Propensity Score Weighting. The methods include my DNN-based approach, traditional logistic regression, and other commonly used machine learning-based approaches such as CART, bagged-CART, and random forest. The simulation aimed to evaluate the accuracy of these methods in producing a propensity score used in estimating the ATE (ATE = 0.3) with IPTW, under different levels of covariate conditions (p = 20, 100, 200) and with varying levels of complexity in the treatment and outcome models (Treatment population model = Base, Complex; Outcome population model = Base, Complex).
 
-The results are presented in four main parts. First, I examine the bias in the ATE estimation. Second, I evaluate the variability of the ATE estimation through the standard error (SE), MSE, and 95% confidence interval coverage. Thirdly, I assess covariate balance through the average standardized absolute mean difference (ASAM). Finally, I present the mean IPTW weights and discuss the results regarding statistical power.
+The results are presented in four main parts. First, I examine the bias in the ATE estimation. Second, I evaluate the variability of the ATE estimation through the standard error (SE), MSE, and 95% confidence interval coverage. Third, I assess covariate balance through the average standardized absolute mean difference (ASAM). Finally, I present the mean IPTW weights and discuss the results regarding statistical power.
 
 ### Bias of ATE Estimation
 
@@ -434,7 +434,7 @@ I start by evaluating the bias in the ATE across the different population treatm
 
 ```{r}
 #| label: fig-bias
-#| fig-cap: "Bias of the ATE"
+#| fig-cap: "Bias of the ATE Across the Population Treatment and Outcome Model Conditions"
 
 res |> 
   simsum(estvarname = "ATE", true = 0.3, se = "ATE_se", methodvar = "method", ref = "logit", by = c("p")) |> 
@@ -450,7 +450,7 @@ res |>
   geom_pointrange(aes(ymin = lower, ymax = upper), position = position_dodge(0.9), size = 0.1, alpha = 0.5) 
 ```
 
-In the low-dimensional condition (p = 20), all methods accurately estimate the true ATE with relatively little bias and good precision, except for bagged-CART, which substantially underestimates the true ATE. As I increase the number of covariates to 100, the magnitude of bias also increases, with logistic regression overestimating the ATE. At the same time, all other machine learning approaches estimate the ATE with less bias; the results become more pronounced in the highest covariate condition (p = 200) compared to the low-dimensional condition (p = 20). Logistic regression, on average, overestimates the true ATE; however, its point estimate is severely imprecise, as indicated by a wide Monte Carlo 95% confidence interval. In contrast, the machine learning methods estimate the true ATE with significantly less bias and lower sampling variability. Among these methods, my DNN-2 approach produces the least biased ATE estimate compared to all other machine learning methods and exhibits lower sampling variability.
+In the low-dimensional condition (p = 20), all methods accurately estimate the true ATE with relatively little bias and good precision, except for bagged-CART, which substantially underestimates the true ATE. As I increase the number of covariates to 100, the magnitude of bias also increases, with logistic regression overestimating the ATE. At the same time, all other machine learning approaches estimate the ATE with less bias; the results become more pronounced in the highest covariate condition (p = 200) compared to the low-dimensional condition (p = 20). Logistic regression, on average, overestimates the true ATE in addition, its point estimate is severely imprecise, as indicated by a wide Monte Carlo 95% confidence interval. In contrast, the machine learning methods estimate the true ATE with significantly less bias and lower sampling variability. Among these methods, my DNN-2 approach produces the least biased ATE estimate compared to all other machine learning methods and exhibits lower sampling variability.
 
 #### Relative Bias
 
@@ -460,7 +460,7 @@ In @fig-rel-bias, the solid dots represent the mean relative bias, and the exten
 
 ```{r}
 #| label: fig-rel-bias
-#| fig-cap: "Relative Bias of the ATE"
+#| fig-cap: "Relative Bias of the ATE Across the Population Treatment and Outcome Model Conditions"
 
 res |> 
   mutate(rel_bias = (ATE - 0.3)/0.3) |> 
@@ -593,7 +593,7 @@ In the lower-left facet of @fig-rel-bias-cond, I present the results when the se
 
 My findings suggest variability in the bias of the estimated ATE depending on the method and covariate conditions. In the low-dimensional condition (p=20), most methods accurately estimated the true ATE with little bias and little sampling variability. As the number of covariates increased, the magnitude of bias also increased, with logistic regression overestimating the true ATE, while all other machine learning approaches produced less biased estimates. In the highest covariate condition (p=200), logistic regression severely overestimated the true ATE, while the machine learning methods estimated the true ATE with significantly less bias. Notably, my NN-1 and DNN-2 approaches were robust methods for estimating the ATE in the high-dimensional covariate setting, even when complexities were included in the population treatment and outcome model. In this condition, they produced bias estimates that were nearly 11 times lower than those produced by logistic regression in that same condition.
 
-My findings also indicate that the presence of complexities in the population treatment and outcome models significantly affects the accuracy of the ATE estimate. When both the treatment and outcome models include quadratic and interaction terms, there is a significant increase in bias and increased sampling variability across methods and covariate conditions. These results highlight the importance of considering the complexities of the population treatment and outcome models when choosing a propensity score estimation method.
+My findings also indicate that the presence of complexities in the population treatment assignment and outcome models significantly affects the accuracy of the ATE estimate. When both the treatment and outcome models include quadratic and interaction terms, there is a significant increase in bias and increased sampling variability across methods and covariate conditions. Logistic regression tends to perform poorly in high-dimensional, complex cases because the estimating model is still a linear model that does not account for quadratic and interaction terms. As a result, logistic regression may struggle to capture the true underlying relationships between the covariates and the treatment assignment, leading to biased propensity score estimates and, consequently, biased ATE estimates. These results highlight the importance of considering the complexities of the population treatment and outcome models when choosing a propensity score estimation method and suggest that more flexible, non-linear methods may be better suited for handling complex relationships in the data.
 
 ### Variance in ATE Estimation: SE, MSE, and 95% CI Coverage
 
@@ -601,7 +601,7 @@ In this section, I evaluated the estimated variance in the ATE based on the SE, 
 
 ```{r}
 #| label: fig-ate-var
-#| fig-cap: Variability in ATE
+#| fig-cap: Variability in ATE Across the Population Treatment and Outcome Model Conditions
 #| fig-subcap: 
 #|   - "Standard Error (SE)"
 #|   - "Mean Squared Error (MSE)"
@@ -800,7 +800,7 @@ Regardless of the number of covariates, all methods underestimate the empirical 
 
 ```{r}
 #| label: fig-ate-relerr
-#| fig-cap: Variability in ATE
+#| fig-cap: Variability in ATE Across the Population Treatment and Outcome Model Conditions
 #| fig-subcap: 
 #|   - "Standard Error (SE)"
 #|   - "Mean Squared Error (MSE)"
@@ -831,7 +831,7 @@ The results of the ASAM evaluation can be found in @fig-asam, with thicker and t
 
 ```{r}
 #| label: fig-asam
-#| fig-cap: "Average Standardized Absolute Mean Difference (ASAM)"
+#| fig-cap: "Average Standardized Absolute Mean Difference (ASAM) Across the Population Treatment and Outcome Model Conditions"
 
 res |> 
   group_by(p,method)  |> 
@@ -897,7 +897,7 @@ In @fig-weights, the mean IPTW weights are displayed. All machine learning appro
 
 ```{r}
 #| label: fig-weights
-#| fig-cap: "Mean IPTW Weights"
+#| fig-cap: "Mean IPTW Weights Across the Population Treatment and Outcome Model Conditions"
 
 res |> 
   group_by(p,method)  |> 
@@ -951,7 +951,7 @@ In @fig-power, I display the results of the statistical power assessment, which 
 
 ```{r}
 #| label: fig-power
-#| fig-cap: "Power"
+#| fig-cap: "Power Across the Population Treatment and Outcome Model Conditions"
 
 res |> 
   simsum(estvarname = "ATE", true = 0.3, se = "ATE_se", methodvar = "method", ref = "logit", by = c("p")) |> 
