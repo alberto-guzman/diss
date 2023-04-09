@@ -48,7 +48,7 @@ res |>
 
 ```
 
-# Paper 1: Evaluating modern propensity score estimation methods with high-dimensional data
+# Paper 1: Evaluating Modern Propensity Score Estimation Methods with High-Dimensional Data
 
 ## Introduction
 

@@ -25,7 +25,7 @@ csl: apa.csl
 format:
   pdf:
     documentclass: book
-    classoption: ["oneside", "open=any", "listof=totoc"]
+    classoption: ["oneside", "open=any"]
     margin-left: "1in"
     margin-right: "1in"
     margin-top: "1in"
@@ -52,11 +52,7 @@ format:
           \titlespacing*{\subsection}{0pt}{5.5ex plus 1ex minus .2ex}{4.3ex plus .2ex}
           \sectionfont{\fontsize{12}{15}\selectfont\centering}
           \subsectionfont{\fontsize{12}{15}\selectfont\centering}
-    
-    include-before-body: 
-      - file: "tex/comittee.tex"
-      - file: "tex/copyright.tex"
-      - file: "tex/abstract.tex"
+          
     toc: true
     toc-depth: 3
     lot: true
