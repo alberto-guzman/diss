@@ -58,8 +58,8 @@ format:
           \usepackage{sectsty}
           \chapterfont{\fontsize{12}{15}\selectfont\centering\bfseries}
           \sectionfont{\fontsize{12}{15}\selectfont\centering\bfseries}
-          \subsectionfont{\fontsize{12}{15}\selectfont\centering\bfseries}
-          \subsubsectionfont{\fontsize{12}{15}\selectfont\centering\bfseries}
+          \subsectionfont{\fontsize{12}{15}\selectfont\bfseries}
+          \subsubsectionfont{\fontsize{12}{15}\selectfont\bfseries}
 
           %%% Table of Contents, List of Tables, and List of Figures settings
           \usepackage{tocloft}
@@ -84,19 +84,20 @@ format:
           %%% Chapter header settings
           \makeatletter
           \renewcommand{\@makechapterhead}[1]{%
-          {\parindent \z@ \centering
-          \normalfont
-          \ifnum \c@secnumdepth >\m@ne
-            \if@mainmatter
-              \fontsize{12}{15}\selectfont \bfseries \@chapapp\space \thechapter.0
-              \par\nobreak
+            {\parindent \z@ \centering
+            \normalfont
+            \ifnum \c@secnumdepth >\m@ne
+              \if@mainmatter
+                \ifnum \c@chapter > 0 % Add this condition to check if the chapter number is greater than 0
+                  \fontsize{12}{15}\selectfont \bfseries \@chapapp\space \thechapter.0\enspace
+                \fi
+              \fi
             \fi
-          \fi
-          \interlinepenalty\@M
-          \fontsize{12}{15}\selectfont \bfseries #1\par\nobreak
-          % Adjust the vertical space after the chapter title
-          \vskip \baselineskip
-          }}
+            \interlinepenalty\@M
+            \fontsize{12}{15}\selectfont \bfseries #1\par\nobreak
+            % Adjust the vertical space after the chapter title
+            \vskip \baselineskip
+            }}
           \makeatother
 
     toc: true
