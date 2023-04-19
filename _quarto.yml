@@ -37,34 +37,56 @@ format:
       - "tex/toc.tex" 
     include-in-header: 
       - text: | 
-         \usepackage{indentfirst}
-         \setlength{\parindent}{1cm}
-         \usepackage{fvextra}
-         \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
-         \usepackage{setspace}
-         \doublespacing
-         \pagenumbering{gobble} 
-         \usepackage{sectsty}
-         \chapterfont{\fontsize{12}{15}\selectfont\centering\bfseries}
-         \sectionfont{\fontsize{12}{15}\selectfont\centering\bfseries}
-         \subsectionfont{\fontsize{12}{15}\selectfont\centering\bfseries}
-         \subsubsectionfont{\fontsize{12}{15}\selectfont\centering\bfseries}
-         \usepackage{tocloft}
-         \renewcommand{\cftchapaftersnum}{.0}
-         \setlength{\cftchapnumwidth}{2.5em}
-         \renewcommand{\contentsname}{\centering\Large\bfseries}
-         \renewcommand{\cfttoctitlefont}{\hfill\Large\bfseries}
-         \renewcommand{\cftaftertoctitle}{\hfill\null}
-         \renewcommand{\cftlottitlefont}{\hfill\Large\bfseries}
-         \renewcommand{\cftafterlottitle}{\hfill\null}
-         \renewcommand{\cftloftitlefont}{\hfill\Large\bfseries}
-         \renewcommand{\cftafterloftitle}{\hfill\null}
-         \renewcommand{\chaptername}{}
+          \usepackage{indentfirst}
+          \setlength{\parindent}{1cm}
+          \usepackage{fvextra}
+          \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
+          \usepackage{setspace}
+          \doublespacing
+          \pagenumbering{gobble} 
+          \usepackage{sectsty}
+          \chapterfont{\fontsize{12}{15}\selectfont\centering\bfseries}
+          \sectionfont{\fontsize{12}{15}\selectfont\centering\bfseries}
+          \subsectionfont{\fontsize{12}{15}\selectfont\centering\bfseries}
+          \subsubsectionfont{\fontsize{12}{15}\selectfont\centering\bfseries}
+          \usepackage{tocloft}
+          \renewcommand{\cftchapaftersnum}{.0}
+          \setlength{\cftchapnumwidth}{2.5em}
+          \renewcommand{\cfttoctitlefont}{\hfill\Large\bfseries}
+          \renewcommand{\cftaftertoctitle}{\hfill\null}
+          \renewcommand{\cftaftertoctitle}{\hfill\null}
+          \renewcommand{\cftlottitlefont}{\hfill\Large\bfseries}
+          \renewcommand{\cftafterlottitle}{\hfill\null}
+          \renewcommand{\cftloftitlefont}{\hfill\Large\bfseries}
+          \renewcommand{\cftafterloftitle}{\hfill\null}
+          \renewcommand{\cfttabpresnum}{Table }
+          \renewcommand{\cftfigpresnum}{Figure }
+          \renewcommand{\chaptername}{}
+          \setlength{\cfttabnumwidth}{5em}
+          \cftsetindents{table}{0em}{\cfttabnumwidth}
+          \setlength{\cftfignumwidth}{6em}
+          \cftsetindents{figure}{0em}{\cftfignumwidth}
+          \renewcommand{\cfttabaftersnum}{:}
+          \renewcommand{\cftfigaftersnum}{:}
+          \makeatletter
+          \renewcommand{\@makechapterhead}[1]{%
+          {\parindent \z@ \centering
+          \normalfont
+          \ifnum \c@secnumdepth >\m@ne
+          \fontsize{12}{15}\selectfont \bfseries \@chapapp\space \thechapter.0
+          \par\nobreak
+          \vskip 20\p@
+          \fi
+          \interlinepenalty\@M
+          \fontsize{12}{15}\selectfont \bfseries #1\par\nobreak
+          \vskip 40\p@
+          }}
+          \makeatother
+     
 
-           
+
     toc: true
-    toc-depth: 4
     lot: true
     lof: true
-    number-sections: TRUE
+    number-sections: true
 
