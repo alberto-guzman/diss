@@ -1,4 +1,8 @@
-# Acknowledgements {.unnumbered}
+---
+unnumbered: true
+---
+
+# Acknowledgements
 
 This dissertation is dedicated to mis padres (Eloisa Guzman and Antonio Alvarez). I am indebted to them for the sacrifices and injustices they faced when they came to this country as teenagers, and for the love and support they provided for me and my siblings. Gracias a ti, mamá, por todo el amor y cariño que me has dado toda mi vida, y los sacrificios que hiciste por los otros para darles una mejor vida. Gracias a ti, papá, por tu apoyo a nuestra educación y por enseñarnos que con educación podemos mejorar.
 

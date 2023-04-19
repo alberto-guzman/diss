@@ -1,12 +1,15 @@
+# Project settings
 project:
   type: book
   execute-dir: project
 
-execute: 
+# Execution settings
+execute:
   echo: false
-  warning: false
-  message: false
+  warnings: false
+  messages: false
 
+# Book settings
 book:
   title: "Diss Title"
   author: "Alberto Guzman-Alvarez"
@@ -19,41 +22,50 @@ book:
     - simulation_code.qmd
     - references.qmd
 
+# Bibliography settings
 bibliography: "https://api.citedrive.com/bib/a3b2d1f7-6632-4857-8038-c222a4053fa1/references.bib?x=eyJpZCI6ICJhM2IyZDFmNy02NjMyLTQ4NTctODAzOC1jMjIyYTQwNTNmYTEiLCAidXNlciI6ICIyMDQxIiwgInNpZ25hdHVyZSI6ICI4MDNmNDRkNGI0ZGFlNzlhMThhMDEwZjAwYTUxN2QzOTQ1YzUxYTc5Y2QxMzc5OGQ2OGJjOTIyZmEwOGFkODJiIn0=/bibliography.bib"
 csl: apa.csl
 
+# Output format settings
 format:
   pdf:
     documentclass: book
-    classoption: ["oneside", "open=any"]
+    classoption:
+      - "oneside"
+      - "open=any"
     margin-left: "1in"
     margin-right: "1in"
     margin-top: "1in"
-    margin-bottom: "1in" 
+    margin-bottom: "1in"
     linestretch: 2
-    template-partials: 
-      - "tex/before-body.tex" 
-      - "tex/_titlepage.tex" 
-      - "tex/toc.tex" 
-    include-in-header: 
-      - text: | 
+    template-partials:
+      - "tex/before-body.tex"
+      - "tex/_titlepage.tex"
+      - "tex/toc.tex"
+    include-in-header:
+      - text: |
+          %%% Indentation and line spacing settings
           \usepackage{indentfirst}
           \setlength{\parindent}{1cm}
-          \usepackage{fvextra}
-          \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
           \usepackage{setspace}
           \doublespacing
-          \pagenumbering{gobble} 
+
+          %%% Verbatim environment settings
+          \usepackage{fvextra}
+          \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
+
+          %%% Section style settings
           \usepackage{sectsty}
           \chapterfont{\fontsize{12}{15}\selectfont\centering\bfseries}
           \sectionfont{\fontsize{12}{15}\selectfont\centering\bfseries}
           \subsectionfont{\fontsize{12}{15}\selectfont\centering\bfseries}
           \subsubsectionfont{\fontsize{12}{15}\selectfont\centering\bfseries}
+
+          %%% Table of Contents, List of Tables, and List of Figures settings
           \usepackage{tocloft}
           \renewcommand{\cftchapaftersnum}{.0}
           \setlength{\cftchapnumwidth}{2.5em}
           \renewcommand{\cfttoctitlefont}{\hfill\Large\bfseries}
-          \renewcommand{\cftaftertoctitle}{\hfill\null}
           \renewcommand{\cftaftertoctitle}{\hfill\null}
           \renewcommand{\cftlottitlefont}{\hfill\Large\bfseries}
           \renewcommand{\cftafterlottitle}{\hfill\null}
@@ -68,22 +80,24 @@ format:
           \cftsetindents{figure}{0em}{\cftfignumwidth}
           \renewcommand{\cfttabaftersnum}{:}
           \renewcommand{\cftfigaftersnum}{:}
+
+          %%% Chapter header settings
           \makeatletter
           \renewcommand{\@makechapterhead}[1]{%
           {\parindent \z@ \centering
           \normalfont
           \ifnum \c@secnumdepth >\m@ne
-          \fontsize{12}{15}\selectfont \bfseries \@chapapp\space \thechapter.0
-          \par\nobreak
-          \vskip 20\p@
+            \if@mainmatter
+              \fontsize{12}{15}\selectfont \bfseries \@chapapp\space \thechapter.0
+              \par\nobreak
+            \fi
           \fi
           \interlinepenalty\@M
           \fontsize{12}{15}\selectfont \bfseries #1\par\nobreak
-          \vskip 40\p@
+          % Adjust the vertical space after the chapter title
+          \vskip \baselineskip
           }}
           \makeatother
-     
-
 
     toc: true
     lot: true
