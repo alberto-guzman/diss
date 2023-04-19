@@ -52,17 +52,15 @@ format:
          \usepackage{tocloft}
          \renewcommand{\cftchapaftersnum}{.0}
          \setlength{\cftchapnumwidth}{2.5em}
-         \renewcommand{\contentsname}{\centering\Large\bfseries Table of Contents}
+         \renewcommand{\contentsname}{\centering\Large\bfseries}
          \renewcommand{\cfttoctitlefont}{\hfill\Large\bfseries}
          \renewcommand{\cftaftertoctitle}{\hfill\null}
          \renewcommand{\cftlottitlefont}{\hfill\Large\bfseries}
          \renewcommand{\cftafterlottitle}{\hfill\null}
          \renewcommand{\cftloftitlefont}{\hfill\Large\bfseries}
          \renewcommand{\cftafterloftitle}{\hfill\null}
-         \usepackage{etoolbox}
-         \makeatletter
-         \patchcmd{\l@chapter}{\numberline{\thechapter}}{\numberline{\thechapter.0\hspace{0.25em}}}{}{}
-         \makeatother
+         \renewcommand{\chaptername}{}
+
            
     toc: true
     toc-depth: 4
