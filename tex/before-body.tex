@@ -19,14 +19,20 @@ $endif$
 % Abstract page
 \input{tex/abstract.tex}
 
-% Order of TOC, LOT, and LOF
+% Table of Contents
+\clearpage
 $if(toc)$
 \tableofcontents
 $endif$
+
+% List of Tables
+\clearpage
 $if(lot)$
 \listoftables
 $endif$
+
+% List of Figures
+\clearpage
 $if(lof)$
 \listoffigures
 $endif$
-

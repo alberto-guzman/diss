@@ -37,26 +37,36 @@ format:
       - "tex/toc.tex" 
     include-in-header: 
       - text: | 
-          \usepackage{indentfirst}
-          \setlength{\parindent}{1cm}
-          \usepackage{fvextra}
-          \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
-          \usepackage{setspace}
-          \doublespacing
-          \pagenumbering{gobble} 
-          \usepackage{sectsty}
-          \usepackage{titlesec}
-          \titleformat{\chapter}[display]
-          {\normalfont\bfseries\centering}{}{0pt}{\fontsize{12}{15}\selectfont}
-          \titlespacing*{\chapter}{0pt}{0ex plus 1ex minus .2ex}{4.3ex plus .2ex}
-          \titlespacing*{\section}{0pt}{5.5ex plus 1ex minus .2ex}{4.3ex plus .2ex}
-          \titlespacing*{\subsection}{0pt}{5.5ex plus 1ex minus .2ex}{4.3ex plus .2ex}
-          \sectionfont{\fontsize{12}{15}\selectfont\centering}
-          \subsectionfont{\fontsize{12}{15}\selectfont\centering}
-          
+         \usepackage{indentfirst}
+         \setlength{\parindent}{1cm}
+         \usepackage{fvextra}
+         \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
+         \usepackage{setspace}
+         \doublespacing
+         \pagenumbering{gobble} 
+         \usepackage{sectsty}
+         \chapterfont{\fontsize{12}{15}\selectfont\centering\bfseries}
+         \sectionfont{\fontsize{12}{15}\selectfont\centering\bfseries}
+         \subsectionfont{\fontsize{12}{15}\selectfont\centering\bfseries}
+         \subsubsectionfont{\fontsize{12}{15}\selectfont\centering\bfseries}
+         \usepackage{tocloft}
+         \renewcommand{\cftchapaftersnum}{.0}
+         \setlength{\cftchapnumwidth}{2.5em}
+         \renewcommand{\contentsname}{\centering\Large\bfseries Table of Contents}
+         \renewcommand{\cfttoctitlefont}{\hfill\Large\bfseries}
+         \renewcommand{\cftaftertoctitle}{\hfill\null}
+         \renewcommand{\cftlottitlefont}{\hfill\Large\bfseries}
+         \renewcommand{\cftafterlottitle}{\hfill\null}
+         \renewcommand{\cftloftitlefont}{\hfill\Large\bfseries}
+         \renewcommand{\cftafterloftitle}{\hfill\null}
+         \usepackage{etoolbox}
+         \makeatletter
+         \patchcmd{\l@chapter}{\numberline{\thechapter}}{\numberline{\thechapter.0\hspace{0.25em}}}{}{}
+         \makeatother
+           
     toc: true
-    toc-depth: 3
+    toc-depth: 4
     lot: true
     lof: true
     number-sections: TRUE
-    
+
