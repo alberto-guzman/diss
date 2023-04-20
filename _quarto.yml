@@ -42,8 +42,10 @@ format:
       - "tex/before-body.tex"
       - "tex/_titlepage.tex"
       - "tex/toc.tex"
+
     include-in-header:
       - text: |
+          
           %%% Indentation and line spacing settings
           \usepackage{indentfirst}
           \setlength{\parindent}{1cm}
@@ -104,4 +106,3 @@ format:
     lot: true
     lof: true
     number-sections: true
-

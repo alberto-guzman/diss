@@ -1,4 +1,4 @@
-# Introduction
+# Introduction 
 
 Over the last two decades, causal inference has played a central role in education research by providing tools and analytic strategies for generating evidence on the effectiveness of educational interventions and policies. The demand for rigorous evaluations by policymakers and funding agencies has driven this shift [@murnane2010methods; @Rosenbaum.2010], which has also seen an increase in sophisticated machine-learning approaches and access to high-dimensional administrative data [@Einav.2014; @Song.2020tde]. These advances have created a need to develop analytic techniques that can effectively handle the complexities of high-dimensional data, which is especially important for social science researchers that have access to observational data containing hundreds of covariates of student characteristics and are using causal inference methods to evaluate the effectiveness of educational interventions.
 
